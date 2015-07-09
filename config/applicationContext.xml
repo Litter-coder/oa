@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:ctx="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context
+						http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						http://www.springframework.org/schema/tx
+						http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<ctx:component-scan base-package="com.hongan.oa" />
+				
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean id="dataSource" class="com.hongan.oa.datasource.MyDataSource"
+		destroy-method="close" 
+		p:driverClassName="${driverClassName}" 
+		p:testOnBorrow="${testOnBorrow}"
+		p:testWhileIdle="${testWhileIdle}"
+		p:validationQuery="${validationQuery}"
+		p:minIdle="${minIdle}"
+		p:maxIdle="${maxIdle}"
+		p:maxWait="${maxWait}"
+		p:maxActive="${maxActive}"
+		p:url="${url}" 
+		p:username="${username}" 
+		p:password="${password}"
+		p:validationQueryTimeout="${validationQueryTimeout}"
+		p:timeBetweenEvictionRunsMillis="${timeBetweenEvictionRunsMillis}"
+		p:minEvictableIdleTimeMillis="${minEvictableIdleTimeMillis}"
+		p:numTestsPerEvictionRun="${numTestsPerEvictionRun}"
+		/>
+	
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--dataSource属性指定要用到的连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!--configLocation属性指定mybatis的核心配置文件 -->
+		<property name="configLocation" value="classpath:Configuration.xml" />
+		<!-- 所有配置的mapper文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:mapper/system/*.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.hongan.oa.mapper" />	 
+	</bean>
+	
+</beans>

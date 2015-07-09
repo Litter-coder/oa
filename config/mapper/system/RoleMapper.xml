@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongan.oa.mapper.system.RoleMapper">
+	<resultMap type="role" id="roleResultMap">
+		<id column="ROLE_ID" property="roleId"/>
+		<result column="ROLE_NAME" property="roleName"/>
+		<result column="CREATOR" property="creator"/>
+		<result column="UPDATE_TIME" property="updateTime"/>
+		<result column="DESCRIPTION" property="description"/>
+	</resultMap>
+</mapper>

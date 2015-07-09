@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hongan.oa.mapper.system.SysUserMapper">
+	<resultMap type="sysUser" id="SysUserResultMap">
+		<id column="USER_ID" property="userId"/>
+		<result column="USERNAME" property="username" />
+		<result column="PASSWORD" property="password" />
+		<result column="ENTRYTIME" property="entryTime" />
+		<result column="ENABLED" property="enabled" />
+		<result column="ACCOUNTNONLOCKED" property="accountNonLocked" />
+<!-- 		<association property="orgnaition" column="ORG_ID"/> -->
+	</resultMap>
+	
+	<resultMap type="sysUserAttempts" id="SysUserAttemptsResultMap">
+		<result column="USERNAME" property="username" />
+		<result column="ATTEMPTS" property="attempts" />
+		<result column="LAST_ERROR_TIME" property="lastErrorTime" />
+	</resultMap>
+
+	<select id="getSysUserByUsername" resultMap="SysUserResultMap">
+		select * from t_sys_user where USERNAME = #{username}
+	</select>
+	
+	<select id="saveFailAttempts">
+		insert into t_sys_user_attempts
+		(USERNAME,ATTEMPTS,LAST_ERROR_TIME)
+		values
+		(#{userAttempts.username},#{userAttempts.attempts},#{userAttempts.lastErrorTime})
+	</select>
+	
+	<update id="updateSysUser">
+		update t_sys_user set 
+		USERNAME = #{user.username},PASSWORD = #{user.password},ENABLED = #{user.enabled},ACCOUNTNONLOCKED = #{user.accountNonLocked}
+		where USER_ID = #{user.userId}
+	</update>
+	
+	<select id="getFailAttemptsByUsername" resultMap="SysUserAttemptsResultMap">
+		select * from t_sys_user_attempts where USERNAME = #{username}
+	</select>
+	
+	<update id="updateFailAttempts">
+		update t_sys_user_attempts set 
+		ATTEMPTS = #{userAttempts.attempts},LAST_ERROR_TIME = #{userAttempts.lastErrorTime}
+		where USERNAME = #{userAttempts.username}
+	</update>
+	
+	<delete id="resetFailAttempts">
+		delete from t_sys_user_attempts where USERNAME = #{username}
+	</delete>
+
+
+</mapper>

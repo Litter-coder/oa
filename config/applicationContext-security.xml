@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	<beans:import resource="applicationContext.xml" />
+
+	<http use-expressions="true" access-denied-page="/access-denied.jsp"
+		entry-point-ref="authenticationProcessingFilterEntryPoint">
+		<!-- filters="none"表示放行 -->
+		<intercept-url pattern="/css/**" filters="none" />
+		<intercept-url pattern="/fonts/**" filters="none" />
+		<intercept-url pattern="/images/**" filters="none" />
+		<intercept-url pattern="/js/**" filters="none" />
+		<intercept-url pattern="/login.jsp" filters="none" />
+		<intercept-url pattern="/index.jsp" filters="none" />
+		<intercept-url pattern="/error.jsp" filters="none" />
+		<intercept-url pattern="/loginSuccess.jsp" filters="none" />
+		<intercept-url pattern="/access-denied.jsp" filters="none" />
+		<intercept-url pattern="/kaptcha.validate" filters="none" />
+		<!-- 登录用户有权限访问 -->
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		<!-- 覆盖原有的登录验证类 实现对验证码验证 -->
+		<custom-filter ref="validateCodeAuthenticationFilter" position="FORM_LOGIN_FILTER" />
+		<logout logout-url="/logout.do" logout-success-url="/login.jsp" />
+		<remember-me />
+		<anonymous />
+		
+		<!-- 加载系统权限 : 放在FILTER_SECURITY_INTERCEPTOR过滤器  之后-->
+		<custom-filter ref="mySecurityFilter" after="FILTER_SECURITY_INTERCEPTOR" />
+		<!-- Session失效过滤器 拦截失效的Session -->
+		<custom-filter ref="concurrentSessionFilter" before="CONCURRENT_SESSION_FILTER" />
+	</http>
+
+	<!-- 安全拦截器 : FilterSecurityIntercepto，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 
+		我们的所有控制将在这三个类中实现，解释详见具体配置 -->
+
+	<beans:bean id="mySecurityFilter"
+		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+
+		<beans:property name="authenticationManager" ref="authenticationManager" />        <!-- 认证管理 即 登录验证 -->
+
+		<beans:property name="accessDecisionManager" ref="myAccessDecisionManager" />        <!-- 访问决策管理 即 验证用户是否有权限访问数据库配置的URL -->
+
+		<beans:property name="securityMetadataSource" ref="mySecurityMetadataSource" />    <!-- 权限资源加载管理 即 加载数据库配置的URL和Token -->
+
+		<beans:property name="observeOncePerRequest" value="false" />
+
+	</beans:bean>
+
+
+
+	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问 加载系统所有的权限 （需要用户重写） -->
+
+	<beans:bean id="mySecurityMetadataSource" init-method="loadMenuSource" class="com.hongan.oa.security.MyInvocationSecurityMetadataSource">
+		
+	</beans:bean>
+
+	<!-- 验证配置: ， 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 查询用户 -->
+
+	<authentication-manager alias="authenticationManager">
+
+		<authentication-provider ref="daoAuthenticationProvider">
+
+			<!-- <s:password-encoder hash="sha" /> -->
+
+		</authentication-provider>
+
+	</authentication-manager>
+
+
+
+	<!-- 认证用户: 为了注入加密盐 -->
+
+	<beans:bean id="daoAuthenticationProvider"
+		class="com.hongan.oa.security.LimitLoginAuthenticationProvider">
+
+		<beans:property name="userDetailsService" ref="userDetailsService" /> <!-- 主要实现UserDetailsService接口即可，查询用户和权限 -->
+
+		<beans:property name="passwordEncoder" ref="passwordEncoder" />      <!-- 密码加密方式 --> 
+
+		<beans:property name="saltSource" ref="saltSource" />                <!-- 注入加密盐 --> 
+
+	</beans:bean>
+
+	<beans:bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.Md5PasswordEncoder">
+
+		<beans:property name="encodeHashAsBase64" value="false" />
+
+	</beans:bean>
+
+	<!-- 通过动态的加密盐进行加密，该配置通过用户名提供加密盐, 通过UserDetails的getUsername()方式 -->
+
+	<beans:bean id="saltSource"
+		class="org.springframework.security.authentication.dao.ReflectionSaltSource">
+
+		<beans:property name="userPropertyToUse" value="getUsername" />
+
+	</beans:bean>
+
+
+	<!-- 决策管理 : 验证用户是否有权限访问受保护的URL -->
+
+	<beans:bean id="myAccessDecisionManager" class="com.hongan.oa.security.MyAccessDecisionManager">
+	</beans:bean>
+
+	<!-- 为了加入验证码验证方法 重写登陆验证配置 说明一下：在1.0版本中在验证用户名和密码之前提供有 验证码验证的方法，但2.0版本后就没了 
+		要配置自己的登录方法，就要先 注入下面的类 -->
+
+	<!-- <http use-expressions="true" entry-point-ref="authenticationProcessingFilterEntryPoint"> 
+		中注入 认证的入口，是一个实现 AuthenticationEntryPoint接口的类。为ExceptionTranslationFilter类提供认证依据。 -->
+
+	<beans:bean id="authenticationProcessingFilterEntryPoint"
+		class="org.springframework.security.web.authentication.AuthenticationProcessingFilterEntryPoint">
+		<beans:property name="loginFormUrl" value="/login.jsp"></beans:property>
+	</beans:bean>
+
+	<!-- 配置自己的登录验证方法 start -->
+
+	<beans:bean id="validateCodeAuthenticationFilter" class="com.hongan.oa.security.ValidateCodeUsernamePasswordAuthenticationFilter">
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_check" />                       <!-- 登录拦截URL -->
+
+		<beans:property name="authenticationSuccessHandler"
+			ref="loginLogAuthenticationSuccessHandler" />    <!-- 登录成功处理 -->
+
+		<beans:property name="authenticationFailureHandler"
+			ref="simpleUrlAuthenticationFailureHandler" />   <!-- 登录失败处理 -->
+
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+
+		<!-- 注入用户登录个数限制 -->
+
+		<beans:property name="sessionAuthenticationStrategy" ref="concurrentSessionControlStrategy" />
+
+	</beans:bean>
+
+	<beans:bean id="loginLogAuthenticationSuccessHandler" class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
+
+		<beans:property name="defaultTargetUrl" value="/page/main/main.jsp" />    <!-- 登录成功跳转URL -->
+
+	</beans:bean>
+
+	<beans:bean id="simpleUrlAuthenticationFailureHandler"
+
+		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
+
+		<beans:property name="defaultFailureUrl" value="/login.jsp?error=true" /><!-- 登录失败跳转URL -->
+
+	</beans:bean>
+
+	<!-- 配置自己的登录验证方法 end -->
+
+
+
+	<!-- 限制用户登录个数 -->
+
+	<beans:bean id="concurrentSessionControlStrategy"
+		class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+
+		<beans:constructor-arg ref="sessionRegistry" />
+
+		<beans:property name="exceptionIfMaximumExceeded" value="false" /> <!-- "true" 超出的登录个数被阻止 false 剔除前面的登录 -->
+
+		<beans:property name="maximumSessions" value="1" /> <!-- 同一个用户允许登录的个数 -->
+
+	</beans:bean>
+
+
+
+	<!-- spring session注册器 用来存储用户的Session -->
+
+	<beans:bean id="sessionRegistry"
+		class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+
+
+	<!-- JDBC认证方式 自己写必须实现Acegi提供的UserDetailsService接口类 -->
+
+	<beans:bean id="userDetailsService"
+		class="com.hongan.oa.security.UserDetailServiceImpl" />
+
+
+
+	<!-- Session过期拦截器 主要针对 用户登录提出前一个登录用户得分过滤器 -->
+
+	<beans:bean id="concurrentSessionFilter"
+		class="org.springframework.security.web.session.ConcurrentSessionFilter">
+
+		<beans:property name="sessionRegistry" ref="sessionRegistry" />
+
+		<beans:property name="expiredUrl" value="/error.jsp" />   <!-- Session过期跳转URL -->
+
+	</beans:bean>
+	
+	<beans:bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+		p:basename="classpath:spring_security_messages_zh_CN" />
+
+</beans:beans>
