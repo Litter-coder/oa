@@ -9,6 +9,7 @@
 		<result column="ENTRYTIME" property="entryTime" />
 		<result column="ENABLED" property="enabled" />
 		<result column="ACCOUNTNONLOCKED" property="accountNonLocked" />
+		<result column="INITIALPSD" property="initialPsd"/>
 <!-- 		<association property="orgnaition" column="ORG_ID"/> -->
 	</resultMap>
 	
@@ -31,7 +32,11 @@
 	
 	<update id="updateSysUser">
 		update t_sys_user set 
-		USERNAME = #{user.username},PASSWORD = #{user.password},ENABLED = #{user.enabled},ACCOUNTNONLOCKED = #{user.accountNonLocked}
+		USERNAME = #{user.username},
+		PASSWORD = #{user.password},
+		ENABLED = #{user.enabled},
+		ACCOUNTNONLOCKED = #{user.accountNonLocked},
+		INITIALPSD = #{user.initialPsd}
 		where USER_ID = #{user.userId}
 	</update>
 	

@@ -1,6 +1,7 @@
 package com.hongan.oa.security;
 
 import java.io.IOException;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +13,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.google.code.kaptcha.Constants;
+import com.hongan.oa.controller.login.KaptchaController;
+import com.hongan.oa.utils.ReadProperties;
+
+/**
+ * 验证码与用户名密码验证
+ * 
+ * @author dinghuan
+ *
+ */
 public class ValidateCodeUsernamePasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-		// zcb 添加对验证码验证
-
+		// 添加对验证码验证
 		checkValidateCode(request);
 
 		return super.attemptAuthentication(request, response);
@@ -33,14 +43,19 @@ public class ValidateCodeUsernamePasswordAuthenticationFilter extends UsernamePa
 
 	protected void checkValidateCode(HttpServletRequest request) {
 
-		String sessionValidateCode = (String) request.getSession().getAttribute("KAPTCHA_SESSION_KEY");
+		String sessionValidateCode = (String) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		long create_time = (long) request.getSession().getAttribute(Constants.KAPTCHA_SESSION_DATE);
 
 		String validateCodeParameter = request.getParameter("validateCode");
 
 		if (StringUtils.isEmpty(validateCodeParameter) || StringUtils.isEmpty(sessionValidateCode) || !sessionValidateCode.equalsIgnoreCase(validateCodeParameter)) {
-
 			throw new AuthenticationServiceException("验证码不正确!");
-
+		} else if (sessionValidateCode.equalsIgnoreCase(validateCodeParameter)) {
+			long now = Calendar.getInstance().getTimeInMillis() / 1000;
+			long timeout = Long.parseLong(ReadProperties.readProValue(KaptchaController.KAPTCHA_CODE_TIMEOUT));
+			if ((create_time + timeout) < now) {
+				throw new AuthenticationServiceException("验证码已超时!");
+			}
 		}
 
 	}

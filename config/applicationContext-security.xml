@@ -19,7 +19,7 @@
 		<intercept-url pattern="/error.jsp" filters="none" />
 		<intercept-url pattern="/loginSuccess.jsp" filters="none" />
 		<intercept-url pattern="/access-denied.jsp" filters="none" />
-		<intercept-url pattern="/kaptcha.validate" filters="none" />
+		<intercept-url pattern="/kaptcha/kaptcha-image.do" filters="none" />
 		<!-- 登录用户有权限访问 -->
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 		<!-- 覆盖原有的登录验证类 实现对验证码验证 -->

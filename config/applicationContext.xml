@@ -63,4 +63,24 @@
 		<property name="basePackage" value="com.hongan.oa.mapper" />	 
 	</bean>
 	
+	<!-- kaptcha springmvc 配置 -->
+	<bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">  
+        <property name="config">  
+            <bean class="com.google.code.kaptcha.util.Config">  
+                <constructor-arg>  
+                    <props>  
+                        <prop key="kaptcha.border">no</prop>  
+                        <prop key="kaptcha.textproducer.font.color">blue</prop>  
+                        <prop key="kaptcha.image.width">66</prop>  
+                        <prop key="kaptcha.image.height">22</prop>  
+                        <prop key="kaptcha.textproducer.font.size">14</prop>  
+                        <prop key="kaptcha.textproducer.char.space">4</prop>  
+                        <prop key="kaptcha.textproducer.char.length">5</prop>  
+                        <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop>  
+                        <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.NoGimpy</prop>  
+                    </props>  
+                </constructor-arg>  
+            </bean>  
+        </property>  
+    </bean>
 </beans>

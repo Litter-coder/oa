@@ -31,7 +31,7 @@
 		}
 
 		$("form").submit(function() {
-			// 			pwdMd5Enc();
+			pwdMd5Enc();
 			return true;
 		});
 	})
@@ -44,7 +44,7 @@
 
 		form.j_password.value = pwdEnc;
 	}
-	var src = "${oa}/kaptcha.validate";
+	var src = "${oa}/kaptcha/kaptcha-image.do";
 	function flushValidate(obj) {
 		$(obj).attr("src", src + "?random=" + Math.random());
 	}
@@ -63,19 +63,20 @@
 						<div class="form-group">
 							<label for="j_username" class="t">用户名：</label>
 							<!--  -->
-							<input id="j_username" value="" name="j_username" type="text" class="form-control x319 in" autocomplete="on" />
+							<input id="j_username" value="" name="j_username" type="text" class="form-control x315 in" autocomplete="on" />
 						</div>
 						<div class="form-group">
 							<label for="j_password" class="t">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
 							<!--  -->
-							<input name="j_password" id="j_password" value="" type="password" class="password form-control x319 in" />
+							<input name="j_password" id="j_password" value="" type="hidden" />
+							<input id="password" value="" type="password" class="password form-control x315 in" />
 						</div>
 						<div class="form-group">
-							<label for="j_captcha" class="t">验证码：</label>
+							<label class="t">验证码：</label>
 							<!--  -->
-							<input id="j_captcha" name="validateCode" type="text" class="form-control x164 in" />
+							<input name="validateCode" type="text" class="form-control x164 in" />
 							<!--  -->
-							<img id="captcha_img" title="点击更换" onclick="flushValidate(this)" src="${oa}/kaptcha.validate" class="m" />
+							<img id="captcha_img" title="点击更换" onclick="flushValidate(this)" src="${oa}/kaptcha/kaptcha-image.do" class="m" />
 						</div>
 						<div class="form-group space">
 							<button type="button" id="submit_btn" class="btn btn-primary btn-lg">&nbsp;登&nbsp;录&nbsp;</button>

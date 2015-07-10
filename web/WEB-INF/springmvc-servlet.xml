@@ -19,7 +19,7 @@
     	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 		">
 
-	<ctx:component-scan base-package="com.hongan.oa.model.web.controller" />
+	<ctx:component-scan base-package="com.hongan.oa.controller" />
 	<mvc:annotation-driven />
 	
 	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" p:order="1"/>

@@ -23,6 +23,7 @@ public class SysUser implements UserDetails {
 	private Date entryTime; // 入职时间
 	private boolean enabled;
 	private boolean accountNonLocked;
+	private boolean initialPsd;
 
 	private List<GrantedAuthority> authorities;
 	private SysOragnition orgnaition;
@@ -69,6 +70,14 @@ public class SysUser implements UserDetails {
 
 	public void setAuthorities(List<GrantedAuthority> authorities) {
 		this.authorities = authorities;
+	}
+
+	public boolean isInitialPsd() {
+		return initialPsd;
+	}
+
+	public void setInitialPsd(boolean initialPsd) {
+		this.initialPsd = initialPsd;
 	}
 
 	@Override

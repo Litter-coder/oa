@@ -79,54 +79,6 @@
 		</jsp-property-group>
 	</jsp-config>
 
-	<!-- 验证码配置 -->
-	<servlet>
-		<servlet-name>Kaptcha</servlet-name>
-		<servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
-		<init-param>
-			<param-name>kaptcha.border</param-name>
-			<param-value>no</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.textproducer.font.color</param-name>
-			<param-value>blue</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.textproducer.char.space</param-name>
-			<param-value>4</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.textproducer.font.size</param-name>
-			<param-value>14</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.image.width</param-name>
-			<param-value>70</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.image.height</param-name>
-			<param-value>22</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.textproducer.char.length</param-name>
-			<param-value>5</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.noise.impl</param-name>
-			<param-value>com.google.code.kaptcha.impl.NoNoise</param-value>
-		</init-param>
-		<init-param>
-			<param-name>kaptcha.obscurificator.impl</param-name>
-			<param-value>com.google.code.kaptcha.impl.ShadowGimpy</param-value>
-		</init-param>
-
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>Kaptcha</servlet-name>
-		<url-pattern>/kaptcha.validate</url-pattern>
-	</servlet-mapping>
-
-
 	<servlet>
 		<servlet-name>springmvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
