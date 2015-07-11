@@ -77,7 +77,7 @@
                         <prop key="kaptcha.textproducer.char.space">4</prop>  
                         <prop key="kaptcha.textproducer.char.length">5</prop>  
                         <prop key="kaptcha.noise.impl">com.google.code.kaptcha.impl.NoNoise</prop>  
-                        <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.NoGimpy</prop>  
+<!--                         <prop key="kaptcha.obscurificator.impl">com.google.code.kaptcha.impl.NoGimpy</prop>   -->
                     </props>  
                 </constructor-arg>  
             </bean>  
