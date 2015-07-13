@@ -2,6 +2,7 @@ package com.hongan.oa.controller.login;
 
 import java.awt.image.BufferedImage;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -10,22 +11,27 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.hongan.oa.utils.StringUtil;
 
 /**
- * 验证码生成控制器
+ * 登录功能控制器
  * 
  * @author dinghuan
  *
  */
 @Controller
-@RequestMapping("/kaptcha")
-public class KaptchaController {
+@RequestMapping("/login")
+public class LoginController {
 	public static final String KAPTCHA_CODE_TIMEOUT = "kaptcha_code_timeout";
+
+	public static final String TOKEN = "token";
 
 	@Autowired
 	private Producer captchaProducer;
@@ -51,5 +57,32 @@ public class KaptchaController {
 		} finally {
 			out.close();
 		}
+	}
+
+	@RequestMapping("/token.do")
+	@ResponseBody
+	public String getToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+		final String token = md5.encodePassword(StringUtil.getRandomString(20), null);
+		final HttpSession session = request.getSession();
+		if (session != null) {
+			session.setAttribute(LoginController.TOKEN, token);
+		}
+		System.out.println("token :" + token);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				long now = new Date().getTime() / 1000;
+				// 设置token有效期为1分钟
+				while ((now + 60) < new Date().getTime() / 1000) {
+					if (session != null) {
+						session.removeAttribute(LoginController.TOKEN);
+					}
+					break;
+				}
+
+			}
+		}).start();
+		return token;
 	}
 }

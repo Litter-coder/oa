@@ -14,7 +14,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.google.code.kaptcha.Constants;
-import com.hongan.oa.controller.login.KaptchaController;
+import com.hongan.oa.controller.login.LoginController;
 import com.hongan.oa.utils.ReadProperties;
 
 /**
@@ -52,7 +52,7 @@ public class ValidateCodeUsernamePasswordAuthenticationFilter extends UsernamePa
 			throw new AuthenticationServiceException("验证码不正确!");
 		} else if (sessionValidateCode.equalsIgnoreCase(validateCodeParameter)) {
 			long now = Calendar.getInstance().getTimeInMillis() / 1000;
-			long timeout = Long.parseLong(ReadProperties.readProValue(KaptchaController.KAPTCHA_CODE_TIMEOUT));
+			long timeout = Long.parseLong(ReadProperties.readProValue(LoginController.KAPTCHA_CODE_TIMEOUT));
 			if ((create_time + timeout) < now) {
 				throw new AuthenticationServiceException("验证码已超时!");
 			}
