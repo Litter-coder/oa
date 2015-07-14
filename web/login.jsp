@@ -53,7 +53,7 @@
 	function pwdMd5Enc(token) {
 		var pwd = $("#password").val();
 
-		var pwdEnc = hex_md5(token + pwd);
+		var pwdEnc = hex_md5(token + hex_md5(pwd));
 		var form = document.form;
 
 		form.j_password.value = pwdEnc;
@@ -87,7 +87,7 @@
 						<div class="form-group">
 							<label class="t">验证码：</label>
 							<!--  -->
-							<input name="validateCode" type="text" class="form-control x164 in" />
+							<input name="j_validateCode" type="text" class="form-control x164 in" />
 							<!--  -->
 							<img id="captcha_img" title="点击更换" onclick="flushValidate(this)" src="${oa}/login/kaptcha-image.do" class="m" />
 						</div>

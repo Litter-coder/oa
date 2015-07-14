@@ -18,6 +18,12 @@ import com.hongan.oa.bean.system.SysUserAttempts;
 import com.hongan.oa.service.inf.ISysUserService;
 import com.hongan.oa.utils.ReadProperties;
 
+/**
+ * 注入spring security 中的provide，用于查询数据库用户数据，进行密码验证
+ * 
+ * @author dinghuan
+ *
+ */
 public class UserDetailServiceImpl implements UserDetailsService {
 
 	@Autowired
@@ -26,9 +32,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 		try {
-
 			// 查询用户
-
 			SysUser user = sysUserService.getSysUserByUsername(username);
 			SysUser returnUser = null;
 			if (user == null) {
@@ -48,19 +52,14 @@ public class UserDetailServiceImpl implements UserDetailsService {
 						}
 					}
 				}
-
 				returnUser = user;
 			}
 			return returnUser;
 
 		} catch (DataAccessException repositoryProblem) {
-
 			repositoryProblem.printStackTrace();
-
 			throw new AuthenticationServiceException("数据连接失败,服务器忙,请稍后再试");
-
 		}
-
 	}
 
 	// 加载用户对应的权限

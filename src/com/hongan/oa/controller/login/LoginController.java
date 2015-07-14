@@ -16,8 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import com.hongan.oa.security.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter;
 import com.hongan.oa.utils.StringUtil;
 
 /**
@@ -30,8 +30,6 @@ import com.hongan.oa.utils.StringUtil;
 @RequestMapping("/login")
 public class LoginController {
 	public static final String KAPTCHA_CODE_TIMEOUT = "kaptcha_code_timeout";
-
-	public static final String TOKEN = "token";
 
 	@Autowired
 	private Producer captchaProducer;
@@ -46,8 +44,8 @@ public class LoginController {
 		response.setContentType("image/jpeg");
 
 		String capText = captchaProducer.createText();
-		session.setAttribute(Constants.KAPTCHA_SESSION_KEY, capText);
-		session.setAttribute(Constants.KAPTCHA_SESSION_DATE, Calendar.getInstance().getTimeInMillis() / 1000);
+		session.setAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_VALIDATE_CODE_SESSION, capText);
+		session.setAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_VALIDATE_CODE_SESSION_TIME, Calendar.getInstance().getTimeInMillis() / 1000);
 
 		BufferedImage bi = captchaProducer.createImage(capText);
 		ServletOutputStream out = response.getOutputStream();
@@ -66,19 +64,25 @@ public class LoginController {
 		final String token = md5.encodePassword(StringUtil.getRandomString(20), null);
 		final HttpSession session = request.getSession();
 		if (session != null) {
-			session.setAttribute(LoginController.TOKEN, token);
+			session.setAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_RANDOM_TOKEN, token);
 		}
-		System.out.println("token :" + token);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
 				long now = new Date().getTime() / 1000;
 				// 设置token有效期为1分钟
-				while ((now + 60) < new Date().getTime() / 1000) {
-					if (session != null) {
-						session.removeAttribute(LoginController.TOKEN);
+				while (true) {
+					if((now + 60) < new Date().getTime() / 1000){
+						if (session != null) {
+							session.removeAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_RANDOM_TOKEN);
+						}
+						break;
 					}
-					break;
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 
 			}
