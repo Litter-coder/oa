@@ -3,6 +3,15 @@ oa项目开发
 springmvc+spring security+mybatis OA项目开发  
 
 ---  
+__v1.0.0.3__   
+
+	1. 优化token与验证码验证时的参数传递，改为对象的传递方式  
+	2. session失效或者用户其他位置登录导致前一次登录失效时跳转至LoginController中的sessionTimeout.do请求，  
+	尚未配置ajax的跳转  
+	3. 加入获取所有登录用户的方法
+
+
+
 __v1.0.0.2__  
 
 	1. 重构登录验证的spring security扩展类，使其符合spring security的设计方式  

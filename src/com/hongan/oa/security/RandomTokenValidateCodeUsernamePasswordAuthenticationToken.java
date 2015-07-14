@@ -5,8 +5,6 @@ import java.util.Collection;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
-import com.hongan.oa.utils.ReadProperties;
-
 /**
  * 
  * 所有的登录验证应该都在provide中实现，为了程序设计的思想，将验证码的验证放入provide中进行验证<br/>
@@ -20,51 +18,21 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationToken extends 
 
 	private static final long serialVersionUID = 486433105864372684L;
 
-	private static String VALIDATE_CODE_TIMEOUT = "validate_code_timeout";
+	private RandomToken randomToken;// 随机token对象
 
-	private Object randomToken;// 随机token值
+	private ValidateCode validateCodeParameter; // 验证码对象(请求)
 
-	private Object validateCodeParameter;// 请求中传递的验证码
+	private ValidateCode validateCodeSession; // 验证码对象(session)
 
-	private long validateCodeParameterTime;// 请求中传递验证码的时间
-
-	private Object validateCodeSession; // session中的验证码
-
-	private long validateCodeSessionTime;// session中验证码的生成时间
-
-	private static long validateCodeTimeout = 0;// 验证码失效时间,默认值0时永不失效
-
-	/**
-	 * 初始化验证码失效时间
-	 */
-	static {
-		String proValue = ReadProperties.readProValue(VALIDATE_CODE_TIMEOUT);
-		if (proValue != null && !"".equals(proValue.trim())) {
-			validateCodeTimeout = Long.parseLong(proValue);
-		}
-	}
-
-	public long getValidateCodeTimeout() {
-		return validateCodeTimeout;
-	}
-
-	public Object getValidateCodeSession() {
-		return validateCodeSession;
-	}
-
-	public long getValidateCodeSessionTime() {
-		return validateCodeSessionTime;
-	}
-
-	public long getValidateCodeParameterTime() {
-		return validateCodeParameterTime;
-	}
-
-	public Object getValidateCodeParameter() {
+	public ValidateCode getValidateCodeParameter() {
 		return validateCodeParameter;
 	}
 
-	public Object getRandomToken() {
+	public ValidateCode getValidateCodeSession() {
+		return validateCodeSession;
+	}
+
+	public RandomToken getRandomToken() {
 		return randomToken;
 	}
 
@@ -78,15 +46,12 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationToken extends 
 		// TODO Auto-generated constructor stub
 	}
 
-	public RandomTokenValidateCodeUsernamePasswordAuthenticationToken(Object principal, Object credentials, Object randomToken, //
-			Object validateCodeParameter, long validateCodeParameterTime, //
-			Object validateCodeSession, long validateCodeSessionTime) {
+	public RandomTokenValidateCodeUsernamePasswordAuthenticationToken(Object principal, Object credentials, RandomToken randomToken, ValidateCode validateCodeParameter,
+			ValidateCode validateCodeSession) {
 		super(principal, credentials);
 		this.randomToken = randomToken;
 		this.validateCodeParameter = validateCodeParameter;
-		this.validateCodeParameterTime = validateCodeParameterTime;
 		this.validateCodeSession = validateCodeSession;
-		this.validateCodeSessionTime = validateCodeSessionTime;
 	}
 
 }

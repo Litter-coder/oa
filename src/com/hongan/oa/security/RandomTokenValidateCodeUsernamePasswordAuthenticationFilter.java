@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.util.TextEscapeUtils;
 
 /**
@@ -27,15 +28,21 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationFilter extends
 
 	public static final String SPRING_SECURITY_FORM_VALIDATECODE_KEY = "j_validateCode";
 
-	public static final String SPRING_SECURITY_VALIDATE_CODE_SESSION = "validateCodeSession";
-
-	public static final String SPRING_SECURITY_VALIDATE_CODE_SESSION_TIME = "validateCodeSessionTime";
+	public static final String SPRING_SECURITY_VALIDATE_CODE = "validateCode";
 
 	private static final String validateCodeParameter = SPRING_SECURITY_FORM_VALIDATECODE_KEY;
 
-	private static final String validateCodeSession = SPRING_SECURITY_VALIDATE_CODE_SESSION;
+	private static final String validateCodeSession = SPRING_SECURITY_VALIDATE_CODE;
 
-	private static final String validateCodeSessionTime = SPRING_SECURITY_VALIDATE_CODE_SESSION_TIME;
+	private SessionAuthenticationStrategy sessionStrategy;
+
+	public SessionAuthenticationStrategy getSessionStrategy() {
+		return sessionStrategy;
+	}
+
+	public void setSessionStrategy(SessionAuthenticationStrategy sessionStrategy) {
+		this.sessionStrategy = sessionStrategy;
+	}
 
 	/**
 	 * 重写方法不更改逻辑，只改变参数传递
@@ -50,12 +57,11 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationFilter extends
 		String username = obtainUsername(request);
 		String password = obtainPassword(request);
 		String validateCode = obtainValidateCode(request);
-		long validateCodeTime = new Date().getTime() / 1000;
+		long nowTime = new Date().getTime() / 1000;
 
 		// session 中存储的数据
-		String randomToken = null;
-		String sessionValidateCode = null;
-		long sessionValidateCodeTime = 0;
+		RandomToken randomToken = null;
+		ValidateCode codeSession = null;
 
 		if (username == null) {
 			username = "";
@@ -73,16 +79,15 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationFilter extends
 		if (session != null || getAllowSessionCreation()) {
 			HttpSession httpSession = request.getSession();
 			httpSession.setAttribute(SPRING_SECURITY_LAST_USERNAME_KEY, TextEscapeUtils.escapeEntities(username));
-			randomToken = (String) httpSession.getAttribute(SPRING_SECURITY_RANDOM_TOKEN);
-			sessionValidateCode = (String) httpSession.getAttribute(validateCodeSession);
-			sessionValidateCodeTime = (long) httpSession.getAttribute(validateCodeSessionTime);
-			// 使用一次后移除随机token值
+			randomToken = (RandomToken) httpSession.getAttribute(SPRING_SECURITY_RANDOM_TOKEN);
+			codeSession = (ValidateCode) httpSession.getAttribute(validateCodeSession);
+			// 使用一次后移除对象
 			httpSession.removeAttribute(SPRING_SECURITY_RANDOM_TOKEN);
 			httpSession.removeAttribute(validateCodeSession);
-			httpSession.removeAttribute(validateCodeSessionTime);
 		}
-		UsernamePasswordAuthenticationToken authRequest = new RandomTokenValidateCodeUsernamePasswordAuthenticationToken(username, password, randomToken, //
-				validateCode, validateCodeTime, sessionValidateCode, sessionValidateCodeTime);
+		ValidateCode codeParameter = new ValidateCode(validateCode, nowTime);
+
+		UsernamePasswordAuthenticationToken authRequest = new RandomTokenValidateCodeUsernamePasswordAuthenticationToken(username, password, randomToken, codeParameter, codeSession);
 
 		// Allow subclasses to set the "details" property
 		setDetails(request, authRequest);

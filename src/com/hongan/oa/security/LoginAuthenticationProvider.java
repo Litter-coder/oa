@@ -109,13 +109,17 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 	 * @param request
 	 */
 	protected void checkValidateCode(Authentication authentication) throws ValidateCodeErrorException {
-		String validateCodeSession = (String) ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeSession();
-		long validateCodeTimeSession = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeSessionTime();
+		// session中存储的验证码
+		ValidateCode codeSession = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeSession();
+		String validateCodeSession = (String) codeSession.getValidateCode();
+		long validateCodeTimeSession = codeSession.getValidateCodeTime();
 
-		String validateCodeParameter = (String) ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeParameter();
-		long validateCodeParameterTime = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeParameterTime();
+		// request请求的验证码
+		ValidateCode codeParameter = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeParameter();
+		String validateCodeParameter = (String) codeParameter.getValidateCode();
+		long validateCodeParameterTime = codeParameter.getValidateCodeTime();
 
-		long timeout = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeTimeout();
+		long timeout = ValidateCode.getValidateCodeTimeout();
 
 		if (StringUtils.isEmpty(validateCodeParameter) || StringUtils.isEmpty(validateCodeSession) || !validateCodeSession.equalsIgnoreCase(validateCodeParameter)) {
 			throw new ValidateCodeErrorException(messages.getMessage("LoginAuthenticationProvider.validateCodeError"));
@@ -134,8 +138,13 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 	@Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
-		Object token = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getRandomToken();
-		if (token == null) {// 抛出用户凭证过期的异常
+		RandomToken randomToken = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getRandomToken();
+		String token = randomToken.getToken();
+		long tokenTime = randomToken.getTokenTime();
+		long tokenTimeout = RandomToken.getTokenTimeout();
+		
+		// 抛出用户凭证过期的异常
+		if (token == null || (tokenTimeout != 0 && (tokenTime + tokenTimeout) < new Date().getTime() / 1000)) {
 			logger.info("random token is timeout !");
 			throw new CredentialsExpiredException(messages.getMessage(//
 					"AbstractUserDetailsAuthenticationProvider.credentialsExpired", "Credentials expired"),//

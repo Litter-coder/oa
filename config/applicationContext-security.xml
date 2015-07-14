@@ -119,7 +119,7 @@
 	<beans:bean
 		id="randomTokenValidateCodeUsernamePasswordAuthenticationFilter"
 		class="com.hongan.oa.security.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter">
-		<beans:property name="filterProcessesUrl" value="/j_spring_security_check" />                       <!-- 登录拦截URL -->
+		<beans:property name="filterProcessesUrl" value="/j_spring_security_check" />   <!-- 登录拦截URL -->
 
 		<beans:property name="authenticationSuccessHandler"
 			ref="loginLogAuthenticationSuccessHandler" />    <!-- 登录成功处理 -->
@@ -193,7 +193,7 @@
 
 		<beans:property name="sessionRegistry" ref="sessionRegistry" />
 
-		<beans:property name="expiredUrl" value="/error.jsp" />   <!-- Session过期跳转URL -->
+		<beans:property name="expiredUrl" value="/login/sessionTimeout.do" />   <!-- Session过期跳转URL -->
 
 	</beans:bean>
 
