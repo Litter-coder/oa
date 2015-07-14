@@ -3,7 +3,7 @@ oa项目开发
 springmvc+spring security+mybatis OA项目开发  
 
 ---  
-__v1.0.0.1__  
+__v1.0.0.2__  
 
 	1. 重构登录验证的spring security扩展类，使其符合spring security的设计方式  
 	2. 对登录密码校验问题使用随机token方式进行服务端后台校验，增强登录安全：  
