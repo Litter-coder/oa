@@ -19,8 +19,12 @@
 		<result column="LAST_ERROR_TIME" property="lastErrorTime" />
 	</resultMap>
 
+	<sql id="selectSysUserSql">USER_ID,USERNAME,PASSWORD,ENTRYTIME,ENABLED,ACCOUNTNONLOCKED,INITIALPSD,ORG_ID</sql>
+
+	<sql id="selectSysUserAttemptsSql">USERNAME,ATTEMPTS,LAST_ERROR_TIME</sql>
+	
 	<select id="getSysUserByUsername" resultMap="SysUserResultMap">
-		select * from t_sys_user where USERNAME = #{username}
+		select <include refid="selectSysUserSql"/> from t_sys_user where USERNAME = #{username}
 	</select>
 	
 	<select id="saveFailAttempts">
@@ -41,7 +45,7 @@
 	</update>
 	
 	<select id="getFailAttemptsByUsername" resultMap="SysUserAttemptsResultMap">
-		select * from t_sys_user_attempts where USERNAME = #{username}
+		select <include refid="selectSysUserAttemptsSql"/> from t_sys_user_attempts where USERNAME = #{username}
 	</select>
 	
 	<update id="updateFailAttempts">

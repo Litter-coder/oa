@@ -1,14 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="/page/public/common.jsp" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<c:set var="oa" value="${pageContext.request.contextPath}" />
-<%
-	response.setStatus(200);
-%>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>头部</title>
-<%@ include file="/page/public/common.jsp"%>
 	
 	<link href="${oa}/css/remake/style.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript" src="${oa}/js/jquery-1.7.2.js"></script>

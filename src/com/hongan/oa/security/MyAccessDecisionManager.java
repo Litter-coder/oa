@@ -20,7 +20,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
 	@Override
 	public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
 		if (configAttributes == null) {
-			return;
+			throw new AccessDeniedException("no right");
 		}
 
 		Iterator<ConfigAttribute> ite = configAttributes.iterator();

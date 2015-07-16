@@ -64,3 +64,5 @@ CREATE TABLE `t_sys_user_attempts` (
   `ATTEMPTS` int(4) NOT NULL COMMENT '登录密码错误次数',
   `LAST_ERROR_TIME` datetime NOT NULL COMMENT '上一次错误时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='登录错误记录表';
+
+ALTER TABLE t_menu ADD COLUMN `MENU_TYPE` TINYINT NOT NULL COMMENT '菜单类型：1--顶级菜单，无url；2--菜单列表功能链接；3--操作功能（增删改）';

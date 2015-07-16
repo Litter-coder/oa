@@ -109,7 +109,7 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationFilter extends
 
 		String username = obtainUsername(request);
 
-		request.getSession().setAttribute("userName", username);
+		request.getSession(false).setAttribute("userName", username);
 
 		super.successfulAuthentication(request, response, arg2);
 

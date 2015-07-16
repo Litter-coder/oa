@@ -26,7 +26,7 @@ public class SysUser implements UserDetails {
 	private boolean initialPsd;
 
 	private List<GrantedAuthority> authorities;
-	private SysOragnition orgnaition;
+	private SysOrganization organization;
 
 	public Long getUserId() {
 		return userId;
@@ -44,12 +44,12 @@ public class SysUser implements UserDetails {
 		this.entryTime = entryTime;
 	}
 
-	public SysOragnition getOrgnaition() {
-		return orgnaition;
+	public SysOrganization getOrganization() {
+		return organization;
 	}
 
-	public void setOrgnaition(SysOragnition orgnaition) {
-		this.orgnaition = orgnaition;
+	public void setOrganization(SysOrganization organization) {
+		this.organization = organization;
 	}
 
 	public void setUsername(String username) {

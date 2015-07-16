@@ -19,6 +19,8 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 
+import com.hongan.oa.bean.system.Menu;
+import com.hongan.oa.bean.system.RoleMenu;
 import com.hongan.oa.service.inf.IMenuService;
 
 /**
@@ -30,24 +32,40 @@ import com.hongan.oa.service.inf.IMenuService;
 public class MyInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 	public static Logger logger = LoggerFactory.getLogger(MyInvocationSecurityMetadataSource.class);
 
-
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
 	private UrlMatcher urlMatcher = new AntUrlPathMatcher();
-	
+
 	@Autowired
 	private IMenuService menuService;
 
+	/**
+	 * 加载所有的权限资源,只记录非顶级菜单
+	 */
 	public void loadMenuSource() {
-		if(resourceMap == null){
+		if (resourceMap == null) {
 			resourceMap = new ConcurrentHashMap<String, Collection<ConfigAttribute>>();
 		}
-		
-		SecurityConfig config = new SecurityConfig("1");
-		List<ConfigAttribute> configList = new ArrayList<ConfigAttribute>();
-		configList.add(config);
-		resourceMap.put("/test.do", configList);
-		
+
+		List<Menu> menuList = menuService.getMenuList();
+		if (menuList != null && !menuList.isEmpty()) {
+			for (Menu menu : menuList) {
+				if (menu.getMenuType() != 1) {
+					List<RoleMenu> roleMenuList = menuService.getRoleMenuByMenuId(menu.getMenuId());
+					List<ConfigAttribute> configList = new ArrayList<ConfigAttribute>();
+
+					if (roleMenuList != null && !roleMenuList.isEmpty()) {
+						for (RoleMenu roleMenu : roleMenuList) {
+							SecurityConfig config = new SecurityConfig(roleMenu.getRoleId() + "");
+							if (!configList.contains(config)) {
+								configList.add(config);
+							}
+						}
+					}
+					resourceMap.put(menu.getMenuUrl(), configList);
+				}
+			}
+		}
 	}
 
 	// According to a URL, Find out permission configuration of this URL.

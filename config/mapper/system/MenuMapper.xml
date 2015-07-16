@@ -6,8 +6,26 @@
 		<id column="MENU_ID" property="menuId"/>
 		<result column="TITLE" property="title"/>
 		<result column="MENU_URL" property="menuUrl"/>
+		<result column="MENU_TYPE" property="menuType"/>
+		<result column="PID" property="pId"/>
 		<result column="ICON" property="icon"/>
 		<result column="ENABLED" property="enabled"/>
 	</resultMap>
 	
+	<resultMap type="roleMenu" id="roleMenuResultMap">
+		<result column="ROLE_ID" property="roleId"/>
+		<result column="MENU_ID" property="menuId"/>
+	</resultMap>
+	
+	<sql id="selectMenuSql">MENU_ID,TITLE,MENU_URL,MENU_TYPE,PID,ICON,ENABLED</sql>
+	
+	<sql id="selectRoleMenuSql">ROLE_ID,MENU_ID</sql>
+	
+	<select id="getMenuList" resultMap="menuResultMap">
+		select <include refid="selectMenuSql"/> from t_menu where ENABLED = 1
+	</select>
+	
+	<select id="getRoleMenuByMenuId" resultMap="roleMenuResultMap">
+		select <include refid="selectRoleMenuSql"/> from t_role_menu where MENU_ID = #{menuId}
+	</select>
 </mapper>
