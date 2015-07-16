@@ -5,7 +5,7 @@
 <head>
 <%@ include file="/page/public/common.jsp"%>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>OA系统</title>
+<title>OA系统登录界面</title>
 
 <link rel="stylesheet" href="css/login/supersized.css" />
 <link rel="stylesheet" href="css/login/login.css" />
