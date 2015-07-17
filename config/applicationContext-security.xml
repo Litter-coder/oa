@@ -7,44 +7,45 @@
                         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 	<beans:import resource="applicationContext.xml" />
 
-	<http use-expressions="true" access-denied-page="/access-denied.jsp"
-		entry-point-ref="authenticationProcessingFilterEntryPoint">
+	<http use-expressions="true" access-denied-page="/access-denied.jsp" entry-point-ref="authenticationProcessingFilterEntryPoint">
 		<!-- filters="none"表示放行 -->
 		<intercept-url pattern="/css/**" filters="none" />
 		<intercept-url pattern="/fonts/**" filters="none" />
 		<intercept-url pattern="/images/**" filters="none" />
 		<intercept-url pattern="/js/**" filters="none" />
+		<intercept-url pattern="/dwz/**" filters="none" />
 		<intercept-url pattern="/login.jsp" filters="none" />
 		<intercept-url pattern="/index.jsp" filters="none" />
 		<intercept-url pattern="/error.jsp" filters="none" />
-		<intercept-url pattern="/loginSuccess.jsp" filters="none" />
 		<intercept-url pattern="/access-denied.jsp" filters="none" />
 		<intercept-url pattern="/login/**" filters="none" />
 		<!-- 登录用户有权限访问 -->
-		<intercept-url pattern="/**" access="isAuthenticated()" />
+<!-- 		<intercept-url pattern="/**" access="isAuthenticated()" /> -->
+				
 		<!-- 覆盖原有的登录验证类 实现对验证码验证 -->
 		<custom-filter
 			ref="randomTokenValidateCodeUsernamePasswordAuthenticationFilter"
 			position="FORM_LOGIN_FILTER" />
-		<logout logout-url="/logout.do" logout-success-url="/login.jsp" />
+		<logout logout-url="/login/logout.do" logout-success-url="/login.jsp" />
+		
 		<remember-me />
 		<anonymous />
-
-		<!-- 加载系统权限 : 放在FILTER_SECURITY_INTERCEPTOR过滤器 之后 -->
-		<custom-filter ref="mySecurityFilter" after="FILTER_SECURITY_INTERCEPTOR" />
+		
+		<!-- 加载系统权限 : 放在FILTER_SECURITY_INTERCEPTOR过滤器 之后 ,先会验证上面配置的access-->
+		<custom-filter ref="filterSecurityInterceptor" after="FILTER_SECURITY_INTERCEPTOR" />
 		<!-- Session失效过滤器 拦截失效的Session -->
-		<custom-filter ref="concurrentSessionFilter" before="CONCURRENT_SESSION_FILTER" />
+		<custom-filter ref="concurrentSessionFilter" position="CONCURRENT_SESSION_FILTER" />
 	</http>
 
 	<!-- 安全拦截器 : FilterSecurityIntercepto，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 
 		我们的所有控制将在这三个类中实现，解释详见具体配置 -->
 
-	<beans:bean id="mySecurityFilter"
+	<beans:bean id="filterSecurityInterceptor"
 		class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
 
 		<beans:property name="authenticationManager" ref="authenticationManager" />        <!-- 认证管理 即 登录验证 -->
 
-		<beans:property name="accessDecisionManager" ref="myAccessDecisionManager" />        <!-- 访问决策管理 即 验证用户是否有权限访问数据库配置的URL -->
+		<beans:property name="accessDecisionManager" ref="accessDecisionManager" />        <!-- 访问决策管理 即 验证用户是否有权限访问数据库配置的URL -->
 
 		<beans:property name="securityMetadataSource" ref="mySecurityMetadataSource" />    <!-- 权限资源加载管理 即 加载数据库配置的URL和Token -->
 
@@ -52,13 +53,41 @@
 
 	</beans:bean>
 
-
-
+	<!-- 决策管理 : 验证用户是否有权限访问受保护的URL -->
+	<beans:bean id="myAccessDecisionManager" class="com.hongan.oa.security.access.MyAccessDecisionManager"/>
+	
+	<!-- security 自带的投票决策管理,超过半数才会允许访问 -->
+	<beans:bean id="accessDecisionManager" class="org.springframework.security.access.vote.ConsensusBased">
+		<beans:property name="decisionVoters">
+			<beans:list>
+				<beans:ref bean="authenticationVoter"/>
+				<beans:ref bean="publicAccessVoter"/>
+				<beans:ref bean="roleVoter"/>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+	
+	<!-- 定义投票器 -->
+	<beans:bean name="authenticationVoter" class="com.hongan.oa.security.access.voter.AuthenticationVoter"/>
+	<beans:bean name="publicAccessVoter" class="com.hongan.oa.security.access.voter.PublicAccessVoter">
+		<beans:constructor-arg name="urlMatcher">
+			<beans:ref bean="urlMatcher"/>
+		</beans:constructor-arg>
+		<beans:constructor-arg name="publicAccessUrls">
+			<beans:list>
+				<beans:value>/main.jsp</beans:value>
+				<beans:value>/data.frag.xml**</beans:value>
+			</beans:list>
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean name="roleVoter" class="com.hongan.oa.security.access.voter.RoleVoter"/>
+	
+	<beans:bean id="urlMatcher" class="org.springframework.security.web.util.AntUrlPathMatcher"/>
+	
 	<!-- 资源源数据定义，将所有的资源和权限对应关系建立起来，即定义某一资源可以被哪些角色访问 加载系统所有的权限 （需要用户重写） -->
-
 	<beans:bean id="mySecurityMetadataSource" init-method="loadMenuSource"
-		class="com.hongan.oa.security.MyInvocationSecurityMetadataSource">
-
+		class="com.hongan.oa.security.access.MyInvocationSecurityMetadataSource">
+		<beans:property name="urlMatcher" ref="urlMatcher"/>
 	</beans:bean>
 
 	<!-- 验证配置: ， 认证管理器，实现用户认证的入口，主要实现UserDetailsService接口即可 查询用户 -->
@@ -70,7 +99,7 @@
 	<!-- 认证用户: 为了注入加密盐 -->
 
 	<beans:bean id="loginAuthenticationProvider"
-		class="com.hongan.oa.security.LoginAuthenticationProvider">
+		class="com.hongan.oa.security.authentication.LoginAuthenticationProvider">
 
 		<beans:property name="userDetailsService" ref="userDetailsService" /> <!-- 主要实现UserDetailsService接口即可，查询用户和权限 -->
 
@@ -96,13 +125,6 @@
 
 	</beans:bean>
 
-
-	<!-- 决策管理 : 验证用户是否有权限访问受保护的URL -->
-
-	<beans:bean id="myAccessDecisionManager"
-		class="com.hongan.oa.security.MyAccessDecisionManager">
-	</beans:bean>
-
 	<!-- 为了加入验证码验证方法 重写登陆验证配置 说明一下：在1.0版本中在验证用户名和密码之前提供有 验证码验证的方法，但2.0版本后就没了 
 		要配置自己的登录方法，就要先 注入下面的类 -->
 
@@ -118,7 +140,7 @@
 
 	<beans:bean
 		id="randomTokenValidateCodeUsernamePasswordAuthenticationFilter"
-		class="com.hongan.oa.security.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter">
+		class="com.hongan.oa.security.authentication.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter">
 		<beans:property name="filterProcessesUrl" value="/j_spring_security_check" />   <!-- 登录拦截URL -->
 
 		<beans:property name="authenticationSuccessHandler"
@@ -147,8 +169,7 @@
 
 		class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
 
-		<beans:property name="defaultFailureUrl" value="/login.jsp?error=true" /><!-- 
-			登录失败跳转URL -->
+		<beans:property name="defaultFailureUrl" value="/login.jsp?error=true" /><!-- 登录失败跳转URL -->
 
 	</beans:bean>
 
@@ -182,7 +203,7 @@
 	<!-- JDBC认证方式 自己写必须实现Acegi提供的UserDetailsService接口类 -->
 
 	<beans:bean id="userDetailsService"
-		class="com.hongan.oa.security.UserDetailServiceImpl" />
+		class="com.hongan.oa.security.authentication.UserDetailServiceImpl" />
 
 
 

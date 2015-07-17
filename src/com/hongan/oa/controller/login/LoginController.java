@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Producer;
 import com.hongan.oa.bean.system.SysUser;
-import com.hongan.oa.security.RandomToken;
-import com.hongan.oa.security.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter;
-import com.hongan.oa.security.ValidateCode;
+import com.hongan.oa.security.authentication.RandomToken;
+import com.hongan.oa.security.authentication.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter;
+import com.hongan.oa.security.authentication.ValidateCode;
 import com.hongan.oa.utils.StringUtil;
 
 /**

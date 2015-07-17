@@ -1,4 +1,4 @@
-package com.hongan.oa.security;
+package com.hongan.oa.security.access;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,6 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.util.AntUrlPathMatcher;
 import org.springframework.security.web.util.UrlMatcher;
 
 import com.hongan.oa.bean.system.Menu;
@@ -34,10 +33,18 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
-	private UrlMatcher urlMatcher = new AntUrlPathMatcher();
+	private UrlMatcher urlMatcher;
 
 	@Autowired
 	private IMenuService menuService;
+
+	public MyInvocationSecurityMetadataSource() {
+		super();
+	}
+
+	public void setUrlMatcher(UrlMatcher urlMatcher) {
+		this.urlMatcher = urlMatcher;
+	}
 
 	/**
 	 * 加载所有的权限资源,只记录非顶级菜单
@@ -71,47 +78,18 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 	// According to a URL, Find out permission configuration of this URL.
 
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-
-		if (logger.isDebugEnabled()) {
-
-			logger.debug("getAttributes(Object) - start"); //$NON-NLS-1$  
-
-		}
-
 		// guess object is a URL.
-
 		String url = ((FilterInvocation) object).getRequestUrl();
-
+		System.out.println(url);
 		Iterator<String> ite = resourceMap.keySet().iterator();
-
 		while (ite.hasNext()) {
-
 			String resURL = ite.next();
-
 			if (urlMatcher.pathMatchesUrl(url, resURL)) {
-
 				Collection<ConfigAttribute> returnCollection = resourceMap.get(resURL);
-
-				if (logger.isDebugEnabled()) {
-
-					logger.debug("getAttributes(Object) - end"); //$NON-NLS-1$  
-
-				}
-
 				return returnCollection;
-
 			}
-
 		}
-
-		if (logger.isDebugEnabled()) {
-
-			logger.debug("getAttributes(Object) - end"); //$NON-NLS-1$  
-
-		}
-
-		return null;
-
+		return new ArrayList<ConfigAttribute>();
 	}
 
 	public boolean supports(Class<?> clazz) {

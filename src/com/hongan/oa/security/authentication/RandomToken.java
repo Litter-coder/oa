@@ -1,4 +1,4 @@
-package com.hongan.oa.security;
+package com.hongan.oa.security.authentication;
 
 import com.hongan.oa.utils.ReadProperties;
 

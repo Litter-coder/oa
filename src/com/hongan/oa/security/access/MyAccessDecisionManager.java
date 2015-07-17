@@ -1,4 +1,4 @@
-package com.hongan.oa.security;
+package com.hongan.oa.security.access;
 
 import java.util.Collection;
 import java.util.Iterator;
