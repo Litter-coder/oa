@@ -1,6 +1,7 @@
 package com.hongan.oa.security.authentication;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.hongan.oa.bean.system.SysUser;
@@ -102,6 +104,15 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 		}
 	}
 
+	@Override
+	protected Authentication createSuccessAuthentication(Object principal, Authentication authentication, UserDetails user) {
+		UserDetailsServiceImpl service = (UserDetailsServiceImpl) this.getUserDetailsService();
+		List<GrantedAuthority> authorities = service.getAuthorities(((SysUser) user).getUserId());
+		((SysUser) user).setAuthorities(authorities);
+		RandomTokenValidateCodeUsernamePasswordAuthenticationToken result = new RandomTokenValidateCodeUsernamePasswordAuthenticationToken(principal, authentication, user.getAuthorities());
+		return result;
+	}
+
 	/**
 	 * 
 	 * 验证 验证码
@@ -142,7 +153,7 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 		String token = randomToken.getToken();
 		long tokenTime = randomToken.getTokenTime();
 		long tokenTimeout = RandomToken.getTokenTimeout();
-		
+
 		// 抛出用户凭证过期的异常
 		if (token == null || (tokenTimeout != 0 && (tokenTime + tokenTimeout) < new Date().getTime() / 1000)) {
 			logger.info("random token is timeout !");

@@ -1,7 +1,10 @@
 package com.hongan.oa.service.inf;
 
+import java.util.List;
+
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
+import com.hongan.oa.bean.system.SysUserRole;
 
 public interface ISysUserService {
 
@@ -16,5 +19,7 @@ public interface ISysUserService {
 	void saveFailAttempts(SysUserAttempts userAttempts);
 
 	void updateSysUser(SysUser user);
+
+	List<SysUserRole> getSysUserRolesByUserId(Long userId);
 
 }

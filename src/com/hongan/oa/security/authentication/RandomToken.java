@@ -1,5 +1,7 @@
 package com.hongan.oa.security.authentication;
 
+import java.io.Serializable;
+
 import com.hongan.oa.utils.ReadProperties;
 
 /**
@@ -8,7 +10,9 @@ import com.hongan.oa.utils.ReadProperties;
  * @author Administrator
  *
  */
-public class RandomToken {
+public class RandomToken implements Serializable {
+
+	private static final long serialVersionUID = -5945605076516156140L;
 
 	private static final String RANDOM_TOKEN_TIMEOUT = "random_token_timeout";
 

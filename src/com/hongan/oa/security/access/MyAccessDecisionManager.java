@@ -11,6 +11,12 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+/**
+ * 自定义验证权限时使用
+ * 
+ * @author Administrator
+ *
+ */
 public class MyAccessDecisionManager implements AccessDecisionManager {
 
 	// 检查用户是否够权限访问资源

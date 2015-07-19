@@ -3,10 +3,37 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hongan.oa.mapper.system.RoleMapper">
 	<resultMap type="role" id="roleResultMap">
-		<id column="ROLE_ID" property="roleId"/>
-		<result column="ROLE_NAME" property="roleName"/>
-		<result column="CREATOR" property="creator"/>
-		<result column="UPDATE_TIME" property="updateTime"/>
-		<result column="DESCRIPTION" property="description"/>
+		<id column="ROLE_ID" property="roleId" />
+		<result column="ROLE_NAME" property="roleName" />
+		<result column="CREATOR" property="creator" />
+		<result column="UPDATE_TIME" property="updateTime" />
+		<result column="DESCRIPTION" property="description" />
 	</resultMap>
+
+	<resultMap type="roleMenu" id="roleMenuResultMap">
+		<result column="ROLE_ID" property="roleId" />
+		<result column="MENU_ID" property="menuId" />
+	</resultMap>
+
+	<resultMap type="sysUserRole" id="sysUserRoleResultMap">
+		<result column="USER_ID" property="userId" />
+		<result column="ROLE_ID" property="roleId" />
+	</resultMap>
+
+	<sql id="selectRoleMenuSql">ROLE_ID,MENU_ID</sql>
+
+	<sql id="selectSysUserRoleSql">ROLE_ID,USER_ID</sql>
+
+	<select id="getRoleMenuByMenuId" resultMap="roleMenuResultMap">
+		select
+		<include refid="selectRoleMenuSql" />
+		from t_role_menu where MENU_ID = #{menuId}
+	</select>
+
+	<select id="getSysUserRolesByUserId" resultMap="sysUserRoleResultMap">
+		select
+		<include refid="selectSysUserRoleSql" />
+		from t_sys_user_role where USER_ID = #{userId}
+	</select>
+
 </mapper>

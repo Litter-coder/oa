@@ -57,7 +57,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 		List<Menu> menuList = menuService.getMenuList();
 		if (menuList != null && !menuList.isEmpty()) {
 			for (Menu menu : menuList) {
-				if (menu.getMenuType() != 1) {
+				if (menu.getMenuUrl() != null && !"".equals(menu.getMenuUrl())) {
 					List<RoleMenu> roleMenuList = menuService.getRoleMenuByMenuId(menu.getMenuId());
 					List<ConfigAttribute> configList = new ArrayList<ConfigAttribute>();
 
@@ -75,12 +75,13 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 		}
 	}
 
-	// According to a URL, Find out permission configuration of this URL.
-
+	/**
+	 * According to a URL, Find out permission configuration of this URL.
+	 */
+	@Override
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 		// guess object is a URL.
 		String url = ((FilterInvocation) object).getRequestUrl();
-		System.out.println(url);
 		Iterator<String> ite = resourceMap.keySet().iterator();
 		while (ite.hasNext()) {
 			String resURL = ite.next();
@@ -92,11 +93,13 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 		return new ArrayList<ConfigAttribute>();
 	}
 
+	@Override
 	public boolean supports(Class<?> clazz) {
 		return true;
 
 	}
 
+	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
 		Set<ConfigAttribute> allAttributes = new HashSet<ConfigAttribute>();
 		for (Map.Entry<String, Collection<ConfigAttribute>> entry : resourceMap.entrySet()) {

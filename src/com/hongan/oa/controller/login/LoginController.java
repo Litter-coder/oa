@@ -37,7 +37,6 @@ import com.hongan.oa.utils.StringUtil;
 @Controller
 @RequestMapping("/login")
 public class LoginController {
-	public static final String KAPTCHA_CODE_TIMEOUT = "kaptcha_code_timeout";
 
 	@Autowired
 	private Producer captchaProducer;
@@ -45,6 +44,13 @@ public class LoginController {
 	@Autowired
 	private SessionRegistry sessionRegistry;
 
+	/**
+	 * 验证码获取
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws Exception
+	 */
 	@RequestMapping("/kaptcha-image.do")
 	public void getKaptchaImage(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -70,6 +76,14 @@ public class LoginController {
 		}
 	}
 
+	/**
+	 * 随机token获取
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/token.do")
 	@ResponseBody
 	public String getToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -83,6 +97,13 @@ public class LoginController {
 		return token;
 	}
 
+	/**
+	 * session失效处理
+	 * 
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	@RequestMapping("/sessionTimeout.do")
 	public void sessionTimeout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// String requestUrl = request.getRequestURI();

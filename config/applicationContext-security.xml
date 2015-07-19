@@ -26,13 +26,13 @@
 		<custom-filter
 			ref="randomTokenValidateCodeUsernamePasswordAuthenticationFilter"
 			position="FORM_LOGIN_FILTER" />
-		<logout logout-url="/login/logout.do" logout-success-url="/login.jsp" />
+		<logout logout-url="/logout" logout-success-url="/login.jsp" invalidate-session="true"/>
 		
 		<remember-me />
 		<anonymous />
 		
 		<!-- 加载系统权限 : 放在FILTER_SECURITY_INTERCEPTOR过滤器 之后 ,先会验证上面配置的access-->
-		<custom-filter ref="filterSecurityInterceptor" after="FILTER_SECURITY_INTERCEPTOR" />
+		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
 		<!-- Session失效过滤器 拦截失效的Session -->
 		<custom-filter ref="concurrentSessionFilter" position="CONCURRENT_SESSION_FILTER" />
 	</http>
@@ -53,7 +53,7 @@
 
 	</beans:bean>
 
-	<!-- 决策管理 : 验证用户是否有权限访问受保护的URL -->
+	<!-- 决策管理 : 自定义验证用户是否有权限访问受保护的URL 暂未使用，使用时将上面登录有权限使用注释打开，并且filterSecurityInterceptor中的决策管理对象引用此对象-->
 	<beans:bean id="myAccessDecisionManager" class="com.hongan.oa.security.access.MyAccessDecisionManager"/>
 	
 	<!-- security 自带的投票决策管理,超过半数才会允许访问 -->
@@ -73,10 +73,11 @@
 		<beans:constructor-arg name="urlMatcher">
 			<beans:ref bean="urlMatcher"/>
 		</beans:constructor-arg>
-		<beans:constructor-arg name="publicAccessUrls">
+		<beans:constructor-arg name="publicAccessUrls"><!-- 这种链接只有登录后才可访问，而且不会写到菜单表中又不会不经过fiter，所以用投票决策 -->
 			<beans:list>
-				<beans:value>/main.jsp</beans:value>
-				<beans:value>/data.frag.xml**</beans:value>
+				<beans:value>/**/*.jsp</beans:value>
+				<beans:value>/index/*</beans:value>
+				<beans:value>/dwz.frag.xml**</beans:value>
 			</beans:list>
 		</beans:constructor-arg>
 	</beans:bean>
@@ -203,7 +204,7 @@
 	<!-- JDBC认证方式 自己写必须实现Acegi提供的UserDetailsService接口类 -->
 
 	<beans:bean id="userDetailsService"
-		class="com.hongan.oa.security.authentication.UserDetailServiceImpl" />
+		class="com.hongan.oa.security.authentication.UserDetailsServiceImpl" />
 
 
 

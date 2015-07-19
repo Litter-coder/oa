@@ -3,29 +3,49 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hongan.oa.mapper.system.MenuMapper">
 	<resultMap type="menu" id="menuResultMap">
-		<id column="MENU_ID" property="menuId"/>
-		<result column="TITLE" property="title"/>
-		<result column="MENU_URL" property="menuUrl"/>
-		<result column="MENU_TYPE" property="menuType"/>
-		<result column="PID" property="pId"/>
-		<result column="ICON" property="icon"/>
-		<result column="ENABLED" property="enabled"/>
+		<id column="MENU_ID" property="menuId" />
+		<result column="TITLE" property="title" />
+		<result column="MENU_URL" property="menuUrl" />
+		<result column="MENU_TYPE" property="menuType" />
+		<result column="PID" property="pId" />
+		<result column="ICON" property="icon" />
+		<result column="ENABLED" property="enabled" />
 	</resultMap>
+
+	<sql id="selectMenuSql">menu.MENU_ID,menu.TITLE,menu.MENU_URL,menu.MENU_TYPE,menu.PID,menu.ICON,menu.ENABLED</sql>
 	
-	<resultMap type="roleMenu" id="roleMenuResultMap">
-		<result column="ROLE_ID" property="roleId"/>
-		<result column="MENU_ID" property="menuId"/>
-	</resultMap>
-	
-	<sql id="selectMenuSql">MENU_ID,TITLE,MENU_URL,MENU_TYPE,PID,ICON,ENABLED</sql>
-	
-	<sql id="selectRoleMenuSql">ROLE_ID,MENU_ID</sql>
+	<sql id="tableMenuSql">t_menu menu</sql>
 	
 	<select id="getMenuList" resultMap="menuResultMap">
-		select <include refid="selectMenuSql"/> from t_menu where ENABLED = 1
+		select
+		<include refid="selectMenuSql" />
+		from <include refid="tableMenuSql" /> where ENABLED = 1
+	</select>
+
+	<select id="getMenuByRoleIdMenuPid" resultMap="menuResultMap">
+		select
+		<include refid="selectMenuSql" />
+		from <include refid="tableMenuSql" />, t_role_menu rm
+		where menu.MENU_ID = rm.MENU_ID
+		and rm.ROLE_ID = #{roleId}
+		<choose>
+			<when test="menuPid == null">and menu.PID is null</when>
+			<otherwise>and menu.PID = #{menuPid}</otherwise>
+		</choose>
 	</select>
 	
-	<select id="getRoleMenuByMenuId" resultMap="roleMenuResultMap">
-		select <include refid="selectRoleMenuSql"/> from t_role_menu where MENU_ID = #{menuId}
+	<select id="getMenuByRoleIdsMenuPid" resultMap="menuResultMap">
+		select <include refid="selectMenuSql"/> 
+		from <include refid="tableMenuSql" />, t_role_menu rm
+		where menu.MENU_ID = rm.MENU_ID 
+		and rm.ROLE_ID in
+		<foreach collection="roleIds" open="(" close=")" separator="," item="roleId">
+			#{roleId}
+		</foreach>
+		<choose>
+			<when test="menuPid == null">and menu.PID is null</when>
+			<otherwise>and menu.PID = #{menuPid}</otherwise>
+		</choose>
 	</select>
+
 </mapper>
