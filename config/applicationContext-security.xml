@@ -162,7 +162,7 @@
 	<beans:bean id="loginLogAuthenticationSuccessHandler"
 		class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler">
 
-		<beans:property name="defaultTargetUrl" value="/main.jsp" />    <!-- 登录成功跳转URL -->
+		<beans:property name="defaultTargetUrl" value="/index/loadMenu.do" />    <!-- 登录成功跳转URL -->
 
 	</beans:bean>
 

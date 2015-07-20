@@ -7,11 +7,23 @@
 			var $box = $(this);
 			$box.find("li>a").click(function(){
 				var $a = $(this);
-				$.post($a.attr("href"), {}, function(html){
+				// 加入参数传递
+				var data = "{";
+				$a.find("input:hidden").each(function(){
+					var $input = $(this);
+					var name = $input.attr("name");
+					var value = $input.val();
+					data += name + ":" + value + ",";
+				});
+				if(data != "{"){
+					data = data.substr( 0, data.length - 1);
+				}
+				data += "}";
+				$.post($a.attr("href"), eval("(" + data + ")"), function(html){
 					$("#sidebar").find(".accordion").remove().end().append(html).initUI();
 					$box.find("li").removeClass("selected");
 					$a.parent().addClass("selected");
-					navTab.closeAllTab();
+//					navTab.closeAllTab();
 				});
 				return false;
 			});
@@ -37,7 +49,7 @@
 				$.post($li.find(">a").attr("href"), {}, function(html){
 					_hide($this);
 					$this.find(op.boxTitle$).html($li.find(">a").html());
-					navTab.closeAllTab();
+//					navTab.closeAllTab();
 					$("#sidebar").find(".accordion").remove().end().append(html).initUI();
 				});
 				return false;
