@@ -91,6 +91,7 @@
 <div id="dialogBackground" class="dialogBackground"></div>
 
 <div id='background' class='background'></div>
+<div id='background_accordion' class='background_accordion'></div>
 <div id='progressBar' class='progressBar'>数据加载中，请稍等...</div>
 ]]></_PAGE_>
 
@@ -240,5 +241,5 @@
 <_MSG_ id="forwardConfirmMsg"><![CDATA[继续下一步!]]></_MSG_>
 
 <_MSG_ id="dwzTitle"><![CDATA[DWZ富客户端框架]]></_MSG_>
-<_MSG_ id="mainTabTitle"><![CDATA[我的主页]]></_MSG_>
+<_MSG_ id="mainTabTitle"><![CDATA[个人主页]]></_MSG_>
 </_AJAX_>

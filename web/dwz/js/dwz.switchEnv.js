@@ -7,7 +7,7 @@
 			var $box = $(this);
 			$box.find("li>a").click(function(){
 				var $a = $(this);
-				// 加入参数传递
+				// 加入参数传递 --by dinghuan
 				var data = "{";
 				$a.find("input:hidden").each(function(){
 					var $input = $(this);
@@ -19,12 +19,40 @@
 					data = data.substr( 0, data.length - 1);
 				}
 				data += "}";
-				$.post($a.attr("href"), eval("(" + data + ")"), function(html){
-					$("#sidebar").find(".accordion").remove().end().append(html).initUI();
-					$box.find("li").removeClass("selected");
-					$a.parent().addClass("selected");
-//					navTab.closeAllTab();
+				
+				// 更改加载菜单，自定义遮罩，不调用全局遮罩--by dinghuan
+				$.ajax({
+					url:$a.attr("href"),
+					data:eval("(" + data + ")"),
+					type:"POST",
+					dataType:"html",
+					global:false,
+					cache : false,
+					beforeSend:function(xhr){
+						var menubg = $("#background_accordion");
+						menubg.show();
+					},
+					success:function(html){
+						if($.fn.jBarCheck){
+							$.fn.jBarCheck();
+						}
+						$("#sidebar").find(".accordion").remove().end().append(html).initUI();
+						$box.find("li").removeClass("selected");
+						$a.parent().addClass("selected");
+					},
+					complete:function(xhr){
+						var menubg = $("#background_accordion");
+						menubg.hide();
+					}
 				});
+				
+//				$.post($a.attr("href"), eval("(" + data + ")"), function(html){
+//					$("#sidebar").find(".accordion").remove().end().append(html).initUI();
+//					$box.find("li").removeClass("selected");
+//					$a.parent().addClass("selected");
+// 					--by dinghuan
+//					navTab.closeAllTab();
+//				});
 				return false;
 			});
 		});
@@ -34,6 +62,7 @@
 		var op = {cities$:">ul>li", boxTitle$:">a>span"};
 		return this.each(function(){
 			var $this = $(this);
+			alert($this.html())
 			$this.click(function(){
 				if ($this.hasClass("selected")){
 					_hide($this);
@@ -49,6 +78,7 @@
 				$.post($li.find(">a").attr("href"), {}, function(html){
 					_hide($this);
 					$this.find(op.boxTitle$).html($li.find(">a").html());
+					// --by dinghuan
 //					navTab.closeAllTab();
 					$("#sidebar").find(".accordion").remove().end().append(html).initUI();
 				});

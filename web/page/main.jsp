@@ -4,7 +4,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=7" />
 <title>OA系统</title>
 
 <link href="${oa}/dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -45,7 +44,7 @@ $(function(){
 		debug:false,	// 调试模式 【true|false】
 		callback:function(){
 			initEnv();
-			$("#themeList").theme({themeBase:"dwz/themes"});
+			$("#themeList").theme({themeBase:"${oa}/dwz/themes"});
 		}
 	});
 });
