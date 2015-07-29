@@ -110,6 +110,7 @@
 
 /* ProgressBar */
 .progressBar { border:solid 2px #86a5ad; background:#FFF url(./images/progressBar/progressBar_m.gif) no-repeat 10px 10px;}
+.background {background:#dfe8f6;}
 
 /* ----------------------------------------------------------------- Form */
 /* TextInput */

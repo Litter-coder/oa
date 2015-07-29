@@ -117,7 +117,7 @@
 								$(">div>div:last", node).toggleClass(op.options.folderExp).toggleClass(op.options.folderColl);
 							}
 						}
-						(tree.is(":hidden"))?tree.slideDown("fast"):tree.slideUp("fast");
+						(tree.is(":hidden"))?tree.slideDown("fast"):(isA?"":tree.slideUp("fast"));
 						return false;
 					});
 					addSpace(op.level, node);

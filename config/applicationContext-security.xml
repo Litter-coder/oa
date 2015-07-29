@@ -14,6 +14,7 @@
 		<intercept-url pattern="/images/**" filters="none" />
 		<intercept-url pattern="/js/**" filters="none" />
 		<intercept-url pattern="/dwz/**" filters="none" />
+		<intercept-url pattern="/dwz_local/**" filters="none" />
 		<intercept-url pattern="/login.jsp" filters="none" />
 		<intercept-url pattern="/index.jsp" filters="none" />
 		<intercept-url pattern="/error.jsp" filters="none" />

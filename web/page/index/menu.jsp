@@ -15,7 +15,7 @@
 					<li><a>${thirdMenu.title}</a>
 						<ul>
 							<c:forEach items="${thirdMenu.subMenus}" var="fourthMenu">
-								<li><a href="${fourthMenu.menuUrl}" target="navTab" rel="${fourthMenu.menuUrl}">${fourthMenu.title}</a></li>
+								<li><a href="${oa}${fourthMenu.menuUrl}" target="navTab" rel="${oa}${fourthMenu.menuUrl}">${fourthMenu.title}</a></li>
 							</c:forEach>
 						</ul></li>
 				</c:forEach>

@@ -10,6 +10,7 @@
 <link href="${oa}/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${oa}/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <link href="${oa}/dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
+<%-- <link href="${oa}/dwz_local/css/core.css" rel="stylesheet" type="text/css" media="screen"/> --%>
 <!--[if IE]>
 <link href="dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -31,6 +32,12 @@
 
 <script src="${oa}/dwz/bin/dwz.min.js" type="text/javascript"></script>
 <script src="${oa}/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.core.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.navtab.local.js" type="text/javascript"></script>
+
+<script src="${oa}/dwz_local/js/dwz.barDrag.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.switchEnv.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.ui.local.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){
@@ -105,7 +112,7 @@ $(function(){
 									<li><a>${thirdMenu.title}</a>
 										<ul>
 											<c:forEach items="${thirdMenu.subMenus}" var="fourthMenu">
-												<li><a href="${fourthMenu.menuUrl}" target="navTab" rel="${fourthMenu.menuUrl}">${fourthMenu.title}</a></li>
+												<li><a href="${oa}${fourthMenu.menuUrl}" target="navTab" rel="${oa}${fourthMenu.menuUrl}">${fourthMenu.title}</a></li>
 											</c:forEach>
 										</ul></li>
 								</c:forEach>

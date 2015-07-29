@@ -90,9 +90,8 @@
 <div id="alertBackground" class="alertBackground"></div>
 <div id="dialogBackground" class="dialogBackground"></div>
 
-<div id='background' class='background'></div>
-<div id='background_accordion' class='background_accordion'></div>
-<div id='progressBar' class='progressBar'>数据加载中，请稍等...</div>
+<!-- <div id='background' class='background'></div> -->
+<!-- <div id='progressBar' class='progressBar'>数据加载中，请稍等...</div> -->
 ]]></_PAGE_>
 
 <!-- dwz.pagination -->

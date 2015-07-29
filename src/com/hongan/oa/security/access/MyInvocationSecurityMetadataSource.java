@@ -82,6 +82,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 	public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
 		// guess object is a URL.
 		String url = ((FilterInvocation) object).getRequestUrl();
+		System.out.println("url:" + url);
 		Iterator<String> ite = resourceMap.keySet().iterator();
 		while (ite.hasNext()) {
 			String resURL = ite.next();

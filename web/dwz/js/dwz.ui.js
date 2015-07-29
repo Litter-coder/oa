@@ -14,13 +14,10 @@ function initEnv() {
 	$(window).resize(function(){
 		initLayout();
 		$(this).trigger(DWZ.eventType.resizeGrid);
-		initDivShardow();
 	});
 
 	var ajaxbg = $("#background,#progressBar");
-	var menubg = $("#background_accordion");
 	ajaxbg.hide();
-	menubg.hide();
 	$(document).ajaxStart(function(){
 		ajaxbg.show();
 	}).ajaxStop(function(){
@@ -37,7 +34,7 @@ function initEnv() {
 	setTimeout(function(){
 		initLayout();
 		initUI();
-		initDivShardow();
+		
 		// navTab styles
 		var jTabsPH = $("div.tabsPageHeader");
 		jTabsPH.find(".tabsLeft").hoverClass("tabsLeftHover");
@@ -55,27 +52,6 @@ function initLayout(){
 	$("#container .tabsPageContent").height(iContentH - 34).find("[layoutH]").layoutH();
 	$("#sidebar, #sidebar_s .collapse, #splitBar, #splitBarProxy").height(iContentH - 5);
 	$("#taskbar").css({top: iContentH + $("#header").height() + 5, width:$(window).width()});
-}
-
-//加载遮罩div初始化
-function initDivShardow(){
-	var $p = $(document);
-	$("div[class^='background']", $p).each(function(){
-		var $this = $(this);
-		if( $this.attr("class") === 'background_accordion' ){
-			var width = $('div.accordion', $p).outerWidth();
-			var height = $('div.accordion', $p).outerHeight();
-			var top = $('div.accordion', $p).offset().top;
-			var left = $('div.accordion', $p).offset().left;
-			
-			$this.css("top",top);
-			$this.css("left",left);
-			$this.css("width",width);
-			$this.css("height",height);
-		} else if($this.attr("class") === 'background'){
-			
-		}
-	});
 }
 
 function initUI(_box){

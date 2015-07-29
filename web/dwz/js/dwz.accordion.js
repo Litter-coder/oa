@@ -138,12 +138,7 @@ function fillSpace(key){
 	$.each(os, function(i){
 		height -= $(os[i]).outerHeight();
 	});
-	// by dinghuan
-	if($(".accordionContent", obj).html()){
-		$(".accordionContent", obj).height(height);
-	}else{
-		$(obj).height(height);
-	}
+	$(".accordionContent",obj).height(height);
 }
 
 function toggle(toShow, toHide, data, clickedActive, down) {
