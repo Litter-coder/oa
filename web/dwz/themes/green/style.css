@@ -161,7 +161,7 @@ body, #splitBar { background:#cdef7d;}
 
 /* Menu */
 #navMenu, #navMenu li, #navMenu li.selected a, #navMenu li.selected span { background:url(../default/images/menu/menu.png) no-repeat;}
-#navMenu { background-color:#1871dd;}
+#navMenu { background-color:#cdef7d;}
 #navMenu li a, #navMenu li span { color:#FFF;}
 #navMenu li.selected span { color:#000;}
 

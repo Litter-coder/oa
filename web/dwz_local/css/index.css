@@ -1,0 +1,7 @@
+.infoNav{text-align: center;margin-top: 10px;height: 35px;}
+.infoNav .navin {width: 35px;height: 35px;float: left;padding-right: 15px;cursor:pointer;}
+.infoNav .nav-item {height: 100%;}
+.infoNav .avtar-man{background: transparent url("../images/man-menu.png") no-repeat scroll 0% 0%;}
+.infoNav .avtar-woman{background: transparent url("../images/woman-menu.png") no-repeat scroll 0% 0%;}
+.infoNav .manage{background: transparent url("../images/manage-menu.png") no-repeat scroll 0% 0%;}
+.infoNav .msg{background: transparent url("../images/msg-menu.png") no-repeat scroll 0% 0%;}

@@ -45,7 +45,7 @@ function initEnv() {
 
 }
 function initLayout(){
-	var iContentW = $(window).width() - (DWZ.ui.sbar ? $("#sidebar").width() + 10 : 34) - 5;
+	var iContentW = $(window).width() - (DWZ.ui.sbar ? $("#sidebar").width() + 5 : 34) - 3;
 	var iContentH = $(window).height() - $("#header").height() - 34;
 
 	$("#container").width(iContentW);

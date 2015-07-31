@@ -420,7 +420,7 @@ body { overflow:hidden;}
 #layout { display:block; height:100%; position:relative;}
 #header { display:block; overflow:hidden; height:50px; z-index:30}
 #leftside { position:absolute; top:55px; left:0; z-index:20;}
-#sidebar { width:200px; position:absolute; top:0; left:5px; z-index:20; overflow:hidden;}
+#sidebar { width:204px; position:absolute; top:0; left:1px; z-index:20; overflow:hidden;}
 #sidebar_s { display:none; width:24px; position:absolute; top:0; left:0; z-index:21;}
 #container { position:absolute; top:55px; left:210px;}
 #splitBar { display:block; overflow:hidden; width:5px; cursor:col-resize; position:absolute; top:55px; left:205px; z-index:20;}
@@ -465,7 +465,7 @@ body { overflow:hidden;}
 #sidebar_s .toggleCollapse div:hover { background-position:-2px -197px;}
 
 /* Menu */
-#navMenu { display:block; overflow:hidden; height:35px; padding:0 5px; background-repeat:repeat-x;}
+#navMenu { display:block; overflow:hidden; height:35px; padding:0 5px; background-repeat:repeat-x;position:absolute;margin:-41px 210px}
 #navMenu ul { float:left; display:block; overflow:hidden; position:relative;}
 #navMenu li { float:left; margin-left:-1px; background-position:0 -50px; position:relative;}
 #navMenu li a { float:left;}

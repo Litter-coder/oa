@@ -10,13 +10,16 @@
 <link href="${oa}/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${oa}/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <link href="${oa}/dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${oa}/dwz_local/css/index.css" rel="stylesheet" type="text/css" media="screen"/>
 <%-- <link href="${oa}/dwz_local/css/core.css" rel="stylesheet" type="text/css" media="screen"/> --%>
 <!--[if IE]>
 <link href="dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
 <style type="text/css">
-	#header{height:85px}
-	#leftside, #container, #splitBar, #splitBarProxy{top:90px}
+	#header{height:50px}
+	#leftside, #container, #splitBar, #splitBarProxy{top:51px}
+	
+	#header #headMenu{    width: 200px;position: absolute;top: 0px;right: 10px;height: 50px;}
 </style>
 
 <!--[if lte IE 9]>
@@ -63,16 +66,6 @@ $(function(){
 		<div id="header">
 			<div class="headerNav">
 				<a class="logo" href="http://j-ui.com">标志</a>
-				<ul class="nav">
-					<li><a href="${oa}/logout">退出</a></li>
-				</ul>
-				<ul class="themeList" id="themeList">
-					<li theme="default"><div class="selected">蓝色</div></li>
-					<li theme="green"><div>绿色</div></li>
-					<li theme="purple"><div>紫色</div></li>
-					<li theme="silver"><div>银色</div></li>
-					<li theme="azure"><div>天蓝</div></li>
-				</ul>
 			</div>
 		
 			<div id="navMenu">
@@ -85,6 +78,31 @@ $(function(){
 							</a>
 						</li>
 					</c:forEach>
+				</ul>
+			</div>
+			<div id="headMenu">
+				<ul class="infoNav">
+					<li class="navin">
+						<div class="nav-item avtar-man"/>
+					</li>
+					<li class="navin">
+						<div class="nav-item msg"/>
+					</li>
+					<li class="navin">
+						<div class="nav-item manage"/>
+					</li>
+				</ul>
+			
+			
+				<ul class="nav">
+					<li><a href="${oa}/logout">退出</a></li>
+				</ul>
+				<ul class="themeList" id="themeList">
+					<li theme="default"><div class="selected">蓝色</div></li>
+					<li theme="green"><div>绿色</div></li>
+					<li theme="purple"><div>紫色</div></li>
+					<li theme="silver"><div>银色</div></li>
+					<li theme="azure"><div>天蓝</div></li>
 				</ul>
 			</div>
 		</div>

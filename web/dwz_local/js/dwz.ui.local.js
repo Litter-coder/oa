@@ -57,8 +57,8 @@ function init_ajaxstatus_mask($target){
 	
 	var zIndex = parseInt($offset.css('zIndex')) || 0;
 	
-	 var $ajaxBackground = $this.find('> .background')
-     var $ajaxProgress   = $this.find('> .progressBar')
+	 var $ajaxBackground = $this.find('> .background');
+     var $ajaxProgress   = $this.find('> .progressBar');
          
      if (!$ajaxBackground.length) {
          $ajaxBackground = $('<div class="background"></div>')
