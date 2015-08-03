@@ -4,10 +4,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
 <c:set var="oa" value="${pageContext.request.contextPath}" />
-<c:set var="loginUserName" value="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}" />
+<sec:authentication property="principal.username" var="loginName"/> 
 
 <script type="text/javascript">
 	var oa = "${oa}";
-	var loginUserName = "${loginUserName}";
+	var loginUserName = "${loginName}";
 </script>
 

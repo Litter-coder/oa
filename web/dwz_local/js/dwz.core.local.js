@@ -29,13 +29,6 @@ DWZ = $.extend(DWZ,{
 				success: function(response){
 					var json = DWZ.jsonEval(response);
 					
-					if (json[DWZ.keys.statusCode]==DWZ.statusCode.error){
-						if (json[DWZ.keys.message]) alertMsg.error(json[DWZ.keys.message]);
-					} else {
-						$this.html(response).initUI();
-						if ($.isFunction(op.callback)) op.callback(response);
-					}
-					
 					if (json[DWZ.keys.statusCode]==DWZ.statusCode.timeout){
 						if ($.pdialog) $.pdialog.checkTimeout();
 						if (navTab) navTab.checkTimeout();
@@ -43,7 +36,14 @@ DWZ = $.extend(DWZ,{
 						alertMsg.error(json[DWZ.keys.message] || DWZ.msg("sessionTimout"), {okCall:function(){
 							DWZ.loadLogin();
 						}});
-					} 
+					}
+					
+					if (json[DWZ.keys.statusCode]==DWZ.statusCode.error){
+						if (json[DWZ.keys.message]) alertMsg.error(json[DWZ.keys.message]);
+					} else {
+						$this.html(response).initUI();
+						if ($.isFunction(op.callback)) op.callback(response);
+					}
 					
 				},
 				error: DWZ.ajaxError,

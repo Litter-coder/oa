@@ -32,6 +32,7 @@ function initEnv() {
 	if ($.taskBar) $.taskBar.init();
 	navTab.init();
 	if ($.fn.switchEnv) $("#switchEnvBox").switchEnv();
+	if ($.fn.hoverSidebar) $("#sidebar").hoverSidebar();
 	if ($.fn.navMenu) $("#navMenu").navMenu();
 		
 	setTimeout(function(){
