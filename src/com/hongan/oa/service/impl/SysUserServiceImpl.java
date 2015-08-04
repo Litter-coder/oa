@@ -59,4 +59,9 @@ public class SysUserServiceImpl implements ISysUserService {
 		return roleMapper.getSysUserRolesByUserId(userId);
 	}
 
+	@Override
+	public void updateSysUserLoginStatus(int loginStatus, Long userId) {
+		sysUserMapper.updateSysUserLoginStatus(loginStatus, userId);
+	}
+
 }

@@ -10,6 +10,7 @@
 		<result column="ENABLED" property="enabled" />
 		<result column="ACCOUNTNONLOCKED" property="accountNonLocked" />
 		<result column="INITIALPSD" property="initialPsd"/>
+		<result column="LOGIN_STATUS" property="loginStatus"/>
 <!-- 		<association property="orgnaition" column="ORG_ID"/> -->
 	</resultMap>
 	
@@ -19,7 +20,7 @@
 		<result column="LAST_ERROR_TIME" property="lastErrorTime" />
 	</resultMap>
 
-	<sql id="selectSysUserSql">USER_ID,USERNAME,PASSWORD,ENTRYTIME,ENABLED,ACCOUNTNONLOCKED,INITIALPSD,ORG_ID</sql>
+	<sql id="selectSysUserSql">USER_ID,USERNAME,PASSWORD,ENTRYTIME,ENABLED,ACCOUNTNONLOCKED,INITIALPSD,LOGIN_STATUS,ORG_ID</sql>
 
 	<sql id="selectSysUserAttemptsSql">USERNAME,ATTEMPTS,LAST_ERROR_TIME</sql>
 	
@@ -42,6 +43,12 @@
 		ACCOUNTNONLOCKED = #{user.accountNonLocked},
 		INITIALPSD = #{user.initialPsd}
 		where USER_ID = #{user.userId}
+	</update>
+	
+	<update id="updateSysUserLoginStatus">
+		update t_sys_user set 
+		LOGIN_STATUS = #{loginStatus}
+		where USER_ID = #{userId}
 	</update>
 	
 	<select id="getFailAttemptsByUsername" resultMap="SysUserAttemptsResultMap">

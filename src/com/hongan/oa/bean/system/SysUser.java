@@ -24,6 +24,7 @@ public class SysUser implements UserDetails {
 	private boolean enabled;
 	private boolean accountNonLocked;
 	private boolean initialPsd;
+	private int loginStatus;// 登录状态:0-web离开；1-web在线；2-web忙碌;3-手机在线
 
 	private List<GrantedAuthority> authorities;
 	private SysOrganization organization;
@@ -78,6 +79,14 @@ public class SysUser implements UserDetails {
 
 	public void setInitialPsd(boolean initialPsd) {
 		this.initialPsd = initialPsd;
+	}
+
+	public int getLoginStatus() {
+		return loginStatus;
+	}
+
+	public void setLoginStatus(int loginStatus) {
+		this.loginStatus = loginStatus;
 	}
 
 	@Override

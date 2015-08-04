@@ -2,10 +2,10 @@ package com.hongan.oa.controller.login;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -22,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.code.kaptcha.Producer;
+import com.hongan.oa.bean.ExecuteResult;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.security.authentication.RandomToken;
 import com.hongan.oa.security.authentication.RandomTokenValidateCodeUsernamePasswordAuthenticationFilter;
 import com.hongan.oa.security.authentication.ValidateCode;
+import com.hongan.oa.service.inf.ISysUserService;
 import com.hongan.oa.utils.StringUtil;
 
 /**
@@ -43,6 +45,11 @@ public class LoginController {
 
 	@Autowired
 	private SessionRegistry sessionRegistry;
+	
+	@Autowired
+	private ISysUserService sysUserService;
+	
+	private ExecuteResult executeResult = new ExecuteResult();
 
 	/**
 	 * 验证码获取
@@ -102,19 +109,23 @@ public class LoginController {
 	 * 
 	 * @param request
 	 * @param response
+	 * @return 
 	 * @throws IOException
 	 */
 	@RequestMapping("/sessionTimeout.do")
-	public void sessionTimeout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public Map<String, Object> sessionTimeout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// String requestUrl = request.getRequestURI();
 		if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) { // ajax超时处理
-			response.setHeader("sessionstatus", "timeout");
-			PrintWriter out = response.getWriter();
-			out.print("{timeout:true}");
-			out.flush();
-			out.close();
+			return executeResult.jsonReturn(301);
+//			response.setHeader("sessionstatus", "timeout");
+//			PrintWriter out = response.getWriter();
+//			out.print("{timeout:true}");
+//			out.flush();
+//			out.close();
 		} else { // http 超时处理
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			return null;
 		}
 
 	}

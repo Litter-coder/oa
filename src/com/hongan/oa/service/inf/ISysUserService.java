@@ -22,4 +22,6 @@ public interface ISysUserService {
 
 	List<SysUserRole> getSysUserRolesByUserId(Long userId);
 
+	void updateSysUserLoginStatus(int loginStatusWebOnline, Long userId);
+
 }

@@ -19,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.hongan.oa.bean.ConstBean;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
 import com.hongan.oa.service.inf.ISysUserService;
@@ -56,7 +57,9 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 				sysUserService.updateSysUser(user);
 			}
 			sysUserService.resetFailAttempts(authentication.getName());
-
+			if (user.getLoginStatus() != ConstBean.LOGIN_STATUS_WEB_ONLINE) {
+				sysUserService.updateSysUserLoginStatus(ConstBean.LOGIN_STATUS_WEB_ONLINE, user.getUserId());
+			}
 			return auth;
 		} catch (BadCredentialsException e) {// 用户名密码错误异常
 			SysUser user = sysUserService.getSysUserByUsername(authentication.getName());
@@ -122,6 +125,9 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 	protected void checkValidateCode(Authentication authentication) throws ValidateCodeErrorException {
 		// session中存储的验证码
 		ValidateCode codeSession = ((RandomTokenValidateCodeUsernamePasswordAuthenticationToken) authentication).getValidateCodeSession();
+		if (codeSession == null) {
+			throw new ValidateCodeErrorException(messages.getMessage("LoginAuthenticationProvider.validateCodeExpired"));
+		}
 		String validateCodeSession = (String) codeSession.getValidateCode();
 		long validateCodeTimeSession = codeSession.getValidateCodeTime();
 

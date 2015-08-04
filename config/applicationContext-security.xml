@@ -29,6 +29,8 @@
 			position="FORM_LOGIN_FILTER" />
 		<logout logout-url="/logout" logout-success-url="/login.jsp" invalidate-session="true"/>
 		
+		<session-management invalid-session-url="/login/sessionTimeout.do" />
+		
 		<remember-me />
 		<anonymous />
 		
@@ -36,6 +38,7 @@
 		<custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
 		<!-- Session失效过滤器 拦截失效的Session -->
 		<custom-filter ref="concurrentSessionFilter" position="CONCURRENT_SESSION_FILTER" />
+		
 	</http>
 
 	<!-- 安全拦截器 : FilterSecurityIntercepto，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， 

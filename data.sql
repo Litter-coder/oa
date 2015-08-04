@@ -66,3 +66,5 @@ CREATE TABLE `t_sys_user_attempts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='登录错误记录表';
 
 ALTER TABLE t_menu ADD COLUMN `MENU_TYPE` TINYINT NOT NULL COMMENT '菜单类型：1--顶级菜单，无url；2--菜单列表功能链接；3--操作功能（增删改）';
+
+ALTER TABLE `t_sys_user` ADD COLUMN `LOGIN_STATUS` TINYINT DEFAULT 0 COMMENT '登录状态:0-web离开；1-web在线；2-web忙碌;3-手机在线';

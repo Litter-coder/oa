@@ -15,6 +15,8 @@ public interface SysUserMapper {
 
 	void updateSysUser(@Param(value = "user") SysUser user);
 
+	void updateSysUserLoginStatus(@Param(value = "loginStatus") int loginStatus, @Param(value = "userId") Long userId);
+
 	SysUserAttempts getFailAttemptsByUsername(@Param(value = "username") String username);
 
 	void updateFailAttempts(@Param(value = "userAttempts") SysUserAttempts userAttempts);

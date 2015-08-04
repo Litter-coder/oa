@@ -2,7 +2,7 @@
 <%@ include file="/page/public/common.jsp"%>
 <%
 	if (request.getSession(false) != null) {
-		String username = (String) request.getAttribute("loginName");
+		String username = (String) pageContext.getAttribute("loginUsername");
 		if (username != null && !"".equals(username)) {
 			response.sendRedirect(request.getContextPath() + "/index/loadMenu.do");
 		}else{

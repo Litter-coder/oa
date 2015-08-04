@@ -5,9 +5,10 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%> 
 <c:set var="oa" value="${pageContext.request.contextPath}" />
 <sec:authentication property="principal.username" var="loginName"/> 
+<c:set var="loginUsername" value="${userName}"/>
 
 <script type="text/javascript">
 	var oa = "${oa}";
-	var loginUserName = "${loginName}";
+	var loginUserName = "${loginUsername}";
 </script>
 
