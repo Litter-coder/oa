@@ -38,18 +38,22 @@ public class MenuServiceImpl implements IMenuService {
 	@Override
 	public List<Menu> loadMenu(Collection<GrantedAuthority> authorities, Long menuPid) {
 		List<Long> roleIds = toRoleIds(authorities);
-		List<Menu> menus = menuMapper.getMenuByRoleIdsMenuPid(roleIds, menuPid);
-		if (menuPid != null) {// 加载子级菜单
-			for (Menu menu : menus) {
-				getSubMenusByRoleIdsMenuPid(menu, roleIds);
+		if (roleIds.size() > 0) {
+			List<Menu> menus = menuMapper.getMenuByRoleIdsMenuPid(roleIds, menuPid);
+			if (menuPid != null) {// 加载子级菜单
+				for (Menu menu : menus) {
+					getSubMenusByRoleIdsMenuPid(menu, roleIds);
+				}
+			} else {
+				if (menus != null && !menus.isEmpty()) {
+					Menu menu = menus.get(0);
+					getSubMenusByRoleIdsMenuPid(menu, roleIds);
+				}
 			}
+			return menus;
 		} else {
-			if (menus != null && !menus.isEmpty()) {
-				Menu menu = menus.get(0);
-				getSubMenusByRoleIdsMenuPid(menu, roleIds);
-			}
+			return new ArrayList<Menu>();
 		}
-		return menus;
 
 	}
 
@@ -61,7 +65,7 @@ public class MenuServiceImpl implements IMenuService {
 	 */
 	private void getSubMenusByRoleIdsMenuPid(Menu pubMenu, List<Long> roleIds) {
 		List<Menu> subMenus = menuMapper.getMenuByRoleIdsMenuPid(roleIds, pubMenu.getMenuId());
-		for(Menu subMenu : subMenus){
+		for (Menu subMenu : subMenus) {
 			getSubMenusByRoleIdsMenuPid(subMenu, roleIds);
 		}
 		pubMenu.setSubMenus(subMenus);

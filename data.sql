@@ -68,3 +68,16 @@ CREATE TABLE `t_sys_user_attempts` (
 ALTER TABLE t_menu ADD COLUMN `MENU_TYPE` TINYINT NOT NULL COMMENT '菜单类型：1--顶级菜单，无url；2--菜单列表功能链接；3--操作功能（增删改）';
 
 ALTER TABLE `t_sys_user` ADD COLUMN `LOGIN_STATUS` TINYINT DEFAULT 0 COMMENT '登录状态:0-web离开；1-web在线；2-web忙碌;3-手机在线';
+
+DROP TABLE IF EXISTS `t_user`;
+CREATE TABLE `t_user` (
+  `ID` int(8) NOT NULL,
+  `NAME` varchar(16) NOT NULL COMMENT '姓名',
+  `SEX` tinyint(1) NOT NULL DEFAULT '1' COMMENT '性别：0-女；1-男',
+  `EMAIL` varchar(32) DEFAULT NULL COMMENT '邮箱',
+  `TELPHONE` varchar(10) DEFAULT NULL COMMENT '电话号码',
+  `MOBILEPHONE` varchar(11) NOT NULL COMMENT '手机号码',
+  `BIRTHDAY` date DEFAULT NULL COMMENT '生日',
+  `IMAGE` varchar(128) DEFAULT NULL COMMENT '头像',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

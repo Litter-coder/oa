@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
 import com.hongan.oa.bean.system.SysUserRole;
+import com.hongan.oa.bean.system.User;
 import com.hongan.oa.mapper.system.RoleMapper;
 import com.hongan.oa.mapper.system.SysUserMapper;
 import com.hongan.oa.service.inf.ISysUserService;
@@ -62,6 +63,11 @@ public class SysUserServiceImpl implements ISysUserService {
 	@Override
 	public void updateSysUserLoginStatus(int loginStatus, Long userId) {
 		sysUserMapper.updateSysUserLoginStatus(loginStatus, userId);
+	}
+
+	@Override
+	public User getUserById(Long id) {
+		return sysUserMapper.getUserById(id);
 	}
 
 }

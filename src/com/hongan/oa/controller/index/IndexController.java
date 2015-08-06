@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hongan.oa.bean.system.Menu;
 import com.hongan.oa.bean.system.SysUser;
+import com.hongan.oa.bean.system.User;
 import com.hongan.oa.service.inf.IMenuService;
+import com.hongan.oa.service.inf.ISysUserService;
 
 /**
  * 主页功能
@@ -30,6 +32,11 @@ public class IndexController {
 
 	@Autowired
 	private IMenuService menuService;
+	
+	@Autowired
+	private ISysUserService sysUserService;
+	
+	private String prexPage = "index/";
 
 	/**
 	 * 加载菜单
@@ -47,7 +54,7 @@ public class IndexController {
 		if (menuPid == null) {
 			modelAndView = new ModelAndView("main");
 		}else{
-			modelAndView = new ModelAndView("index/menu");
+			modelAndView = new ModelAndView(prexPage + "menu");
 		}
 
 		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
@@ -57,4 +64,15 @@ public class IndexController {
 		modelAndView.addObject("menus", menuList);
 		return modelAndView;
 	}
+	
+	@RequestMapping("/top.do")
+	public ModelAndView top(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView modelAndView = new ModelAndView(prexPage + "top");
+		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+		User user = sysUserService.getUserById(sysUser.getUserId());
+		
+		modelAndView.addObject("user", user);
+		return modelAndView;
+	}
+		
 }

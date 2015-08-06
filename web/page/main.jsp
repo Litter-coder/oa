@@ -19,7 +19,7 @@
 	#header{height:50px}
 	#leftside, #container, #splitBar, #splitBarProxy{top:51px}
 	
-	#header #headMenu{    width: 200px;position: absolute;top: 0px;right: 10px;height: 50px;}
+	#header #headMenu{position: absolute;top: 0px;right: 10px;height: 50px;}
 </style>
 
 <!--[if lte IE 9]>
@@ -50,13 +50,15 @@ $(function(){
 		statusCode:{ok:200, error:300, timeout:301}, //【可选】
 		keys: {statusCode:"statusCode", message:"message"}, //【可选】
 		pageInfo:{pageNum:"pageNum", numPerPage:"numPerPage", orderField:"orderField", orderDirection:"orderDirection"}, //【可选】
-		ui:{hideMode:'offsets'},
+// 		ui:{hideMode:'offsets'},
 		debug:false,	// 调试模式 【true|false】
 		callback:function(){
 			initEnv();
-			$("#themeList").theme({themeBase:"${oa}/dwz/themes"});
+			$("#headMenu").loadUrl("${oa}/index/top.do")
 		}
 	});
+	
+	
 });
 </script>
 </head>
@@ -81,28 +83,8 @@ $(function(){
 				</ul>
 			</div>
 			<div id="headMenu">
-				<ul class="infoNav">
-					<li class="navin">
-						<div class="nav-item avtar-man"/>
-					</li>
-					<li class="navin">
-						<div class="nav-item msg"/>
-					</li>
-					<li class="navin">
-						<div class="nav-item manage"/>
-					</li>
-				</ul>
-			
-			
 				<ul class="nav">
 					<li><a href="${oa}/logout">退出</a></li>
-				</ul>
-				<ul class="themeList" id="themeList">
-					<li theme="default"><div class="selected">蓝色</div></li>
-					<li theme="green"><div>绿色</div></li>
-					<li theme="purple"><div>紫色</div></li>
-					<li theme="silver"><div>银色</div></li>
-					<li theme="azure"><div>天蓝</div></li>
 				</ul>
 			</div>
 		</div>

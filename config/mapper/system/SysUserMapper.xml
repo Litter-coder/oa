@@ -19,10 +19,23 @@
 		<result column="ATTEMPTS" property="attempts" />
 		<result column="LAST_ERROR_TIME" property="lastErrorTime" />
 	</resultMap>
+	
+	<resultMap type="user" id="userResultMap">
+		<id column="ID" property="id"/>
+		<result column="NAME" property="name"/>
+		<result column="SEX" property="sex"/>
+		<result column="EMAIL" property="email"/>
+		<result column="TELPHONE" property="telPhone"/>
+		<result column="MOBILEPHONE" property="mobilePhone"/>
+		<result column="BIRTHDAY" property="birthday"/>
+		<result column="IMAGE" property="image"/>
+	</resultMap>
 
 	<sql id="selectSysUserSql">USER_ID,USERNAME,PASSWORD,ENTRYTIME,ENABLED,ACCOUNTNONLOCKED,INITIALPSD,LOGIN_STATUS,ORG_ID</sql>
 
 	<sql id="selectSysUserAttemptsSql">USERNAME,ATTEMPTS,LAST_ERROR_TIME</sql>
+	
+	<sql id="selectUserSql">ID,NAME,SEX,EMAIL,TELPHONE,MOBILEPHONE,BIRTHDAY,IMAGE</sql>
 	
 	<select id="getSysUserByUsername" resultMap="SysUserResultMap">
 		select <include refid="selectSysUserSql"/> from t_sys_user where USERNAME = #{username}
@@ -65,5 +78,8 @@
 		delete from t_sys_user_attempts where USERNAME = #{username}
 	</delete>
 
+	<select id="getUserById" resultMap="userResultMap">
+		select <include refid="selectUserSql"/> from t_user where ID = #{id}
+	</select>
 
 </mapper>
