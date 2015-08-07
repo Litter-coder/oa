@@ -83,9 +83,6 @@ $(function(){
 				</ul>
 			</div>
 			<div id="headMenu">
-				<ul class="nav">
-					<li><a href="${oa}/logout">退出</a></li>
-				</ul>
 			</div>
 		</div>
 

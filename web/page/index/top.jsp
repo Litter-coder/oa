@@ -12,6 +12,12 @@
 			$(".nav-item.selected", $p).removeClass("selected");
 			$navContent.hide();
 		}
+		
+		if($(target).closest("div.avtar-info-online").length <= 0){
+			if($(".avtar-info-online .avtar-info-tip").hasClass("show_status")){
+				$(".avtar-info-online .avtar-info-tip").removeClass("show_status");
+			}
+		}
 	});
 	
 	$(document).mouseover(function(e) {
@@ -20,6 +26,11 @@
 		if ($(target).closest("div.nav-item").length <= 0 && $(target).closest("div.avtar-content").length <= 0) {
 			$avtar_content.prev().removeClass("selected");
 			$avtar_content.hide();
+			
+			if($(".avtar-info-online .avtar-info-tip").hasClass("show_status")){
+				$(".avtar-info-online .avtar-info-tip").removeClass("show_status");
+			}
+			
 		}
 	});
 
@@ -42,11 +53,29 @@
 		}
 	});
 
+	var def_image = "${oa}/dwz_local/images/man-img.png";
 	var user_sex = "${user.sex}";
 	if (user_sex == "0") {
 		$(".avtar-man", $p).addClass("avtar-woman");
 		$(".avtar-man", $p).removeClass("avtar-man");
+		def_image = "${oa}/dwz_local/images/woman-img.png";
 	}
+	var user_img = "${user.image}";
+	if(!user_img){
+		$(".avtar-img >img").attr("src",def_image);
+	}
+	
+	
+	$(".avtar-info-online >img").click(function(){
+		if($(this).next().hasClass("show_status")){
+			$(this).next().removeClass("show_status");
+		}else{
+			$(this).next().addClass("show_status");
+		}
+		
+	});
+	
+	
 </script>
 <ul class="infoNav">
 	<li class="navin">
@@ -57,24 +86,24 @@
 		<div class="nav-content avtar-content">
 			<div class="avtar-top">
 				<div class="avtar-img">
-					<img src="${oa}/dwz_local/images/woman-img.png">
+					<img src="${user.image}">
 				</div>
 				<div class="avtar-info">
 					<h6 class="avtar-info-name">
 						<span>${user.name}</span>
 						<div class="avtar-info-online">
-							<img src="${oa}/dwz_local/images/status-online.png">
+							<img src="${oa}/dwz_local/images/status-offline.png">
 							<div class="avtar-info-tip">
 								<a href="javascript:;" status = "1">
-									<img src="">
+									<img src="${oa}/dwz_local/images/status-online.png">
 									<span>在线</span>
 								</a>
 								<a href="javascript:;" status = "2">
-									<img src="">
+									<img src="${oa}/dwz_local/images/status-busy.png">
 									<span>忙碌</span>
 								</a>
 								<a href="javascript:;" status = "3">
-									<img src="">
+									<img src="${oa}/dwz_local/images/status-offline.png">
 									<span>离线</span>
 								</a>
 							</div>

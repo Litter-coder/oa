@@ -16,17 +16,21 @@
 .avtar-content .avtar-img{overflow: hidden;width: 80px;height: 80px;float: left;}
 .avtar-content .avtar-img img{width: 80px;height: 80px;}
 .avtar-content .avtar-info{margin-left: 95px;text-align:left;height: 100%;}
-.avtar-info .avtar-info-name , .avtar-info-name span{color: #333;font-size: 14px;font-weight: normal;margin: 5px 0px 5px 0px;}
-.avtar-info .avtar-info-online{display: inline-table;}
-.avtar-info-online img{ cursor: pointer;width: 15px;height: 15px;}
+.avtar-info .avtar-info-name , .avtar-info-name span{color: #333;font-size: 16px;font-weight: normal;margin: 5px 0px;}
+.avtar-info-name span{float: left;}
+.avtar-info .avtar-info-online{float: left;width: 16px;height: 16px;margin: 5px 5px;}
+.avtar-info-online img{ cursor: pointer;width: 16px;height: 16px;}
 
 
-.avtar-info-tip{display: none;}
-
+.avtar-info-tip{display: none;width: 50px;height: 70px;margin-top: 5px;border: 1px solid rgb(238, 238, 238);}
+.avtar-info-tip span{padding: 0px;margin: 0px;float: none;font-size: 12px;}
+.avtar-info-tip a{height: 20px;}
+.avtar-info-tip img{width: 20px;height: 20px;}
+.show_status{display: block;}
 
 
 .avtar-content .avtar-foot{cursor:inherit;height: 40px;padding: 0px;margin: 0px;text-align: center;}
-.avtar-foot a{display: inline-block;padding: 10px 43px;text-decoration: none;}
+.avtar-foot a{display: inline-block;padding: 15px 43px;text-decoration: none;}
 .avtar-foot a:hover, .avtar-foot a:FOCUS{color: #005580}
 .avtar-foot #person_center{border-right: 1px solid #ddd;}
 
