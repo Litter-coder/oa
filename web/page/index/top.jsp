@@ -92,7 +92,7 @@
 					<h6 class="avtar-info-name">
 						<span>${user.name}</span>
 						<div class="avtar-info-online">
-							<img src="${oa}/dwz_local/images/status-offline.png">
+							<img src="${oa}/dwz_local/images/status-online.png" title="在线">
 							<div class="avtar-info-tip">
 								<a href="javascript:;" status = "1">
 									<img src="${oa}/dwz_local/images/status-online.png">
@@ -116,7 +116,7 @@
 			</div>
 			<div class="avtar-foot">
 				<a href="${oa}/manage" target="navTab" rel="${oa}/manage" id="person_center">个人中心</a>
-				<a href="${oa}/logout">注销</a>
+				<a href="${oa}/logout" onclick="javascript:if(!confirm('确定退出登录吗？'))return false;">注销</a>
 			</div>
 		</div>
 	</li>

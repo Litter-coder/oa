@@ -24,8 +24,9 @@
 
 .avtar-info-tip{display: none;width: 50px;height: 70px;margin-top: 5px;border: 1px solid rgb(238, 238, 238);}
 .avtar-info-tip span{padding: 0px;margin: 0px;float: none;font-size: 12px;}
-.avtar-info-tip a{height: 20px;}
-.avtar-info-tip img{width: 20px;height: 20px;}
+.avtar-info-tip a{height: 20px;padding: 2px 0px;float: left;}
+.avtar-info-tip a:HOVER{text-decoration: none;border-bottom: 1px solid #CCC;}
+.avtar-info-tip img{width: 16px;height: 16px;}
 .show_status{display: block;}
 
 
