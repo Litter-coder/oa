@@ -2,6 +2,7 @@ package com.hongan.oa.controller.login;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -45,10 +46,10 @@ public class LoginController {
 
 	@Autowired
 	private SessionRegistry sessionRegistry;
-	
+
 	@Autowired
 	private ISysUserService sysUserService;
-	
+
 	private ExecuteResult executeResult = new ExecuteResult();
 
 	/**
@@ -109,7 +110,7 @@ public class LoginController {
 	 * 
 	 * @param request
 	 * @param response
-	 * @return 
+	 * @return
 	 * @throws IOException
 	 */
 	@RequestMapping("/sessionTimeout.do")
@@ -118,13 +119,19 @@ public class LoginController {
 		// String requestUrl = request.getRequestURI();
 		if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) { // ajax超时处理
 			return executeResult.jsonReturn(301);
-//			response.setHeader("sessionstatus", "timeout");
-//			PrintWriter out = response.getWriter();
-//			out.print("{timeout:true}");
-//			out.flush();
-//			out.close();
+			// response.setHeader("sessionstatus", "timeout");
+			// PrintWriter out = response.getWriter();
+			// out.print("{timeout:true}");
+			// out.flush();
+			// out.close();
 		} else { // http 超时处理
-			response.sendRedirect(request.getContextPath() + "/login.jsp");
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			String resultHtml = "<script type='text/javascript'>alert('会话过期，请重新登录');top.location.href='" + request.getContextPath() + "/login.jsp'</script>";
+			out.print(resultHtml);
+			out.flush();
+			out.close();
+			// response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return null;
 		}
 

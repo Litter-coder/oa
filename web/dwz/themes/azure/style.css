@@ -166,9 +166,10 @@ body, #splitBar { background:#dfe8f6;}
 #taskbar .taskbarLeft, #taskbar .taskbarRight { background:url(./images/layout/taskbar_control.png) no-repeat;}
 
 /* Menu */
-#navMenu, #navMenu li, #navMenu li.selected a, #navMenu li.selected span { background:url(../default/images/menu/menu.png) no-repeat;}
-#navMenu { background-color:#dfe8f6; }
-#navMenu li a, #navMenu li span { color:#FFF; }
+/*#navMenu, #navMenu li, #navMenu li.selected a, #navMenu li.selected span { background:url(../default/images/menu/menu.png) no-repeat;}
+#navMenu { background-color:#dfe8f6; }*/
+#navMenu li.selected a{ background-color:#C6D6F0; }
+#navMenu li a, #navMenu li span { color:#9C9C9C; }
 #navMenu li.selected span { color:#000; }
 
 /* Homepage */

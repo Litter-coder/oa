@@ -166,8 +166,9 @@ body, #splitBar { background:#e5edef;}
 #taskbar .taskbarLeft, #taskbar .taskbarRight { background:url(./images/layout/taskbar_control.png) no-repeat;}
 
 /* Menu */
-#navMenu, #navMenu li, #navMenu li.selected a, #navMenu li.selected span { background:url(../default/images/menu/menu.png) no-repeat;}
-#navMenu { background-color:#e5edef; }
+/*#navMenu, #navMenu li, #navMenu li.selected a, #navMenu li.selected span { background:url(../default/images/menu/menu.png) no-repeat;}
+#navMenu { background-color:#e5edef; }*/
+#navMenu li.selected a { background-color:#e5edef; }
 #navMenu li a, #navMenu li span { color:#FFF; }
 #navMenu li.selected span { color:#000; }
 

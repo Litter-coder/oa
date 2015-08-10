@@ -54,6 +54,7 @@ $(function(){
 		debug:false,	// 调试模式 【true|false】
 		callback:function(){
 			initEnv();
+			$("#navMenu").find("li.selected>a").trigger("click");
 			$("#headMenu").loadUrl("${oa}/index/top.do")
 		}
 	});
@@ -95,27 +96,6 @@ $(function(){
 			<div id="sidebar">
 				<div class="toggleCollapse"><h2>主菜单</h2><div>收缩</div></div>
 				<div class="accordion" fillSpace="sidebar">
-					<c:forEach items="${menus[0].subMenus}" var="secondMenu" varStatus="index">
-						<!-- 二级菜单 -->
-						<div class="accordionHeader">
-							<h2>
-								<span>Folder</span>${secondMenu.title}
-							</h2>
-						</div>
-						<div class="accordionContent">
-							<ul class="tree treeFolder">
-								<c:forEach items="${secondMenu.subMenus}" var="thirdMenu">
-									<!-- 三级菜单 -->
-									<li><a>${thirdMenu.title}</a>
-										<ul>
-											<c:forEach items="${thirdMenu.subMenus}" var="fourthMenu">
-												<li><a href="${oa}${fourthMenu.menuUrl}" target="navTab" rel="${oa}${fourthMenu.menuUrl}">${fourthMenu.title}</a></li>
-											</c:forEach>
-										</ul></li>
-								</c:forEach>
-							</ul>
-						</div>
-					</c:forEach>
 				</div>
 			</div>
 		</div>

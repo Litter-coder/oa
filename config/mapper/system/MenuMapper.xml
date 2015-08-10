@@ -20,6 +20,7 @@
 		select
 		<include refid="selectMenuSql" />
 		from <include refid="tableMenuSql" /> where ENABLED = 1
+		order by MENU_ID
 	</select>
 
 	<select id="getMenuByRoleIdMenuPid" resultMap="menuResultMap">
@@ -46,6 +47,7 @@
 			<when test="menuPid == null">and menu.PID is null</when>
 			<otherwise>and menu.PID = #{menuPid}</otherwise>
 		</choose>
+		order by menu.MENU_ID
 	</select>
 
 </mapper>
