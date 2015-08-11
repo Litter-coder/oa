@@ -48,15 +48,17 @@ public class IndexController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/loadMenu.do")
+	@RequestMapping("/menu.do")
 	public ModelAndView loadMenu(HttpServletRequest request, HttpServletResponse response, Long menuPid) throws Exception {
 		ModelAndView modelAndView = null;
-		if (menuPid == null) {
-			modelAndView = new ModelAndView("main");
-		}else{
-			modelAndView = new ModelAndView(prexPage + "menu");
-		}
 
+		if (menuPid == null) {
+			modelAndView = new ModelAndView(prexPage + "navMenu");
+		}else{
+			modelAndView = new ModelAndView(prexPage + "leftMenu");
+		}
+		
+		
 		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 		Collection<GrantedAuthority> authorities = sysUser.getAuthorities();// 获取角色ID
 		List<Menu> menuList = menuService.loadMenu(authorities, menuPid);
@@ -65,9 +67,9 @@ public class IndexController {
 		return modelAndView;
 	}
 	
-	@RequestMapping("/top.do")
-	public ModelAndView top(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView modelAndView = new ModelAndView(prexPage + "top");
+	@RequestMapping("/commonMenu.do")
+	public ModelAndView loadCommonMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView modelAndView = new ModelAndView(prexPage + "commonMenu");
 		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 		User user = sysUserService.getUserById(sysUser.getUserId());
 		

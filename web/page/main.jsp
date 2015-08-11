@@ -54,8 +54,8 @@ $(function(){
 		debug:false,	// 调试模式 【true|false】
 		callback:function(){
 			initEnv();
-			$("#navMenu").find("li.selected>a").trigger("click");
-			$("#headMenu").loadUrl("${oa}/index/top.do")
+			$("#navMenu").loadUrl("${oa}/index/menu.do");
+			$("#headMenu").loadUrl("${oa}/index/commonMenu.do");
 		}
 	});
 	
@@ -70,18 +70,7 @@ $(function(){
 			<div class="headerNav">
 				<a class="logo" href="http://j-ui.com">标志</a>
 			</div>
-		
 			<div id="navMenu">
-				<ul>
-					<c:forEach items="${menus}" var="menu" varStatus="index">
-						<li <c:if test="${index.index == 0}">class="selected"</c:if>>
-							<a href="${oa}/index/loadMenu.do">
-								<span>${menu.title}</span>
-								<input type="hidden" name="menuPid" value="${menu.menuId}"/>
-							</a>
-						</li>
-					</c:forEach>
-				</ul>
 			</div>
 			<div id="headMenu">
 			</div>

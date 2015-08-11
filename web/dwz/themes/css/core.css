@@ -468,7 +468,7 @@ body { overflow:hidden;}
 #navMenu { display:block; overflow:hidden; height:35px; padding:0 5px; background-repeat:repeat-x;position:absolute;margin:-41px 210px}
 #navMenu ul { float:left; display:block; overflow:hidden; position:relative;}
 #navMenu li { float:left; margin-left:-1px; background-position:0 -50px; position:relative;}
-#navMenu li a { float:left;}
+#navMenu li a { float:left;border-radius: 10px;}
 #navMenu li span { float:left; font-weight:bold; cursor:pointer; padding:0 15px;}
 #navMenu li a, #navMenu li span { line-height:35px; font-size:14px;}
 #navMenu li.selected { z-index:1;}

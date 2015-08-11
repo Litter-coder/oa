@@ -45,32 +45,6 @@
 		});
 	}
 
-	// 左列菜单鼠标移入移出时的菜单显示变化
-	$.fn.hoverSidebar = function(option) {
-//		var op = $.extend({}, option);
-//		var $p = $(this);
-//		$(".accordionContent", $p).each(function() {
-//			$(">ul>li", $(this)).each(function() {
-//				var $_div = $("div:eq(0)",$(this));
-//				$_div.find(">a:eq(0)").click(function() {
-//					$_div.find("div:eq(0)").trigger("click");
-//				});
-//			});
-//		});
-	}
-
-	_over = function($this) {
-		if ($this.find(">ul").is(":hidden")) {
-			$this.find(">div>div:eq(0)").trigger("click");
-		}
-	}
-
-	_out = function($this) {
-		if ($this.find(">ul").is(":visible")) {
-			$this.find(">div>div:eq(0)").trigger("click");
-		}
-	}
-
 	$.fn.switchEnv = function() {
 		var op = {
 			cities$ : ">ul>li",

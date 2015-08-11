@@ -4,7 +4,7 @@
 	if (request.getSession(false) != null) {
 		String username = (String) pageContext.getAttribute("loginUsername");
 		if (username != null && !"".equals(username)) {
-			response.sendRedirect(request.getContextPath() + "/index/loadMenu.do");
+			response.sendRedirect(request.getContextPath() + "/page/main.jsp");
 		}else{
 			response.sendRedirect(request.getContextPath() + "/login.jsp");
 		}

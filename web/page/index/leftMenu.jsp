@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
+<!-- 左菜单页面  -->
 <div class="accordion" fillSpace="sidebar">
 	<c:forEach items="${menus}" var="secondMenu" varStatus="index">
 		<!-- 二级菜单 -->
