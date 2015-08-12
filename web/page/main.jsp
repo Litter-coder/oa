@@ -10,7 +10,7 @@
 <link href="${oa}/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${oa}/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <link href="${oa}/dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${oa}/dwz_local/css/index.css" rel="stylesheet" type="text/css" media="screen"/>
+
 <%-- <link href="${oa}/dwz_local/css/core.css" rel="stylesheet" type="text/css" media="screen"/> --%>
 <!--[if IE]>
 <link href="dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>

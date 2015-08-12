@@ -7,16 +7,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>OA系统登录界面</title>
 
-<link rel="stylesheet" href="css/login/supersized.css" />
-<link rel="stylesheet" href="css/login/login.css" />
-<link href="css/login/bootstrap.min.css" rel="stylesheet" />
-<script src="js/jquery/jquery-1.8.2.min.js"></script>
-<script src="/js/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
-<script src="/js/plugin/png.js" type="text/javascript"></script>
-<script src="js/plugin/md5.js" type="text/ecmascript"></script>
-<script src="js/plugin/jquery.form.js" type="text/javascript"></script>
-<script src="js/login/tooltips.js" type="text/javascript"></script>
-<script src="js/login/login.js" type="text/javascript"></script>
+<link rel="stylesheet" href="${oa}/css/login/supersized.css" />
+<link rel="stylesheet" href="${oa}/css/login/login.css" />
+<link href="${oa}/css/login/bootstrap.min.css" rel="stylesheet" />
+<script src="${oa}/js/jquery/jquery-1.8.2.min.js"></script>
+<script src="${oa}/js/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/png.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/md5.js" type="text/ecmascript"></script>
+<script src="${oa}/js/plugin/jquery.form.js" type="text/javascript"></script>
+<script src="${oa}/js/login/tooltips.js" type="text/javascript"></script>
+<script src="${oa}/js/login/login.js" type="text/javascript"></script>
 <script type="text/javascript">
 	$(function() {
 		var msg = "${SPRING_SECURITY_LAST_EXCEPTION.message}";
@@ -105,8 +105,8 @@
 		</div>
 	</div>
 	<!-- Javascript -->
-	<script src="js/login/supersized.3.2.7.min.js"></script>
-	<script src="js/login/supersized-init.js"></script>
-	<script src="js/login/scripts.js"></script>
+	<script src="${oa}/js/login/supersized.3.2.7.min.js"></script>
+	<script src="${oa}/js/login/supersized-init.js"></script>
+	<script src="${oa}/js/login/scripts.js"></script>
 </body>
 </html>

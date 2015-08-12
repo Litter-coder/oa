@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
+<link href="${oa}/dwz_local/css/commonmenu.css" rel="stylesheet" type="text/css" media="screen"/>
 <!-- 右上角组件菜单 -->
 <script src="${oa}/dwz_local/js/index/commonMenu.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -83,15 +84,51 @@ initCommonMenu({
 		<div class="nav-content msg-content">
 			<ul class="nav-tabs">
 				<li class="active">
-					<a>今日</a>
+					<a href="javascript:;">今日</a>
 				</li>
 				<li>
-					<a>消息</a>
+					<a href="javascript:;">消息</a>
 				</li>
 				<li>
-					<a>组织</a>
+					<a href="javascript:;">组织</a>
 				</li>
 			</ul>
+			<div class="nav-tabs-content">
+				<div class="tab-pane pane-today">
+					<div class="time-weather" id="time-weather">
+						<div class="mod-time-weather">
+							<span class="mod-time mod-time-hour">11</span>
+							<span class="mod-time mod-time-colon">:</span>
+							<span class="mod-time mod-time-minute">12</span>
+						</div>
+						<div class="mod-time-weather">
+							<span class="mod-time-date">2015年8月12日</span>
+							<span class="mod-time-week">星期三</span>
+						</div>
+						<div class="mod-time-weather">
+							<iframe allowtransparency="true" frameborder="0" width="255" height="98" scrolling="no" src="http://tianqi.2345.com/plugin/widget/index.htm?s=2&z=1&t=1&v=0&d=1&bd=0&k=000000&f=&q=1&e=1&a=1&c=54511&w=255&h=98&align=center"></iframe>
+						</div>
+					</div>
+					<div class="mod">
+						<div class="mod-hd">
+							<span class="mod-hd-title">日程</span>
+						</div>
+						<div class="mod-bd">
+							<div class="notip">今日暂无日程</div>
+						</div>
+					</div>
+					<div class="mod">
+						<div class="mod-hd">
+							<span class="mod-hd-title">备忘本</span>
+						</div>
+						<div class="mod-bd">
+							<div class="notip">今日暂无备忘</div>
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane pane-msg"></div>
+				<div class="tab-pane pane-org"></div>
+			</div>
 		</div>
 	</li>
 </ul>
