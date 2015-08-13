@@ -1,0 +1,32 @@
+.weather_info {
+	position: relative;
+	padding: 10px;
+	margin: 0px;
+}
+
+.tempimg {
+	margin: 0px auto;
+	text-align: center;
+}
+
+.temperature {
+	font-size: 25px;
+	line-height: 25px;
+	margin: 10px 0px;
+	color: #5B99EE;
+}
+
+.weather_info img {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	margin-right: 0px;
+	border: 0px none;
+}
+
+.temp span {
+	margin: 0px auto;
+	text-align: center;
+	font-size: 14px;
+	color: #FA0;
+}

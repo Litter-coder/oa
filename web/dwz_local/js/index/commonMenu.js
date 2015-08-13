@@ -20,7 +20,7 @@ var $nav_item = $(node_option.nav_item, $p);
 
 var $nav_content = $(node_option.nav_content, $p);
 
-var $mod_time_colon = $("span.mod-time-colon", $p);
+
 
 function initCommonMenu(option){
 	var op = $.extend(true, def_option, option);
@@ -39,13 +39,6 @@ function initCommonMenu(option){
 	setTimeout(function(){
 		initMsgManContent(op);
 	},10);
-	setInterval(function(){
-		if($mod_time_colon.hasClass("twinkle")){
-			$mod_time_colon.removeClass("twinkle");
-		}else{
-			$mod_time_colon.addClass("twinkle");
-		}
-	} ,1000);
 }
 
 function hideNavContent(){

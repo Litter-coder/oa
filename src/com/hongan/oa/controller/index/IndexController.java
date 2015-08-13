@@ -1,7 +1,9 @@
 package com.hongan.oa.controller.index;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,6 +76,13 @@ public class IndexController {
 		User user = sysUserService.getUserById(sysUser.getUserId());
 		
 		modelAndView.addObject("user", user);
+		
+		Date time = new Date();
+		TimeZone tz = TimeZone.getDefault();
+		int offset = tz.getOffset(time.getTime());
+		
+		modelAndView.addObject("timestamp",time.getTime());
+		modelAndView.addObject("offset",offset);
 		return modelAndView;
 	}
 		

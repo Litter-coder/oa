@@ -75,7 +75,6 @@ $(function(){
 			<div id="headMenu">
 			</div>
 		</div>
-
 		<div id="leftside">
 			<div id="sidebar_s">
 				<div class="collapse">
