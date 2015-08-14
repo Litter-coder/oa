@@ -39,6 +39,19 @@ function initCommonMenu(option){
 	setTimeout(function(){
 		initMsgManContent(op);
 	},10);
+	
+	$("ul.nav-tabs li", $nav_content).each(function(index){
+		var $this = $(this);
+		$this.click(function(){
+			if(!$this.hasClass("active")){
+				$this.addClass("active");
+				$this.siblings(".active").removeClass("active");
+				$this.parent().next().find("div.active").removeClass("active");
+				$this.parent().next().find("div").eq(index).addClass("active");
+			}
+		});
+	});
+	
 }
 
 function hideNavContent(){

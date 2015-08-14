@@ -119,11 +119,6 @@ public class LoginController {
 		// String requestUrl = request.getRequestURI();
 		if (request.getHeader("x-requested-with") != null && request.getHeader("x-requested-with").equalsIgnoreCase("XMLHttpRequest")) { // ajax超时处理
 			return executeResult.jsonReturn(301);
-			// response.setHeader("sessionstatus", "timeout");
-			// PrintWriter out = response.getWriter();
-			// out.print("{timeout:true}");
-			// out.flush();
-			// out.close();
 		} else { // http 超时处理
 			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
@@ -131,7 +126,6 @@ public class LoginController {
 			out.print(resultHtml);
 			out.flush();
 			out.close();
-			// response.sendRedirect(request.getContextPath() + "/login.jsp");
 			return null;
 		}
 

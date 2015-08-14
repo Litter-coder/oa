@@ -1,4 +1,26 @@
 (function($) {
+	$.fn.weather = function(url, type ,options) {
+		var op = $.extend({}, $.fn.weather.defaults, options);
+		var $this = $(this);
+
+		return $this.each(function() {
+			$.ajax({
+				url : url,
+				type : type,
+				cache : false,
+				data : {
+					areaid : op.areaid,
+					ip : op.ip,
+					needMoreDay : op.needMoreDay,
+					needIndex : op.needIndex
+				},
+				dataType : "json",
+				success : function(data) {
+					alert(JSON.stringify(data));
+				}
+			});
+		});
+	}
 	$.fn.weather.resultcode = {
 		300101 : "用户请求过期",
 		300102 : "用户日调用量超限",
@@ -14,38 +36,11 @@
 		300302 : "系统繁忙稍候再试"
 	}
 
-	$.fn.weather.def_options = {
-		url : "http://apis.baidu.com/showapi_open_bus/weather_showapi/areaid",
-		type : "get",
+	$.fn.weather.defaults = {
 		apikey : "66a2b6ae2f20a5c7eacae8f32ab6c1aa",
-		areainfo : {
-			area : "",
-			areaid : "",
-			needMoreDay : 0,
-			needIndex : 0
-		}
-	}
-	$.fn.weather = function(options) {
-		var op = $.extend(true, def_options, options);
-		var $this = $(this);
-		
-		return $this.each(function(){
-//			$.ajax({
-//				url : op.url,
-//				type : op.type,
-//				cache : false,
-//				data : {
-//					apikey : op.apikey,
-//					area : op.areainfo.area,
-//					areaid : op.areainfo.areaid,
-//					needMoreDay : op.areainfo.needMoreDay,
-//					needIndex : op.areainfo.needIndex
-//				},
-//				dataType : "json",
-//				success : function(data){
-//					alert(JSON.stringify(data))
-//				}
-//			});
-		});
+		areaid : "",
+		ip : "",
+		needMoreDay : 0,
+		needIndex : 0
 	}
 })(jQuery);

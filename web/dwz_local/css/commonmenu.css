@@ -275,6 +275,13 @@
 .msg-content .nav-tabs-content .tab-pane {
 	height: 100%;
 	position: relative;
+	overflow-y: auto;
+	overflow-x: hidden;
+	display: none;
+}
+
+.msg-content .nav-tabs-content .active{
+	display: block;
 }
 
 .pane-today {

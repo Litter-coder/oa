@@ -20,7 +20,7 @@ clockJson = {
 		clockJson.timeStamp = parseInt(o.timeStamp);
 		clockJson.offset = parseInt(o.offset);
 		clockJson.callback = o.callback;
-		alert(o.callback)
+
 		clockJson.startClock();
 
 	},
