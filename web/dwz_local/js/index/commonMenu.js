@@ -70,8 +70,8 @@ function hideNavContent(){
 function initNavitem(option){
 	$(document).on("click",function(e){
 		var target = e.target;
+		
 		if ($(target).closest($nav_item).length <= 0 && $(target).closest($nav_content).length <= 0) {
-			
 			hideNavContent();
 		}
 		

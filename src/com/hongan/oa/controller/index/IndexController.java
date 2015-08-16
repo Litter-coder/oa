@@ -42,9 +42,27 @@ public class IndexController {
 	private ISysUserService sysUserService;
 
 	private String prexPage = "index/";
+	
+	/**
+	 * 跳转至主页
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("/main.do")
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView modelAndView = new ModelAndView("main");
+		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+		Collection<GrantedAuthority> authorities = sysUser.getAuthorities();// 获取角色ID
+		List<Menu> menuList = menuService.loadMenu(authorities, null);
+		modelAndView.addObject("topMenus", menuList);
+		return modelAndView;
+	}
+	
 
 	/**
-	 * 加载菜单
+	 * 加载左列菜单
 	 * 
 	 * @param request
 	 * @param response
@@ -55,19 +73,12 @@ public class IndexController {
 	 */
 	@RequestMapping("/menu.do")
 	public ModelAndView loadMenu(HttpServletRequest request, HttpServletResponse response, Long menuPid) throws Exception {
-		ModelAndView modelAndView = null;
-
-		if (menuPid == null) {
-			modelAndView = new ModelAndView(prexPage + "navMenu");
-		} else {
-			modelAndView = new ModelAndView(prexPage + "leftMenu");
-		}
+		ModelAndView modelAndView = new ModelAndView(prexPage + "leftMenu");
 
 		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
 		Collection<GrantedAuthority> authorities = sysUser.getAuthorities();// 获取角色ID
 		List<Menu> menuList = menuService.loadMenu(authorities, menuPid);
-		modelAndView.addObject("menuPid", menuPid);
-		modelAndView.addObject("menus", menuList);
+		modelAndView.addObject("subMenus", menuList);
 		return modelAndView;
 	}
 

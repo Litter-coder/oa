@@ -25,7 +25,7 @@ initCommonMenu({
 		<div class="nav-item hover" align="center">
 			<div class="avtar-man"></div>
 		</div>
-		<div class="nav-content avtar-content" style="display: none">
+		<div class="nav-content avtar-content">
 			<div class="avtar-top">
 				<div class="avtar-img">
 					<img src="${user.image}">

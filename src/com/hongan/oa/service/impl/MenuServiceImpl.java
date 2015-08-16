@@ -35,6 +35,13 @@ public class MenuServiceImpl implements IMenuService {
 		return roleMapper.getRoleMenuByMenuId(menuId);
 	}
 
+	/**
+	 * 加载菜单
+	 * 
+	 * @param authorities
+	 * @param menuPid
+	 *            此值为null时，仅返回topMenu
+	 */
 	@Override
 	public List<Menu> loadMenu(Collection<GrantedAuthority> authorities, Long menuPid) {
 		List<Long> roleIds = toRoleIds(authorities);
@@ -42,11 +49,6 @@ public class MenuServiceImpl implements IMenuService {
 			List<Menu> menus = menuMapper.getMenuByRoleIdsMenuPid(roleIds, menuPid);
 			if (menuPid != null) {// 加载子级菜单
 				for (Menu menu : menus) {
-					getSubMenusByRoleIdsMenuPid(menu, roleIds);
-				}
-			} else {
-				if (menus != null && !menus.isEmpty()) {
-					Menu menu = menus.get(0);
 					getSubMenusByRoleIdsMenuPid(menu, roleIds);
 				}
 			}

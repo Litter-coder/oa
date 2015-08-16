@@ -2,7 +2,7 @@
 <%@ include file="/page/public/common.jsp"%>
 <!-- 左菜单页面  -->
 <div class="accordion" fillSpace="sidebar">
-	<c:forEach items="${menus}" var="secondMenu" varStatus="index">
+	<c:forEach items="${subMenus}" var="secondMenu" varStatus="index">
 		<!-- 二级菜单 -->
 		<div class="accordionHeader">
 			<h2>
