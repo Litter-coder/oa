@@ -65,7 +65,7 @@
 	border-image: none;
 	margin: 0px;
 	box-shadow: 0px 0px 8px 0px #B6B6B6;
-	top:-2px;
+	top: -2px;
 }
 
 .infoNav .avtar-content {
@@ -281,7 +281,7 @@
 	display: none;
 }
 
-.msg-content .nav-tabs-content .active{
+.msg-content .nav-tabs-content .active {
 	display: block;
 }
 
@@ -298,12 +298,13 @@
 	padding-bottom: 4px;
 }
 
-.mod-time-info .mod-time{
+.mod-time-info .mod-time {
 	font-size: 35px;
 	line-height: 35px;
 	color: #5B99EE;
 }
-.mod-time-info .mod-time-colon{
+
+.mod-time-info .mod-time-colon {
 	position: relative;
 	top: -3px;
 }
@@ -312,7 +313,7 @@
 	color: #DDDFEC;
 }
 
-.mod-time-info .mod-time-date{
+.mod-time-info .mod-time-date {
 	font-size: 14px;
 	color: #FA0;
 }
@@ -357,4 +358,88 @@
 .mod-bd {
 	padding: 5px 0px;
 	position: relative;
+}
+
+.mod-bd .weather_info {
+	position: relative;
+	padding: 10px;
+	margin: 0px;
+}
+
+.mod-bd .tempimg {
+	margin: 0px auto;
+	text-align: center;
+}
+
+.mod-bd .temperature {
+	font-size: 25px;
+	line-height: 25px;
+	margin: 10px 0px;
+	color: #5B99EE;
+}
+
+.mod-bd .weather_info img {
+	display: inline-block;
+	width: 40px;
+	height: 40px;
+	margin-right: 0px;
+	border: 0px none;
+}
+
+.mod-bd .temp span {
+	margin: 0px auto;
+	text-align: center;
+	font-size: 14px;
+	color: #FA0;
+}
+
+.mod-bd .weather_areas {
+	padding: 20px 0px;
+	display: none;
+}
+
+.weather_areas select {
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	margin-right: 5px;
+	border: 1px solid #CCC;
+	background-color: #FFF;
+	line-height: 30px;
+	padding: 4px 6px;
+	display: inline-block;
+	margin-bottom: 10px;
+	font-size: 13px;
+	line-height: 20px;
+	border-radius: 4px;
+	vertical-align: middle;
+}
+
+.weather_areas .btns {
+	text-align: right;
+	padding-right: 13px;
+}
+
+.btns .btn {
+	position: relative;
+	padding: 4px 12px;
+	margin: 0px;
+	color: #333;
+	text-shadow: 0px 1px 0px #FFF;
+	white-space: nowrap;
+	font-family: Simsun, Arial, sans-serif;
+	font-weight: bold;
+	font-size: 13px;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	background-color: #F3F3F3;
+	background-image: linear-gradient(to bottom, #F5F5F5, #F1F1F1);
+	background-repeat: repeat-x;
+	border: 1px solid #DCDCDC;
+	border-radius: 2px;
+	box-shadow: none;
+}
+.btns .btn:HOVER {
+	color: #5B99EE;
 }

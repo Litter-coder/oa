@@ -107,11 +107,10 @@ public class IndexController {
 
 	@RequestMapping("/weather.do")
 	@ResponseBody
-	public String commonTodayWeather(HttpServletRequest request, HttpServletResponse response, DefaultsConst options) throws Exception {
-		if((options.getIp() == null || options.getIp().length() == 0) && (options.getAreaid() == null || options.getAreaid().length() == 0)){
-			return "";
-		}
+	public Object commonTodayWeather(HttpServletRequest request, HttpServletResponse response, DefaultsConst options) throws Exception {
+		String weather = Weather.getWeather(options);
 		
-		return Weather.getWeather(options);
+		System.out.println(weather);
+		return weather;
 	}
 }

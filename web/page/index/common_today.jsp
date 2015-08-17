@@ -1,9 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
-<link href="${oa}/dwz_local/css/weather.css" rel="stylesheet" type="text/css" media="screen" />
 <script src="${oa}/dwz_local/js/index/clock.json.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/index/weather.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/index/request.iframe.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/index/plugin.js" type="text/javascript"></script>
 <!-- 组件菜单中的消息菜单 -->
 <script type="text/javascript">
 	clockJson.clock({
@@ -27,46 +25,43 @@
 		}
 	});
 	
-	var $iframe_test = $('<iframe src="/oa/page/index/test.jsp" name="bbbb" style="display:none"></iframe>');
-	$("#weather").append($iframe_test);
-	var $iframe = $('<iframe src="about:blank" name="aaaa" style="display:none"></iframe>');
-	var $form = $('<form action="http://ip.taobao.com/service/getIpInfo.php?ip=myip" target="bbbb"  id="form_1111" method="get"></form>');
-	$iframe.append($form)
-	$("#weather").append($iframe);
-	$form.submit()
-
-	$("#weather").reqIframe({
-		url : "http://ip.taobao.com/service/getIpInfo.php",
-		type : "GET",
-		params : {
-			ip : "myip"
-		},
-		localIframe : {
-			src : "/oa/page/index/test.jsp",
-			name : "aaaaa"
-		},
-		callback : function(response){
-			alert(response);
+	var weatherCity = ConvertWeatherCity("广东_广州_广州");
+	if($.isFunction($.cookie) && $.cookie("weatherCity")) {
+		weatherCity = $.cookie("weatherCity");
+	}
+	InitProvince(weatherCity);
+	
+	$(".mod-hd .city").click(function() {
+		if ($(this).parent().next().find("div.weather_areas").is(":hidden")) {
+			$(this).parent().next().find("span:eq(0)").hide();
+			$(this).parent().next().find("div.weather_info").hide();
+			if($.isFunction($.cookie) && $.cookie("weatherCity")) {
+				weatherCity = $.cookie("weatherCity");
+			}
+			InitProvince(weatherCity);
+			$(this).parent().next().find("div.weather_areas").show();
 		}
 	});
-
+	
+	$(".btns .btn").each(function() {
+		$(this).click(function() {
+			$(this).parents("div.weather_areas").hide();
+			$(this).parents("div.weather_areas").siblings().show();
+			if ($(this).hasClass("btn_submit")) {// 调用weather
+				var country = $("#w_county").val();
+				if($.isFunction($.cookie)) {
+					$.cookie("weatherCity", country);
+				}
+				$("#weather #city").text($("#w_county").find("option:selected").text());
+				$.getJSON("${oa}/index/weather.do", {areaId : "101" + country}, function(data) {
+					alert(JSON.stringify(data))
+				})
+				
+			}
+		});
+	});
 	
 	
-// 	var url = "http://ip.taobao.com/service/getIpInfo.php?ip=myip";
-// 	$.ajax({
-// 		url : url,
-// 		type : "GET",
-// 		cache : false,
-// 		async : false,
-// 		dataType : "jsonp",
-// 		jsonp:'callback', 
-// 		jsonpCallback:"success_jsonpCallback",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名
-// 		success : function(data) {
-// 			alert(data);
-// 		},
-// 		error : function(e){
-// 			console.log(e)
-// 		}
 	
 // 	});
 //     $("#weather").weather("${oa}/index/weather.do", "POST", {
@@ -102,6 +97,23 @@
 			</div>
 			<div class="temp">
 				<span>阵雨转多云</span> <span>微风</span>
+			</div>
+		</div>
+		<div class="weather_areas">
+			<div>
+				<select id="w_province" onclick="InitCity(this.value)">
+					<option>广东</option>
+				</select>
+				<select id="w_city" onclick="InitCounty(this.value)">
+					<option>广州</option>
+				</select>
+				<select id="w_county">
+					<option>广州</option>
+				</select>
+			</div>
+			<div class="btns">
+				<button class="btn btn_submit">确定</button>
+				<button class="btn">取消</button>
 			</div>
 		</div>
 	</div>

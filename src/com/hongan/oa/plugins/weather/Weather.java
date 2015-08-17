@@ -16,8 +16,7 @@ public class Weather {
 		String result = null;
 		try {
 			String urlStr = initUrl(options);
-			if (urlStr == null)
-				return result;
+			
 			URL url = new URL(urlStr);
 
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -29,7 +28,7 @@ public class Weather {
 			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			String strRead = null;
 			while ((strRead = reader.readLine()) != null) {
-				strRead = strRead.replaceAll("http://appimg.showapi.com", "");
+				strRead = strRead.replaceAll("http://appimg.showapi.com/images/weather/icon/", "");
 				sbf.append(strRead);
 				sbf.append("\r\n");
 			}
@@ -44,17 +43,11 @@ public class Weather {
 	private static String initUrl(DefaultsConst options) {
 		String urlStr = null;
 		// 优先ip
-		if (options.getIp() == null && options.getIp().length() == 0) { // areaip访问
-			urlStr = options.getUrl_area();
-			if (StringUtils.isNoneBlank(options.getAreaid())) {// 只要有一个就行
-				urlStr += ("?areaid=" + options.getAreaid());
-			} else {
-				return null;
-			}
-		} else {// ip访问
-			urlStr = options.getUrl_ip();
-			urlStr += ("?ip=" + options.getIp());
+		urlStr = options.getUrl_area();
+		if (StringUtils.isNoneBlank(options.getAreaid())) {// 只要有一个就行
+			urlStr += ("?areaid=" + options.getAreaid());
 		}
+		
 		urlStr += ("&needMoreDay=" + options.getNeedMoreDay() + "&needIndex=" + options.getNeedIndex());
 		return urlStr;
 	}
