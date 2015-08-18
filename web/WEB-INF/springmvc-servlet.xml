@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:ctx="http://www.springframework.org/schema/context"
-	xmlns:util="http://www.springframework.org/schema/util"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:aop="http://www.springframework.org/schema/aop"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:ctx="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		http://www.springframework.org/schema/context
@@ -20,75 +16,89 @@
 		">
 
 	<ctx:component-scan base-package="com.hongan.oa.controller" />
-	<mvc:annotation-driven />
-	
-	<bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" p:order="1"/>
-	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" p:order="2"/>
-	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"  p:order="3"/>
-	
 
-	
-	<bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
-	
+	<bean
+		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"
+		p:order="1" />
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"
+		p:order="2" />
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"
+		p:order="3" />
+
+
+
+	<bean
+		class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter" />
+
 	<bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
-	<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
-    	<property name="maxUploadSize" value="10240000"/>  
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding">
+			<value>UTF-8</value>
+		</property>
+		<property name="maxUploadSize">
+			<value>32505856</value><!-- 上传文件大小限制为31M，31*1024*1024 -->
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
 	</bean>
-    
+
 	<bean id="directViewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-		p:viewClass="org.springframework.web.servlet.view.JstlView"
-		p:order="0" p:viewNames="*.html,*.jsp" />
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:viewClass="org.springframework.web.servlet.view.JstlView"
-		p:prefix="/page/" 
-		p:suffix=".jsp" 
-		p:contentType="text/html;charset=UTF-8" />
+		p:viewClass="org.springframework.web.servlet.view.JstlView" p:order="0"
+		p:viewNames="*.html,*.jsp" />
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:viewClass="org.springframework.web.servlet.view.JstlView" p:prefix="/page/"
+		p:suffix=".jsp" p:contentType="text/html;charset=UTF-8" />
 
-	<!-- mvc:view-controller使用与直接指定页面的跳转，不用经过分发器复杂的分发过程 -->
-	<mvc:view-controller path="/test" view-name="left.html"/>
-	<mvc:default-servlet-handler/>
+	<mvc:default-servlet-handler />
 
 
 	<aop:aspectj-autoproxy proxy-target-class="true" />
 	<aop:config proxy-target-class="true"></aop:config>
-	
-		
-		<!-- springmvc 对象转换配置 -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-<!-- 		<property name="webBindingInitializer"> -->
-<!-- 			<bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"> -->
-<!-- 				<property name="conversionService" ref="conversionService"/> -->
-<!-- 			</bean> -->
-<!-- 		</property> -->
+
+
+	<!-- springmvc 对象转换配置 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<!-- <property name="webBindingInitializer"> -->
+		<!-- <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"> -->
+		<!-- <property name="conversionService" ref="conversionService"/> -->
+		<!-- </bean> -->
+		<!-- </property> -->
 		<property name="messageConverters">
-			<util:list>
-<!-- 				<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" /> -->
-				<bean class="org.springframework.http.converter.StringHttpMessageConverter" >
-					<property name = "supportedMediaTypes">
+			<list>
+				<!-- <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter" 
+					/> -->
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="supportedMediaTypes">
 						<list>
 							<value>text/plain;charset=UTF-8</value>
 							<value>text/html;charset=UTF-8</value>
 						</list>
-					</property> 
-				</bean>
-<!-- 				<bean class="org.springframework.http.converter.ResourceHttpMessageConverter" /> -->
-				<!-- 注：开启此类需相关jar包持：javax.xml.bind.JAXBException
-				<bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
-				<bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" />
-				<bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" />
-				-->
-				<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" >
-					<property name="supportedMediaTypes">  
-						<list>  
-							<value>text/plain;charset=UTF-8</value>
-							<value>text/html;charset=UTF-8</value>  
-						</list>  
 					</property>
 				</bean>
-			</util:list>
+				<!-- <bean class="org.springframework.http.converter.ResourceHttpMessageConverter" 
+					/> -->
+				<!-- 注：开启此类需相关jar包持：javax.xml.bind.JAXBException <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter" 
+					/> <bean class="org.springframework.http.converter.xml.XmlAwareFormHttpMessageConverter" 
+					/> <bean class="org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter" 
+					/> -->
+				<bean
+					class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/plain;charset=UTF-8</value>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
-	
-	<ctx:annotation-config/>
 </beans>

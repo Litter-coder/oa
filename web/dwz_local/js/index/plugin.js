@@ -3448,7 +3448,7 @@ function InitCity(city) {
 		// oOption.innerText ? oOption.innerText =
 		// city_name_array[city_array[id][i]] : oOption.textContent =
 		// city_name_array[city_array[id][i]];
-		if(isMunCity(id)) {
+		if (isMunCity(id)) {
 			oOption.selected = (city.substr(0, 2) + "01") == city_array[id][i];
 		} else {
 			oOption.selected = city.substr(0, 4) == city_array[id][i];
@@ -3460,7 +3460,7 @@ function InitCity(city) {
 }
 function InitCounty(city) {
 	var id = city.substr(0, 4);
-	if(isMunCity(id)) {
+	if (isMunCity(id)) {
 		id = city.substr(0, 2) + "01";
 	}
 	if (typeof (county_array[id]) == 'undefined')
@@ -3483,5 +3483,5 @@ function InitCounty(city) {
 }
 
 function isMunCity(id) {
-	return ["01", "02", "03", "04"].indexOf(id.substr(0, 2)) != -1;
+	return [ "01", "02", "03", "04" ].indexOf(id.substr(0, 2)) != -1;
 }

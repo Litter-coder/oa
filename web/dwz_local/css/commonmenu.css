@@ -391,6 +391,7 @@
 	text-align: center;
 	font-size: 14px;
 	color: #FA0;
+	padding: 0px 5px;
 }
 
 .mod-bd .weather_areas {
@@ -440,6 +441,14 @@
 	border-radius: 2px;
 	box-shadow: none;
 }
+
 .btns .btn:HOVER {
 	color: #5B99EE;
+}
+
+.mousedownrefresh_tip {
+	background-color: #F3F3F3;
+	text-align: center;
+	z-index: 100;
+	position: relative;
 }

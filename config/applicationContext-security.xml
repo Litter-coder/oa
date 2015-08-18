@@ -29,7 +29,7 @@
 			position="FORM_LOGIN_FILTER" />
 		<logout logout-url="/logout" logout-success-url="/login.jsp" invalidate-session="true"/>
 		
-		<session-management invalid-session-url="/login/sessionTimeout.do" />
+		<session-management invalid-session-url="/login/sessionTimeout.do" session-authentication-strategy-ref="concurrentSessionControlStrategy"/>
 		
 		<remember-me />
 		<anonymous />

@@ -68,7 +68,7 @@ $(function(){
 	<div id="layout">
 		<div id="header">
 			<div class="headerNav">
-				<a class="logo" href="http://j-ui.com">标志</a>
+				<a class="logo" href="javascript:void(0);">标志</a>
 			</div>
 			<div id="navMenu">
 				<ul>

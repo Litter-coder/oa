@@ -30,6 +30,7 @@
 		weatherCity = $.cookie("weatherCity");
 	}
 	InitProvince(weatherCity);
+	getWeather();
 	
 	$(".mod-hd .city").click(function() {
 		if ($(this).parent().next().find("div.weather_areas").is(":hidden")) {
@@ -48,19 +49,33 @@
 			$(this).parents("div.weather_areas").hide();
 			$(this).parents("div.weather_areas").siblings().show();
 			if ($(this).hasClass("btn_submit")) {// 调用weather
-				var country = $("#w_county").val();
-				if($.isFunction($.cookie)) {
-					$.cookie("weatherCity", country);
-				}
-				$("#weather #city").text($("#w_county").find("option:selected").text());
-				$.getJSON("${oa}/index/weather.do", {areaId : "101" + country}, function(data) {
-					alert(JSON.stringify(data))
-				})
-				
+				getWeather();
 			}
 		});
 	});
 	
+	function getWeather(){
+		var country = $("#w_county").val();
+		if($.isFunction($.cookie)) {
+			$.cookie("weatherCity", country);
+		}
+		$("#weather #city").text($("#w_county").find("option:selected").text());
+		$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
+			var databody = data.showapi_res_body;
+			var imgUrl = "${oa}/dwz_local/images/weather/icon/";
+			var $temping = $("#weather .weather_info .temping");
+			var $temp = $("#weather .weather_info .temp");
+			$("#temping_day", $temping)[0].src = imgUrl + databody.f1.day_weather_pic;
+			$("#temping_night", $temping)[0].src = imgUrl + databody.f1.night_weather_pic;
+			$(".temperature", $temping).html(databody.f1.day_air_temperature + "℃~" + databody.f1.night_air_temperature + "℃");
+			var weather_info = databody.f1.day_weather; 
+			if(databody.f1.day_weather != databody.f1.night_weather){
+				weather_info += "转" + databody.f1.night_weather;
+			}
+			$temp.html("<span>" + weather_info + "</span><span>" + databody.f1.day_wind_power + "</span>");
+		})
+		
+	}
 	
 	
 // 	});
@@ -89,26 +104,23 @@
 		</div>
 	</div>
 	<div class="mod-bd" id="weather">
-		<span id="city">广州</span>
+		<span id="city"></span>
 		<div class="weather_info">
 			<div class="temping">
-				<img src="" /> <img src="" />
-				<div class="temperature">34℃~26℃</div>
+				<img src="" id="temping_day"/> <img src="" id="temping_night"/>
+				<div class="temperature"></div>
 			</div>
 			<div class="temp">
-				<span>阵雨转多云</span> <span>微风</span>
+				<span></span><span></span>
 			</div>
 		</div>
 		<div class="weather_areas">
 			<div>
 				<select id="w_province" onclick="InitCity(this.value)">
-					<option>广东</option>
 				</select>
 				<select id="w_city" onclick="InitCounty(this.value)">
-					<option>广州</option>
 				</select>
 				<select id="w_county">
-					<option>广州</option>
 				</select>
 			</div>
 			<div class="btns">

@@ -94,7 +94,10 @@ initCommonMenu({
 					<a href="javascript:;">组织</a>
 				</li>
 			</ul>
-			<div class="nav-tabs-content">
+			<div class="mousedownrefresh_tip">
+				<span>下拉刷新</span>
+			</div>
+			<div class="nav-tabs-content" id="mousedownrefresh">
 				<div class="tab-pane pane-today active"></div>
 				<div class="tab-pane pane-message"></div>
 				<div class="tab-pane pane-org"></div>
