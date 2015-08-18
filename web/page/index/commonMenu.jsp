@@ -4,6 +4,13 @@
 <!-- 右上角组件菜单 -->
 <script src="${oa}/dwz_local/js/index/commonMenu.js" type="text/javascript"></script>
 <script type="text/javascript">
+// 消息div id与url对应的JSON
+var nav_tabs_content = {
+	"pane-today" : 	"${oa}/index/common_today.do",
+	"pane-message" : "",
+	"pane-org" : ""
+}
+
 initCommonMenu({
 	webName : "${oa}",
 	avtar : {
@@ -14,7 +21,19 @@ initCommonMenu({
 		$("#themeList").theme({
 			themeBase : "${oa}/dwz/themes"
 		});
-		$("div.pane-today").loadUrl("${oa}/index/common_today.do");
+		
+		$.each(nav_tabs_content, function(key){
+			if(nav_tabs_content[key]){
+				$("#" + key).loadUrl(nav_tabs_content[key]);
+			}
+		});
+		movedownRefresh.init({
+			callback : function(){
+				var activeUrl = nav_tabs_content[$("#mousedownrefresh .active").attr("id")];
+				$("#mousedownrefresh .active").children().remove();
+				$("#mousedownrefresh .active").loadUrl(activeUrl);
+			}
+		});
 	}
 });
 
@@ -94,13 +113,13 @@ initCommonMenu({
 					<a href="javascript:;">组织</a>
 				</li>
 			</ul>
-			<div class="mousedownrefresh_tip">
-				<span>下拉刷新</span>
+			<div class="mousedownrefresh_tip" id="mousedownrefresh_tip">
+				<span></span>
 			</div>
 			<div class="nav-tabs-content" id="mousedownrefresh">
-				<div class="tab-pane pane-today active"></div>
-				<div class="tab-pane pane-message"></div>
-				<div class="tab-pane pane-org"></div>
+				<div class="tab-pane active" id="pane-today"></div>
+				<div class="tab-pane" id="pane-message"></div>
+				<div class="tab-pane" id="pane-org"></div>
 			</div>
 		</div>
 	</li>

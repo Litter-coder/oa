@@ -108,9 +108,6 @@ public class IndexController {
 	@RequestMapping("/weather.do")
 	@ResponseBody
 	public Object commonTodayWeather(HttpServletRequest request, HttpServletResponse response, DefaultsConst options) throws Exception {
-		String weather = Weather.getWeather(options);
-		
-		System.out.println(weather);
-		return weather;
+		return Weather.getWeather(options);
 	}
 }

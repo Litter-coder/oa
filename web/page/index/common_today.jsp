@@ -10,6 +10,7 @@
 		timeStamp : "${timestamp}",
 		utc : true,
 		offset : "${offset}",
+		timeout : 1000,
 		callback : function() {
 			var $mod_time_colon = $("span.mod-time-colon");
 			var result = clockJson.result;
@@ -86,13 +87,13 @@
 </script>
 <div class="time-info" id="time-info">
 	<div class="mod-time-info">
-		<span class="mod-time" id="mod-time-hour">23</span> 
+		<span class="mod-time" id="mod-time-hour"></span> 
 		<span class="mod-time mod-time-colon">:</span>
-		<span class="mod-time" id="mod-time-minute">12</span> 
-		<span class="mod-time-date"	id="mod-time-week">星期三</span>
+		<span class="mod-time" id="mod-time-minute"></span> 
+		<span class="mod-time-date"	id="mod-time-week"></span>
 	</div>
 	<div class="mod-time-info">
-		<span class="mod-time-date" id="mod-time-date">2015年8月12日</span>
+		<span class="mod-time-date" id="mod-time-date"></span>
 		<span class="mod-time-date">(农历六月廿九)</span>
 	</div>
 </div>

@@ -17,11 +17,11 @@ clockJson = {
 		clockJson.withWeek = o.withWeek;
 		clockJson.am_pm = o.am_pm;
 		clockJson.utc = o.utc;
-		clockJson.timeStamp = parseInt(o.timeStamp);
+		clockJson.timeStamp = parseInt(o.timeStamp) + parseInt(o.timeout);
 		clockJson.offset = parseInt(o.offset);
 		clockJson.callback = o.callback;
-
-		clockJson.startClock();
+		
+		setTimeout("clockJson.startClock()", o.timeout);
 
 	},
 
@@ -208,6 +208,7 @@ clockJson = {
 		utc : false,
 		timeStamp : 0,
 		offset : 0,
+		timeout : 0,
 		callback : null
 	}
 }

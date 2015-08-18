@@ -285,7 +285,7 @@
 	display: block;
 }
 
-.pane-today {
+nav-tabs-content div {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
@@ -449,6 +449,6 @@
 .mousedownrefresh_tip {
 	background-color: #F3F3F3;
 	text-align: center;
-	z-index: 100;
-	position: relative;
+	display : none;
+	color: #5B99EE;
 }
