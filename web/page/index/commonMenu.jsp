@@ -10,33 +10,33 @@ var nav_tabs_content = {
 	"pane-message" : "",
 	"pane-org" : ""
 }
-
-initCommonMenu({
-	webName : "${oa}",
-	avtar : {
-		user_sex : "${user.sex}",
-		user_img : "${user.image}"
-	},
-	callback : function(){
-		$("#themeList").theme({
-			themeBase : "${oa}/dwz/themes"
-		});
-		
-		$.each(nav_tabs_content, function(key){
-			if(nav_tabs_content[key]){
-				$("#" + key).loadUrl(nav_tabs_content[key]);
-			}
-		});
-		movedownRefresh.init({
-			callback : function(){
-				var activeUrl = nav_tabs_content[$("#mousedownrefresh .active").attr("id")];
-				$("#mousedownrefresh .active").children().remove();
-				$("#mousedownrefresh .active").loadUrl(activeUrl);
-			}
-		});
-	}
+$(function(){
+	initCommonMenu({
+		webName : "${oa}",
+		avtar : {
+			user_sex : "${user.sex}",
+			user_img : "${user.image}"
+		},
+		callback : function(){
+			$("#themeList").theme({
+				themeBase : "${oa}/dwz/themes"
+			});
+			
+			$.each(nav_tabs_content, function(key){
+				if(nav_tabs_content[key]){
+					$("#" + key).loadUrl(nav_tabs_content[key]);
+				}
+			});
+			movedownRefresh.init({
+				callback : function(){
+					var activeUrl = nav_tabs_content[$("#mousedownrefresh .active").attr("id")];
+					$("#mousedownrefresh .active").children().remove();
+					$("#mousedownrefresh .active").loadUrl(activeUrl);
+				}
+			});
+		}
+	});
 });
-
 </script>
 <ul class="infoNav">
 	<li class="navin">
@@ -44,7 +44,7 @@ initCommonMenu({
 		<div class="nav-item hover" align="center">
 			<div class="avtar-man"></div>
 		</div>
-		<div class="nav-content avtar-content">
+		<div class="nav-content avtar-content" style="display: none">
 			<div class="avtar-top">
 				<div class="avtar-img">
 					<img src="${user.image}">

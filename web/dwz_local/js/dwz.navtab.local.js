@@ -24,6 +24,11 @@ navTab = $.extend(navTab,{
 				var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {}
 				
 				$panel.loadUrl(url, args, function(){navTab._loadUrlCallback($panel);});
+				
+				// 更改刷新时，加入遮罩
+				$panel.ajaxUrl({
+					type:"POST", url:url, data:args, loadingmask:true, callback:function(){navTab._loadUrlCallback($panel);}
+				});
 			}
 		}
 	},

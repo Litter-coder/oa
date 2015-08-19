@@ -3,7 +3,7 @@ var msgdsq;
 function show_err_msg(msg){
 	 $('.msg_bg').html('');
 	 clearTimeout(msgdsq);
-	 $('body').append('<div class="sub_err" style="position:absolute;top:20px;left:0;width:500px;z-index:999999;"></div>');
+	 $('body').append('<div class="sub_err" style="position:absolute;top:20px;left:0;width:460px;z-index:999999;"></div>');
 	 var errhtml='<div  class="bac" style="padding:8px 0px;border:1px solid #ff0000;width:100%;margin:0 auto;background-color:#fff;color:#B90802;border:3px #ff0000 solid;text-align:center;font-size:16px;font-family:微软雅黑;"><img style="margin-right:10px;" src="images/login2/error.png">';
 	 var errhtmlfoot='</div>';	 
 	 $('.msg_bg').height($(document).height());
@@ -25,7 +25,7 @@ function show_err_msg(msg){
 function show_msg(msg,url){	
      $('.msg_bg').html('');
 	 clearTimeout(msgdsq);
-	 $('body').append('<div class="sub_err" style="position:absolute;top:20px;left:0;width:500px;z-index:999999;"></div>');
+	 $('body').append('<div class="sub_err" style="position:absolute;top:20px;left:0;width:460px;z-index:999999;"></div>');
 	 var htmltop='<div class="bac" style="padding:8px 0px;border:1px solid #090;width:100%;margin:0 auto;background-color:#FFF2F8;color:#090;border:3px #090 solid;;text-align:center;font-size:16px;"><img style="margin-right:10px;" src="images/loading.gif">';
 	 var htmlfoot='</div>';
 	 $('.msg_bg').height($(document).height());

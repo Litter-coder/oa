@@ -9,7 +9,9 @@ clockJson = {
 		clockJson.stopClock();
 		clockJson.timerID = null;
 		clockJson.running = false;
-
+		var page_id = Math.random();// 页面id
+		clockJson.serializeId = page_id;
+		
 		var o = $.extend({}, clockJson.defaults, options);
 
 		clockJson.withDate = o.withDate;
@@ -20,23 +22,28 @@ clockJson = {
 		clockJson.timeStamp = parseInt(o.timeStamp) + parseInt(o.timeout);
 		clockJson.offset = parseInt(o.offset);
 		clockJson.callback = o.callback;
-		
-		setTimeout("clockJson.startClock()", o.timeout);
+
+		setTimeout("clockJson.startClock(" + page_id + ")", o.timeout);
 
 	},
 
-	startClock : function() {
+	startClock : function(page_id) {
 		clockJson.stopClock();
-		clockJson.returnTimeJson();
+		clockJson.returnTimeJson(page_id);
 	},
 	stopClock : function() {
 		if (clockJson.running) {
-			clearTimeout(timerID);
+			clearTimeout(clockJson.timerID);
 		}
 		clockJson.running = false;
 	},
-	returnTimeJson : function() {
+	returnTimeJson : function(page_id) {
 		clockJson.running = true;
+		if (clockJson.serializeId != page_id) {
+			// 表示调用了新的start，旧的就不在执行了
+			return;
+		}
+
 		var datetime = clockJson.getDate();
 		var week = clockJson.getWeek();
 		var time = clockJson.getTime();
@@ -51,10 +58,11 @@ clockJson = {
 		});
 		clockJson.result = $.extend(true, {}, clockJson.result, rel);
 		clockJson.timeStamp = clockJson.timeStamp + 1000;
-		if ($.isFunction(clockJson.callback)){
+		if ($.isFunction(clockJson.callback)) {
 			clockJson.callback();
 		}
-		timerID = setTimeout("clockJson.returnTimeJson()", 1000);
+
+		clockJson.timerID = setTimeout("clockJson.returnTimeJson("+ page_id +")", 1000);
 	},
 	getDate : function() {
 		if (clockJson.withDate == true) {

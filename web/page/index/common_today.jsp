@@ -4,13 +4,13 @@
 <script src="${oa}/dwz_local/js/index/plugin.js" type="text/javascript"></script>
 <!-- 组件菜单中的消息菜单 -->
 <script type="text/javascript">
+$(function(){
 	clockJson.clock({
 		withDate : true,
 		withWeek : true,
 		timeStamp : "${timestamp}",
 		utc : true,
 		offset : "${offset}",
-		timeout : 1000,
 		callback : function() {
 			var $mod_time_colon = $("span.mod-time-colon");
 			var result = clockJson.result;
@@ -54,36 +54,34 @@
 			}
 		});
 	});
-	
-	function getWeather(){
-		var country = $("#w_county").val();
-		if($.isFunction($.cookie)) {
-			$.cookie("weatherCity", country);
-		}
-		$("#weather #city").text($("#w_county").find("option:selected").text());
-		$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
-			var databody = data.showapi_res_body;
-			var imgUrl = "${oa}/dwz_local/images/weather/icon/";
-			var $temping = $("#weather .weather_info .temping");
-			var $temp = $("#weather .weather_info .temp");
-			$("#temping_day", $temping)[0].src = imgUrl + databody.f1.day_weather_pic;
-			$("#temping_night", $temping)[0].src = imgUrl + databody.f1.night_weather_pic;
-			$(".temperature", $temping).html(databody.f1.day_air_temperature + "℃~" + databody.f1.night_air_temperature + "℃");
-			var weather_info = databody.f1.day_weather; 
-			if(databody.f1.day_weather != databody.f1.night_weather){
-				weather_info += "转" + databody.f1.night_weather;
-			}
-			$temp.html("<span>" + weather_info + "</span><span>" + databody.f1.day_wind_power + "</span>");
-		})
-		
+});
+function getWeather(){
+	var country = $("#w_county").val();
+	if($.isFunction($.cookie)) {
+		$.cookie("weatherCity", country);
 	}
+	$("#weather #city").text($("#w_county").find("option:selected").text());
+	$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
+		var databody = data.showapi_res_body;
+		var imgUrl = "${oa}/dwz_local/images/weather/icon/";
+		$("#weather .weather_info").html("");
+		var $temping = $('<div class="temping"></div>');
+		var $day_pic = $('<img src="' + imgUrl + databody.f1.day_weather_pic + '"/>');
+		var $night_pic = $('<img src="' + imgUrl + databody.f1.night_weather_pic + '"/>');
+		var $temperature = $('<div class="temperature">' + databody.f1.day_air_temperature + "℃~" + databody.f1.night_air_temperature  + '℃</div>');
+		$temping.append($day_pic).append($night_pic).append($temperature);
+		var $temp = $('<div class="temp"></div>');
+		var weather_info = databody.f1.day_weather; 
+		if(databody.f1.day_weather != databody.f1.night_weather){
+			weather_info += "转" + databody.f1.night_weather;
+		}
+		var $temp_info = $('<span>' + weather_info + '</span><span>' + databody.f1.day_wind_power + '</span>');
+		$temp.append($temp_info);
+		$("#weather .weather_info").children().remove();
+		$("#weather .weather_info").append($temping).append($temp);
+	})
 	
-	
-// 	});
-//     $("#weather").weather("${oa}/index/weather.do", "POST", {
-// 		areaid : "",
-// 		ip : ""
-// 	});
+}
 </script>
 <div class="time-info" id="time-info">
 	<div class="mod-time-info">
@@ -107,13 +105,6 @@
 	<div class="mod-bd" id="weather">
 		<span id="city"></span>
 		<div class="weather_info">
-			<div class="temping">
-				<img src="" id="temping_day"/> <img src="" id="temping_night"/>
-				<div class="temperature"></div>
-			</div>
-			<div class="temp">
-				<span></span><span></span>
-			</div>
 		</div>
 		<div class="weather_areas">
 			<div>

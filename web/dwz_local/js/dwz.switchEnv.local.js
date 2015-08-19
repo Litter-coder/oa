@@ -29,6 +29,8 @@
 				}
 
 				$.post($a.attr("href"), eval("(" + data + ")"), function(html) {
+					var json = DWZ.jsonEval(html);
+					DWZ.ajaxDone(json);
 					if ($.fn.jBarDisplay) {
 						$.fn.jBarDisplay();
 					}
@@ -39,6 +41,8 @@
 					if ($.fn.hoverSidebar) {
 						$("#sidebar").hoverSidebar();
 					}
+				}).error(function(xhr, ajaxOptions, thrownError) {
+					DWZ.ajaxError(xhr, ajaxOptions, thrownError);
 				});
 				return false;
 			});
@@ -65,9 +69,14 @@
 				var $li = $(this);
 
 				$.post($li.find(">a").attr("href"), {}, function(html) {
+					var json = DWZ.jsonEval(html);
+					DWZ.ajaxDone(json);
+
 					_hide($this);
 					$this.find(op.boxTitle$).html($li.find(">a").html());
 					$("#sidebar").find(".accordion").remove().end().append(html).initUI();
+				}).error(function(xhr, ajaxOptions, thrownError) {
+					DWZ.ajaxError(xhr, ajaxOptions, thrownError);
 				});
 				return false;
 			});

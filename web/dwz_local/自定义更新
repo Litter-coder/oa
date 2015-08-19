@@ -12,3 +12,5 @@
 5.dwz.ui.local.js
 	a。重写initEnv方法：加入DWZ.eventType.ajaxLoadingMask事件的方法定义
 	b。新增init_ajaxstatus_mask方法：设置调用对象中遮罩div的参数并返回div
+6.dwz.sortDrag.js
+	a。重写sortDrag方法：加入拖曳时点击对象是否支持拖曳的判断
