@@ -1,80 +1,71 @@
+var pageID_timeID = {};
 clockJson = {
-	result : {
-		datetime : {},
-		time : {},
-		week : {},
-		remind : {}
-	},
 	clock : function(options) {
-		clockJson.stopClock();
-		clockJson.timerID = null;
-		clockJson.running = false;
-		var page_id = Math.random();// 页面id
-		clockJson.serializeId = page_id;
-		
-		var o = $.extend({}, clockJson.defaults, options);
-
-		clockJson.withDate = o.withDate;
-		clockJson.timeNotation = o.timeNotation;
-		clockJson.withWeek = o.withWeek;
-		clockJson.am_pm = o.am_pm;
-		clockJson.utc = o.utc;
-		clockJson.timeStamp = parseInt(o.timeStamp) + parseInt(o.timeout);
-		clockJson.offset = parseInt(o.offset);
-		clockJson.callback = o.callback;
-
-		setTimeout("clockJson.startClock(" + page_id + ")", o.timeout);
-
-	},
-
-	startClock : function(page_id) {
-		clockJson.stopClock();
-		clockJson.returnTimeJson(page_id);
-	},
-	stopClock : function() {
-		if (clockJson.running) {
-			clearTimeout(clockJson.timerID);
+		var pageID = Math.random();// 页面id
+		pageID_timeID[pageID] = -1;// 让初始timeID为-1，用于判断
+		console.log("start "+pageID)
+		var o = $.extend({}, clockJson.defaults, options, {
+			running : false,
+			pageID : pageID
+		});
+		if (o.timeStamp != 0) {
+			o.timeStamp = parseInt(o.timeStamp) + parseInt(o.timeout);
 		}
-		clockJson.running = false;
+		setTimeout(function() {
+			clockJson.startClock(o);
+		}, o.timeout);
+
 	},
-	returnTimeJson : function(page_id) {
-		clockJson.running = true;
-		if (clockJson.serializeId != page_id) {
-			// 表示调用了新的start，旧的就不在执行了
+
+	startClock : function(options) {
+		clockJson.stopClock(options);
+		clockJson.returnTimeJson(options);
+	},
+	stopClock : function(options) {
+		if (options.running && pageID_timeID[options.pageID] != -1) {
+			clearTimeout(pageID_timeID[options.pageID]);
+		}
+		options.running = false;
+	},
+	returnTimeJson : function(options) {
+		options.running = true;
+		if (!pageID_timeID[options.pageID]) {
+			// 表示刷新了页面，或者
+			console.log("remove "+options.pageID)
 			return;
 		}
 
-		var datetime = clockJson.getDate();
-		var week = clockJson.getWeek();
-		var time = clockJson.getTime();
-		var rel = $.extend(true, {}, {
-			datetime : datetime
-		}, {
-			time : time.time
-		}, {
-			week : week
-		}, {
+		var datetime = clockJson.getDate(options);
+		var week = clockJson.getWeek(options);
+		var time = clockJson.getTime(options);
+		var result = $.extend(true, {}, {
+			datetime : datetime,
+			time : time.time,
+			week : week,
 			remind : time.remind
 		});
-		clockJson.result = $.extend(true, {}, clockJson.result, rel);
-		clockJson.timeStamp = clockJson.timeStamp + 1000;
-		if ($.isFunction(clockJson.callback)) {
-			clockJson.callback();
+		options.timeStamp = options.timeStamp + 1000;
+		if ($.isFunction(options.callback)) {
+			options.callback(result);
 		}
 
-		clockJson.timerID = setTimeout("clockJson.returnTimeJson("+ page_id +")", 1000);
+		var timerID = setTimeout(function() {
+			clockJson.startClock(options);
+		}, 1000);
+		pageID_timeID[options.pageID] = timerID;
 	},
-	getDate : function() {
-		if (clockJson.withDate == true) {
+	getDate : function(options) {
+		var dateNow = {};
+		if (options.withDate == true) {
 			var now;
-			if (clockJson.timeStamp == 0) {
+			if (options.timeStamp == 0) {
 				now = new Date();
 			} else {
-				now = new Date(clockJson.timeStamp + clockJson.offset);
+				now = new Date(parseInt(options.timeStamp) + parseInt(options.offset));
 			}
 			var year, month, date;
 
-			if (clockJson.utc == true) {
+			if (options.utc == true) {
 				year = now.getUTCFullYear();
 				month = now.getUTCMonth() + 1;
 				date = now.getUTCDate();
@@ -87,13 +78,13 @@ clockJson = {
 			month = ((month < 10) ? "0" : "") + month;
 			date = ((date < 10) ? "0" : "") + date;
 
-			var dateNow = {
+			dateNow = {
 				year : year,
 				month : month,
 				date : date
 			}
 		} else {
-			var dateNow = {
+			dateNow = {
 				year : "",
 				month : "",
 				date : ""
@@ -101,17 +92,18 @@ clockJson = {
 		}
 		return dateNow;
 	},
-	getWeek : function() {
-		if (clockJson.withWeek == true) {
+	getWeek : function(options) {
+		var weekNow = {};
+		if (options.withWeek == true) {
 			var now;
-			if (clockJson.timeStamp == 0) {
+			if (options.timeStamp == 0) {
 				now = new Date();
 			} else {
-				now = new Date(clockJson.timeStamp + clockJson.offset);
+				now = new Date(parseInt(options.timeStamp) + parseInt(options.offset));
 			}
 			var week;
 
-			if (clockJson.utc == true) {
+			if (options.utc == true) {
 				week = now.getUTCDay();
 			} else {
 				week = now.getDay();
@@ -124,26 +116,26 @@ clockJson = {
 				}
 			});
 
-			var weekNow = {
+			weekNow = {
 				value : "星期" + week
 			}
 		} else {
-			var weekNow = {
+			weekNow = {
 				value : ""
 			};
 		}
 		return weekNow;
 	},
-	getTime : function() {
+	getTime : function(options) {
 		var now;
-		if (clockJson.timeStamp == 0) {
+		if (options.timeStamp == 0) {
 			now = new Date();
 		} else {
-			now = new Date(clockJson.timeStamp + clockJson.offset);
+			now = new Date(parseInt(options.timeStamp) + parseInt(options.offset));
 		}
 		var hours, minutes, seconds;
 
-		if (clockJson.utc == true) {
+		if (options.utc == true) {
 			hours = now.getUTCHours();
 			minutes = now.getUTCMinutes();
 			seconds = now.getUTCSeconds();
@@ -153,7 +145,7 @@ clockJson = {
 			seconds = now.getSeconds();
 		}
 		var rem = clockJson.remind(hours);
-		if (clockJson.timeNotation == '12h') {
+		if (options.timeNotation == '12h') {
 			hours = ((hours > 12) ? hours - 12 : hours);
 		} else {
 			hours = ((hours < 10) ? "0" : "") + hours;
@@ -173,10 +165,10 @@ clockJson = {
 				am_pm : ""
 			}
 		});
-		if (clockJson.offset != 0) {
-			timeNow.time.utc = clockJson.offset / 3600000;
+		if (options.offset != 0) {
+			timeNow.time.utc = options.offset / 3600000;
 		}
-		if ((clockJson.timeNotation == '12h') && (clockJson.am_pm == true)) {
+		if ((options.timeNotation == '12h') && (options.am_pm == true)) {
 			timeNow.time.am_pm = (hours >= 12) ? " P.M." : " A.M."
 		}
 

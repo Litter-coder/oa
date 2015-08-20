@@ -96,12 +96,20 @@ public class LoginController {
 	@ResponseBody
 	public String getToken(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		getAllLoginUser();
-		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
-		String token = md5.encodePassword(StringUtil.getRandomString(20), null);
 		HttpSession session = request.getSession();
-		// 设置随机token对象到session中
-		RandomToken randomToken = new RandomToken(token, new Date().getTime() / 1000);
-		session.setAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_RANDOM_TOKEN, randomToken);
+		Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+		String token = null;
+		synchronized (session) {
+			RandomToken randomToken = (RandomToken) session.getAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_RANDOM_TOKEN);
+			if (randomToken == null) {
+				token = md5.encodePassword(StringUtil.getRandomString(20), null);
+				// 设置随机token对象到session中
+				randomToken = new RandomToken(token, new Date().getTime() / 1000);
+				session.setAttribute(RandomTokenValidateCodeUsernamePasswordAuthenticationFilter.SPRING_SECURITY_RANDOM_TOKEN, randomToken);
+			} else {
+				token = randomToken.getToken();
+			}
+		}
 		return token;
 	}
 

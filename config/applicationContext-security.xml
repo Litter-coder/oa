@@ -168,6 +168,7 @@
 
 		<beans:property name="defaultTargetUrl" value="/index/main.do" />    <!-- 登录成功跳转URL -->
 
+		<beans:property name="alwaysUseDefaultTargetUrl" value="true"/>
 	</beans:bean>
 
 	<beans:bean id="simpleUrlAuthenticationFailureHandler"

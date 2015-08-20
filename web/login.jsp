@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="${oa}/css/login/login.css" />
 <link href="${oa}/css/login/bootstrap.min.css" rel="stylesheet" />
 <script src="${oa}/js/jquery/jquery-1.8.2.min.js"></script>
-<script src="${oa}/js/jquery/jquery-1.3.2.min.js" type="text/javascript"></script>
 <script src="${oa}/js/plugin/png.js" type="text/javascript"></script>
 <script src="${oa}/js/plugin/md5.js" type="text/ecmascript"></script>
 <script src="${oa}/js/plugin/jquery.form.js" type="text/javascript"></script>
@@ -22,9 +21,8 @@
 		var msg = "${SPRING_SECURITY_LAST_EXCEPTION.message}";
 		if (msg != null && msg != "" && msg != "undefined") {
 			show_err_msg(msg);
-<%request.getSession().removeAttribute(
-					"SPRING_SECURITY_LAST_EXCEPTION");%>
-	}
+			<%request.getSession().removeAttribute("SPRING_SECURITY_LAST_EXCEPTION");%>
+		}
 		$("#j_username").focus();
 		if (window.parent.frames.length > 0) {
 			window.parent.location.reload();
@@ -77,7 +75,7 @@
 						<div class="form-group">
 							<label for="j_username" class="t">用户名：</label>
 							<!--  -->
-							<input id="j_username" value="" name="j_username" type="text" class="form-control x315 in" />
+							<input id="j_username" value="${SPRING_SECURITY_LAST_USERNAME}" name="j_username" type="text" class="form-control x315 in" />
 						</div>
 						<div class="form-group">
 							<label for="j_password" class="t">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>

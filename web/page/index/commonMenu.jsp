@@ -113,13 +113,13 @@ $(function(){
 					<a href="javascript:;">组织</a>
 				</li>
 			</ul>
-			<div class="mousedownrefresh_tip" id="mousedownrefresh_tip">
-				<span></span>
-			</div>
 			<div class="nav-tabs-content" id="mousedownrefresh">
 				<div class="tab-pane active" id="pane-today"></div>
 				<div class="tab-pane" id="pane-message"></div>
 				<div class="tab-pane" id="pane-org"></div>
+			</div>
+			<div class="mousedownrefresh_tip" id="mousedownrefresh_tip">
+				<span></span>
 			</div>
 		</div>
 	</li>

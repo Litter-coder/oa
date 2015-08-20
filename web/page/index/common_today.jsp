@@ -11,9 +11,8 @@ $(function(){
 		timeStamp : "${timestamp}",
 		utc : true,
 		offset : "${offset}",
-		callback : function() {
+		callback : function(result) {
 			var $mod_time_colon = $("span.mod-time-colon");
-			var result = clockJson.result;
 			$("#mod-time-hour").html(result.time.hours);
 			$("#mod-time-minute").html(result.time.minutes);
 			$("#mod-time-week").html(result.week.value);
