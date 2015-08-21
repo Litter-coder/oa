@@ -31,6 +31,9 @@
 				$.post($a.attr("href"), eval("(" + data + ")"), function(html) {
 					var json = DWZ.jsonEval(html);
 					DWZ.ajaxDone(json);
+					if (!$.isEmptyObject(json)) {
+						return;
+					}
 					if ($.fn.jBarDisplay) {
 						$.fn.jBarDisplay();
 					}
@@ -71,7 +74,9 @@
 				$.post($li.find(">a").attr("href"), {}, function(html) {
 					var json = DWZ.jsonEval(html);
 					DWZ.ajaxDone(json);
-
+					if (!$.isEmptyObject(json)) {
+						return;
+					}
 					_hide($this);
 					$this.find(op.boxTitle$).html($li.find(">a").html());
 					$("#sidebar").find(".accordion").remove().end().append(html).initUI();

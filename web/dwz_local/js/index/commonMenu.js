@@ -138,7 +138,7 @@ function initNavitem(option) {
 function initAvtar(option) {
 	var def_image = option.webName + option.avtar.def_image;
 	var user_sex = option.avtar.user_sex;
-	if (!user_sex) {// 0
+	if (user_sex == 0) {// 0
 		$(".avtar-man", $p).addClass("avtar-woman");
 		$(".avtar-man", $p).removeClass("avtar-man");
 		def_image = option.webName + "/dwz_local/images/woman-img.png";
@@ -179,7 +179,7 @@ var movedownRefresh = {
 	},
 	init : function(options) {
 		movedownRefresh.defaults = $.extend({}, movedownRefresh.defaults, options);
-		movedownRefresh.defaults.$object.bind("mousedown", movedownRefresh.mouseDown);
+		movedownRefresh.defaults.$object.bind("mousedown", movedownRefresh.mouseDown).bind("contextmenu", function(){return false;});
 		movedownRefresh.defaults.$object.bind("mousemove", movedownRefresh.mouseMove);
 		movedownRefresh.defaults.$object.bind("mouseup", movedownRefresh.mouseUp);
 

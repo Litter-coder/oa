@@ -318,6 +318,10 @@ nav-tabs-content div {
 	color: #FA0;
 }
 
+#mod-time-datecn{
+	font-size: 12px;
+}
+
 .mod .city {
 	position: absolute;
 	top: 5px;
@@ -449,6 +453,6 @@ nav-tabs-content div {
 .mousedownrefresh_tip {
 	background-color: #F3F3F3;
 	text-align: center;
-	display : none;
+	display: none;
 	color: #5B99EE;
 }

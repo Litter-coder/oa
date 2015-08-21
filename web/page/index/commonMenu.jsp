@@ -14,8 +14,8 @@ $(function(){
 	initCommonMenu({
 		webName : "${oa}",
 		avtar : {
-			user_sex : "${user.sex}",
-			user_img : "${user.image}"
+			user_sex : '<c:out value="${user.sex}"/>',
+			user_img : '<c:out value="${user.image}"/>'
 		},
 		callback : function(){
 			$("#themeList").theme({
@@ -47,11 +47,11 @@ $(function(){
 		<div class="nav-content avtar-content" style="display: none">
 			<div class="avtar-top">
 				<div class="avtar-img">
-					<img src="${user.image}">
+					<img src='<c:out value="${user.image}" escapeXml="true"/>'>
 				</div>
 				<div class="avtar-info">
 					<h6 class="avtar-info-name">
-						<span>${user.name}</span>
+						<span><c:out value="${user.name}" escapeXml="true"/></span>
 						<div class="avtar-info-online">
 							<img src="${oa}/dwz_local/images/status-online.png" title="在线">
 							<div class="avtar-info-tip">

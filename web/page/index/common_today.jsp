@@ -2,6 +2,7 @@
 <%@ include file="/page/public/common.jsp"%>
 <script src="${oa}/dwz_local/js/index/clock.json.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/index/plugin.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/calendarCN.js" type="text/javascript"></script>
 <!-- 组件菜单中的消息菜单 -->
 <script type="text/javascript">
 $(function(){
@@ -13,15 +14,18 @@ $(function(){
 		offset : "${offset}",
 		callback : function(result) {
 			var $mod_time_colon = $("span.mod-time-colon");
-			$("#mod-time-hour").html(result.time.hours);
-			$("#mod-time-minute").html(result.time.minutes);
-			$("#mod-time-week").html(result.week.value);
-			$("#mod-time-date").html(result.datetime.year + "年" + result.datetime.month + "月" + result.datetime.date + "日");
+			$("#mod-time-hour").text(result.time.hours);
+			$("#mod-time-minute").text(result.time.minutes);
+			$("#mod-time-week").text(result.week.value);
+			$("#mod-time-date").text(result.datetime.year + "年" + result.datetime.month + "月" + result.datetime.date + "日");
 			if ($mod_time_colon.hasClass("twinkle")) {
 				$mod_time_colon.removeClass("twinkle");
 			} else {
 				$mod_time_colon.addClass("twinkle");
 			}
+			
+			var dateCn = calendarCN.solar2lunar(result.datetime.year, result.datetime.month, result.datetime.date);
+			$("#mod-time-datecn").text("农历" + dateCn.IMonthCn + dateCn.IDayCn);
 		}
 	});
 	
@@ -91,7 +95,7 @@ function getWeather(){
 	</div>
 	<div class="mod-time-info">
 		<span class="mod-time-date" id="mod-time-date"></span>
-		<span class="mod-time-date">(农历六月廿九)</span>
+		<span class="mod-time-date" id="mod-time-datecn"></span>
 	</div>
 </div>
 <div class="mod">
