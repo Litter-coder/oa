@@ -2,7 +2,8 @@
 <%@ include file="/page/public/common.jsp"%>
 <link href="${oa}/dwz_local/css/commonmenu.css" rel="stylesheet" type="text/css" media="screen"/>
 <!-- 右上角组件菜单 -->
-<script src="${oa}/dwz_local/js/index/commonMenu.js" type="text/javascript"></script>
+<script src="${oa}/js/index/commonMenu.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/jquery.movedownRefresh.js" type="text/javascript"></script>
 <script type="text/javascript">
 // 消息div id与url对应的JSON
 var nav_tabs_content = {
@@ -27,11 +28,12 @@ $(function(){
 					$("#" + key).loadUrl(nav_tabs_content[key]);
 				}
 			});
-			movedownRefresh.init({
+			
+			$(".nav-tabs-content .tab-pane").pulldownRefresh({
 				callback : function(){
-					var activeUrl = nav_tabs_content[$("#mousedownrefresh .active").attr("id")];
-					$("#mousedownrefresh .active").children().remove();
-					$("#mousedownrefresh .active").loadUrl(activeUrl);
+					var activeUrl = nav_tabs_content[$(".nav-tabs-content .active").attr("id")];
+					$(".nav-tabs-content .active").children().remove();
+					$(".nav-tabs-content .active").loadUrl(activeUrl);
 				}
 			});
 		}
@@ -113,13 +115,15 @@ $(function(){
 					<a href="javascript:;">组织</a>
 				</li>
 			</ul>
-			<div class="nav-tabs-content" id="mousedownrefresh">
+			<div class="nav-tabs-content">
 				<div class="tab-pane active" id="pane-today"></div>
-				<div class="tab-pane" id="pane-message"></div>
+				<div class="tab-pane" id="pane-message">
+					<div class="btn-group">
+						<button class="btn btn-mini seleted"><span>事务提醒</span></button>
+						<button class="btn btn-mini"><span>聊天</span></button>
+					</div>
+				</div>
 				<div class="tab-pane" id="pane-org"></div>
-			</div>
-			<div class="mousedownrefresh_tip" id="mousedownrefresh_tip">
-				<span></span>
 			</div>
 		</div>
 	</li>

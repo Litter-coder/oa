@@ -318,7 +318,7 @@ nav-tabs-content div {
 	color: #FA0;
 }
 
-#mod-time-datecn{
+#mod-time-datecn {
 	font-size: 12px;
 }
 
@@ -364,7 +364,7 @@ nav-tabs-content div {
 	position: relative;
 }
 
-.mod-bd .weather_info {
+.mod-bd .weather-info {
 	position: relative;
 	padding: 10px;
 	margin: 0px;
@@ -382,7 +382,7 @@ nav-tabs-content div {
 	color: #5B99EE;
 }
 
-.mod-bd .weather_info img {
+.mod-bd .weather-info img {
 	display: inline-block;
 	width: 40px;
 	height: 40px;
@@ -398,12 +398,12 @@ nav-tabs-content div {
 	padding: 0px 5px;
 }
 
-.mod-bd .weather_areas {
+.mod-bd .weather-areas {
 	padding: 20px 0px;
 	display: none;
 }
 
-.weather_areas select {
+.weather-areas select {
 	width: 80px;
 	height: 30px;
 	line-height: 30px;
@@ -420,12 +420,12 @@ nav-tabs-content div {
 	vertical-align: middle;
 }
 
-.weather_areas .btns {
+.weather-areas .weather-btns {
 	text-align: right;
 	padding-right: 13px;
 }
 
-.btns .btn {
+.btn {
 	position: relative;
 	padding: 4px 12px;
 	margin: 0px;
@@ -450,9 +450,76 @@ nav-tabs-content div {
 	color: #5B99EE;
 }
 
-.mousedownrefresh_tip {
-	background-color: #F3F3F3;
-	text-align: center;
-	display: none;
-	color: #5B99EE;
+.tab-pane .btn-group {
+	position: relative;
+	font-size: 0px;
+	vertical-align: middle;
+	white-space: nowrap;
+	display: block;
+	margin-bottom: 10px;
+}
+
+.btn-group .btn {
+	width: 50%;
+	cursor: pointer;
+	border-radius: 0px;
+}
+
+.btn-group .btn:FIRST-CHILD {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	-moz-border-radius-bottomleft: 4px;
+	-moz-border-radius-topleft: 4px;
+	margin-left: 0px;
+}
+
+.btn-group .btn:LAST-CHILD {
+	border-bottom-right-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+.btn-group .btn-mini {
+	line-height: 13px;
+	padding: 2px 6px;
+}
+
+.btn-group .btn:HOVER {
+	z-index: 2;
+	text-shadow: none;
+	border-color: #C6C6C6;
+	box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+	background-color: #F5F5F5;
+	background-image: linear-gradient(to bottom, #F8F8F8, #F1F1F1);
+	background-repeat: repeat-x;
+	background-position: 0px 0px;
+	transition: none 0s ease 0s;
+}
+
+.btn-group .btn span {
+	padding: 4px 0px;
+	display: inline-block;
+	line-height: 13px;
+}
+
+.btn-group .seleted {
+	border: 1px solid #3079ED;
+	color: #FFF;
+	background-color: #4B8CF7;
+	background-image: linear-gradient(to bottom, #4D90FE, #4787ED);
+	background-repeat: repeat-x;
+	text-shadow: 0px 1px rgba(0, 0, 0, 0.1);
+}
+
+.btn-group .seleted:hover {
+	border: 1px solid #196AEB;
+	color: #FFF;
+	background-image: linear-gradient(to bottom, #4D90FE, #3078EB);
+	background-repeat: repeat-x;
+	background-color: #3078EB;
+}
+
+}
+.btn-group .seleted:FOCUS {
+	box-shadow: 0px 0px 0px 1px #FFF inset;
+	border: 1px solid #3079ED;
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
-<script src="${oa}/dwz_local/js/index/clock.json.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/index/plugin.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/clock.json.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/citycode.js" type="text/javascript"></script>
 <script src="${oa}/js/plugin/calendarCN.js" type="text/javascript"></script>
 <!-- 组件菜单中的消息菜单 -->
 <script type="text/javascript">
@@ -37,21 +37,21 @@ $(function(){
 	getWeather();
 	
 	$(".mod-hd .city").click(function() {
-		if ($(this).parent().next().find("div.weather_areas").is(":hidden")) {
+		if ($(this).parent().next().find("div.weather-areas").is(":hidden")) {
 			$(this).parent().next().find("span:eq(0)").hide();
-			$(this).parent().next().find("div.weather_info").hide();
+			$(this).parent().next().find("div.weather-info").hide();
 			if($.isFunction($.cookie) && $.cookie("weatherCity")) {
 				weatherCity = $.cookie("weatherCity");
 			}
 			InitProvince(weatherCity);
-			$(this).parent().next().find("div.weather_areas").show();
+			$(this).parent().next().find("div.weather-areas").show();
 		}
 	});
 	
-	$(".btns .btn").each(function() {
+	$(".weather-btns .btn").each(function() {
 		$(this).click(function() {
-			$(this).parents("div.weather_areas").hide();
-			$(this).parents("div.weather_areas").siblings().show();
+			$(this).parents("div.weather-areas").hide();
+			$(this).parents("div.weather-areas").siblings().show();
 			if ($(this).hasClass("btn_submit")) {// 调用weather
 				getWeather();
 			}
@@ -67,7 +67,6 @@ function getWeather(){
 	$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
 		var databody = data.showapi_res_body;
 		var imgUrl = "${oa}/dwz_local/images/weather/icon/";
-		$("#weather .weather_info").html("");
 		var $temping = $('<div class="temping"></div>');
 		var $day_pic = $('<img src="' + imgUrl + databody.f1.day_weather_pic + '"/>');
 		var $night_pic = $('<img src="' + imgUrl + databody.f1.night_weather_pic + '"/>');
@@ -80,8 +79,8 @@ function getWeather(){
 		}
 		var $temp_info = $('<span>' + weather_info + '</span><span>' + databody.f1.day_wind_power + '</span>');
 		$temp.append($temp_info);
-		$("#weather .weather_info").children().remove();
-		$("#weather .weather_info").append($temping).append($temp);
+		$("#weather .weather-info").html("");
+		$("#weather .weather-info").append($temping).append($temp);
 	})
 	
 }
@@ -107,9 +106,9 @@ function getWeather(){
 	</div>
 	<div class="mod-bd" id="weather">
 		<span id="city"></span>
-		<div class="weather_info">
+		<div class="weather-info">
 		</div>
-		<div class="weather_areas">
+		<div class="weather-areas">
 			<div>
 				<select id="w_province" onclick="InitCity(this.value)">
 				</select>
@@ -118,7 +117,7 @@ function getWeather(){
 				<select id="w_county">
 				</select>
 			</div>
-			<div class="btns">
+			<div class="weather-btns">
 				<button class="btn btn_submit">确定</button>
 				<button class="btn">取消</button>
 			</div>

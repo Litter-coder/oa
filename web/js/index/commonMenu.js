@@ -41,8 +41,8 @@ function initCommonMenu(option) {
 			if (!$this.hasClass("active")) {
 				$this.addClass("active");
 				$this.siblings(".active").removeClass("active");
-				$this.parent().next().find("div.active").removeClass("active");
-				$this.parent().next().find("div").eq(index).addClass("active");
+				$this.parent().next().find(">div.active").removeClass("active");
+				$this.parent().next().find(">div").eq(index).addClass("active");
 			}
 		});
 	});
@@ -166,110 +166,4 @@ function resizeMsgContent(option) {
 	var padBot = $msg_content.css("padding-bottom").replace('px', '');
 	var height = $("#container").height() - 2 - padTop - padBot;
 	$msg_content.height(height + "px");
-}
-
-var movedownRefresh = {
-	defaults : {
-		$object : $("#mousedownrefresh"),
-		condition_px : 50,
-		tip_start : "下拉刷新",
-		tip_stop : "释放刷新",
-		tip_end : "正在刷新",
-		callback : null
-	},
-	init : function(options) {
-		movedownRefresh.defaults = $.extend({}, movedownRefresh.defaults, options);
-		movedownRefresh.defaults.$object.bind("mousedown", movedownRefresh.mouseDown).bind("contextmenu", function(){return false;});
-		movedownRefresh.defaults.$object.bind("mousemove", movedownRefresh.mouseMove);
-		movedownRefresh.defaults.$object.bind("mouseup", movedownRefresh.mouseUp);
-
-	},
-	mouseDown : function(e) {
-		// 判断点击有效性
-		var $clickObj = $(e.target);
-		if ($clickObj.is("img")) {
-			return;
-		}
-		if ($clickObj.data("events")) {
-			return;
-		}
-
-		if (-[ 1, ] && e.button != 0) {
-			return;
-		}
-		if (!-[ 1, ] && e.button != 1) {
-			return;
-		}
-		movedownRefresh.defaults.$object = $("#mousedownrefresh");
-		movedownRefresh.defaults.$msgTip = $("#mousedownrefresh_tip");
-		movedownRefresh.defaults.tipPaddingTop = movedownRefresh.defaults.$msgTip.css("padding-top").replace('px', '');
-
-		var $obj = movedownRefresh.defaults.$object;
-		$obj.css("cursor", "pointer");
-		movedownRefresh.defaults.objY = $obj.position().top;
-		if (movedownRefresh.defaults.$msgTip.is(":visible")) {
-			movedownRefresh.defaults.objY = parseInt($obj.position().top) - parseInt(movedownRefresh.defaults.$msgTip.height());
-		}
-		movedownRefresh.defaults.mouseY = e.clientY;
-		movedownRefresh.isDown = true;
-	},
-	mouseMove : function(e) {
-		if (movedownRefresh.isDown) {
-			var y = e.clientY;
-			if (y >= movedownRefresh.defaults.mouseY) {
-				var $obj = movedownRefresh.defaults.$object;
-				var $msgTip = movedownRefresh.defaults.$msgTip;
-				var addY = parseInt(y) - parseInt(movedownRefresh.defaults.mouseY);
-				if (addY < movedownRefresh.defaults.condition_px) {
-					if ($msgTip.is(":hidden")) {
-						$msgTip.show();
-					} else {
-						$msgTip.find("span:eq(0)").text(movedownRefresh.defaults.tip_start);
-						$msgTip.css("padding-top", parseInt(movedownRefresh.defaults.tipPaddingTop) + addY + "px");
-					}
-					$obj[0].style.top = parseInt($msgTip.height()) + parseInt(movedownRefresh.defaults.objY) + addY + "px";
-				} else {
-					$msgTip.find("span:eq(0)").text(movedownRefresh.defaults.tip_stop);
-					// 可以再下拉5px ,为了好看
-					if ((addY - 10) <= movedownRefresh.defaults.condition_px) {
-						$msgTip.css("padding-bottom", addY - movedownRefresh.defaults.condition_px + "px");
-						$obj[0].style.top = parseInt($msgTip.height()) + parseInt(movedownRefresh.defaults.objY) + addY + "px";
-					}
-				}
-
-			}
-		}
-	},
-	mouseUp : function(e) {
-		if (movedownRefresh.isDown) {
-			var $obj = movedownRefresh.defaults.$object;
-			var $msgTip = movedownRefresh.defaults.$msgTip;
-			$obj.css("cursor", "default");
-
-			var y = e.clientY;
-			var addY = parseInt(y) - parseInt(movedownRefresh.defaults.mouseY);
-
-			if (addY < movedownRefresh.defaults.condition_px) {
-				movedownRefresh.reset();
-			} else {
-				var tipPaddingBottom = movedownRefresh.defaults.$msgTip.css("padding-bottom").replace('px', '');
-				$msgTip.css("padding-bottom", "0px");
-				$msgTip.find("span:eq(0)").text(movedownRefresh.defaults.tip_end);
-				$obj[0].style.top = parseInt($obj[0].style.top) - parseInt(tipPaddingBottom) + "px";
-				
-				if ($.isFunction(movedownRefresh.defaults.callback)) {
-					movedownRefresh.defaults.callback();
-					movedownRefresh.reset();
-				}
-			}
-			movedownRefresh.isDown = false;
-		}
-	},
-	reset : function() {
-		var $obj = movedownRefresh.defaults.$object;
-		var $msgTip = movedownRefresh.defaults.$msgTip;
-		$msgTip.css("padding-top", parseInt(movedownRefresh.defaults.tipPaddingTop) + "px");
-		$msgTip.hide().find("span:eq(0)").text("");
-		$obj[0].style.top = parseInt(movedownRefresh.defaults.objY) + "px";
-	}
 }
