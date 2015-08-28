@@ -23,26 +23,6 @@
 	height: 35px;
 }
 
-.infoNav .avtar-man {
-	background: transparent url("../images/man-menu.png") no-repeat scroll
-		0% 0%;
-}
-
-.infoNav .avtar-woman {
-	background: transparent url("../images/woman-menu.png") no-repeat scroll
-		0% 0%;
-}
-
-.infoNav .msg {
-	background: transparent url("../images/msg-menu.png") no-repeat scroll
-		0% 0%;
-}
-
-.infoNav .theme {
-	background: transparent url("../images/theme-menu.png") no-repeat scroll
-		0% 0%
-}
-
 .navin .selected {
 	background-color: #FFF;
 	border-radius: 10px;
@@ -285,11 +265,6 @@
 	display: block;
 }
 
-nav-tabs-content div {
-	overflow-y: auto;
-	overflow-x: hidden;
-}
-
 .time-info {
 	padding: 10px 15px;
 }
@@ -425,6 +400,15 @@ nav-tabs-content div {
 	padding-right: 13px;
 }
 
+.tab-pane .btn-group {
+	position: relative;
+	font-size: 0px;
+	vertical-align: middle;
+	white-space: nowrap;
+	display: block;
+	margin-bottom: 10px;
+}
+
 .btn {
 	position: relative;
 	padding: 4px 12px;
@@ -448,15 +432,6 @@ nav-tabs-content div {
 
 .btns .btn:HOVER {
 	color: #5B99EE;
-}
-
-.tab-pane .btn-group {
-	position: relative;
-	font-size: 0px;
-	vertical-align: middle;
-	white-space: nowrap;
-	display: block;
-	margin-bottom: 10px;
 }
 
 .btn-group .btn {
@@ -522,4 +497,73 @@ nav-tabs-content div {
 .btn-group .seleted:FOCUS {
 	box-shadow: 0px 0px 0px 1px #FFF inset;
 	border: 1px solid #3079ED;
+}
+
+.message-im {
+	/* 	display: none; */
+	width: 100%;
+	overflow: hidden;
+}
+
+.message-im-info {
+	height: 100%;
+}
+
+.message-im-list {
+	margin: 0px;
+	padding: 0px;
+	bottom: 20px;
+	overflow-x: hidden;
+}
+
+.message-im-item {
+	display: block;
+	text-decoration: none;
+	position: relative;
+	padding: 5px;
+	color: #333;
+	border-bottom: 1px dotted #DDD;
+	cursor: pointer;
+	overflow: hidden;
+}
+
+.message-im-item>img {
+	height: 40px;
+	width: 40px;
+	border-radius: 20px;
+	width: 40px;
+	height: 40px;
+	margin-top: 3px;
+	float: left;
+}
+
+.im-info {
+	margin-left: 50px;
+	text-align: left;
+}
+
+.im-title {
+	font-size: 14px;
+}
+
+.im-time {
+	float: right;
+	color: #999;
+}
+
+.im-content {
+	color: #999;
+	margin-bottom: 0px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 20px;
+	line-height: 30px;
+}
+
+.message-im-item:HOVER{
+/* 	background-image: linear-gradient(to bottom, #faefc3, #faefc3); */
+}
+.message-im-item:FOCUS {
+	background-image: linear-gradient(to bottom, #fdeba8, #fdeba8);
 }

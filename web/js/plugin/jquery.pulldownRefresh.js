@@ -23,6 +23,7 @@
 				}
 
 				$(this).bind("mousedown", function(e) {
+					console.log(JSON.stringify($(this)))
 					mouseDown(e, this)
 				}).bind("contextmenu", function() {
 					return false;
@@ -49,23 +50,25 @@
 
 			function mouseDown(e, obj) {
 				// 判断点击有效性
-				var $clickObj = $(e.target);
-				if ($clickObj.is("img")) {
-					return;
-				}
-				if ($clickObj.data("events")) {
-					return;
-				}
-
 				if (-[ 1, ] && e.button != 0) {
 					return;
 				}
 				if (!-[ 1, ] && e.button != 1) {
 					return;
 				}
+				
+				var $clickObj = $(e.target);
+				if ($clickObj.is("img")) {
+					return;
+				}
+				
+				if ($clickObj[0] !== $(obj)[0] && $clickObj.data("events")) {
+					return;
+				}
 
+				
 				$(obj).css("cursor", "pointer");
-				if($("#pullTip", $(obj)).length == 0){
+				if ($("#pullTip", $(obj)).length == 0) {
 					initTip(obj);
 					op.mouseY = e.clientY;
 					op.isDown = true;
@@ -74,12 +77,12 @@
 			function mouseMove(e, obj) {
 				if (op.isDown) {
 					var y = e.clientY;
-
 					if (y >= op.mouseY) {
 						var addY = parseInt(y) - parseInt(op.mouseY);
 						var $pullTip = $("#pullTip", $(obj));
 						if (addY < op.condition_px) {
 							if ($pullTip.is(":hidden")) {
+								$(obj).scrollTop(0);
 								$pullTip.show();
 							}
 							$pullTip.find("span:eq(0)").text(op.pull_tip.tip_start);
@@ -108,7 +111,7 @@
 					} else {
 						$pullTip.css("padding-bottom", "0px");
 						$pullTip.find("span:eq(0)").text(op.pull_tip.tip_stop);
-						
+
 						if ($.isFunction(op.callback)) {
 							op.callback();
 						}

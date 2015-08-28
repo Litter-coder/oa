@@ -139,9 +139,8 @@ function initAvtar(option) {
 	var def_image = option.webName + option.avtar.def_image;
 	var user_sex = option.avtar.user_sex;
 	if (user_sex == 0) {// 0
-		$(".avtar-man", $p).addClass("avtar-woman");
-		$(".avtar-man", $p).removeClass("avtar-man");
-		def_image = option.webName + "/dwz_local/images/woman-img.png";
+		$(".avtar-menu >img", $p).attr("src",option.webName + "/images/index/woman-menu.png");
+		def_image = option.webName + "/images/index/woman-img.png";
 	}
 	var user_img = option.avtar.user_img;
 	if (!user_img) {

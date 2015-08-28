@@ -1,9 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
-<link href="${oa}/dwz_local/css/commonmenu.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${oa}/css/index/commonmenu.css" rel="stylesheet" type="text/css" media="screen"/>
 <!-- 右上角组件菜单 -->
 <script src="${oa}/js/index/commonMenu.js" type="text/javascript"></script>
-<script src="${oa}/js/plugin/jquery.movedownRefresh.js" type="text/javascript"></script>
+<script src="${oa}/js/plugin/jquery.pulldownRefresh.js" type="text/javascript"></script>
 <script type="text/javascript">
 // 消息div id与url对应的JSON
 var nav_tabs_content = {
@@ -44,7 +44,9 @@ $(function(){
 	<li class="navin">
 		<!-- 个人信息 -->
 		<div class="nav-item hover" align="center">
-			<div class="avtar-man"></div>
+			<div class="avtar-menu">
+				<img src="${oa}/images/index/man-menu.png">
+			</div>
 		</div>
 		<div class="nav-content avtar-content" style="display: none">
 			<div class="avtar-top">
@@ -55,18 +57,18 @@ $(function(){
 					<h6 class="avtar-info-name">
 						<span><c:out value="${user.name}" escapeXml="true"/></span>
 						<div class="avtar-info-online">
-							<img src="${oa}/dwz_local/images/status-online.png" title="在线">
+							<img src="${oa}/images/index/status-online.png" title="在线">
 							<div class="avtar-info-tip">
 								<a href="javascript:;" status = "1">
-									<img src="${oa}/dwz_local/images/status-online.png">
+									<img src="${oa}/images/index/status-online.png">
 									<span>在线</span>
 								</a>
 								<a href="javascript:;" status = "2">
-									<img src="${oa}/dwz_local/images/status-busy.png">
+									<img src="${oa}/images/index/status-busy.png">
 									<span>忙碌</span>
 								</a>
 								<a href="javascript:;" status = "3">
-									<img src="${oa}/dwz_local/images/status-offline.png">
+									<img src="${oa}/images/index/status-offline.png">
 									<span>离线</span>
 								</a>
 							</div>
@@ -86,7 +88,9 @@ $(function(){
 	<li class="navin">
 		<!-- 主题切换 -->
 		<div class="nav-item" align="center">
-			<div class="theme"></div>
+			<div class="theme">
+				<img src="${oa }/images/index/theme-menu.png">
+			</div>
 		</div>
 		<div class="nav-content theme-content" id="theme-content" style="display: none">
 			<ul class="themeList" id="themeList">
@@ -101,7 +105,9 @@ $(function(){
 	<li class="navin">
 		<!-- 消息提示 -->
 		<div class="nav-item" align="center">
-			<div class="msg"></div>
+			<div class="msg">
+				<img src="${oa}/images/index/msg-menu.png">
+			</div>
 		</div>
 		<div class="nav-content msg-content" style="display: none">
 			<ul class="nav-tabs">
@@ -119,8 +125,24 @@ $(function(){
 				<div class="tab-pane active" id="pane-today"></div>
 				<div class="tab-pane" id="pane-message">
 					<div class="btn-group">
-						<button class="btn btn-mini seleted"><span>事务提醒</span></button>
-						<button class="btn btn-mini"><span>聊天</span></button>
+						<button class="btn btn-mini"><span>事务提醒</span></button>
+						<button class="btn btn-mini seleted"><span>聊天</span></button>
+					</div>
+					<div class="message-im">
+						<div class="message-im-info">
+							<ul class="message-im-list">
+								<li>
+									<div class="message-im-item">
+										<img src="${oa}//images/index/man-menu.png">
+										<div class="im-info">
+											<span class="im-title">张三</span>
+											<span class="im-time">3分钟前</span>
+											<p class="im-content">aaaaaaaa</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 				<div class="tab-pane" id="pane-org"></div>

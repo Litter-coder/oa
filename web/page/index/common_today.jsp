@@ -66,7 +66,7 @@ function getWeather(){
 	$("#weather #city").text($("#w_county").find("option:selected").text());
 	$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
 		var databody = data.showapi_res_body;
-		var imgUrl = "${oa}/dwz_local/images/weather/icon/";
+		var imgUrl = "${oa}/images/index/weather/icon/";
 		var $temping = $('<div class="temping"></div>');
 		var $day_pic = $('<img src="' + imgUrl + databody.f1.day_weather_pic + '"/>');
 		var $night_pic = $('<img src="' + imgUrl + databody.f1.night_weather_pic + '"/>');
@@ -101,7 +101,7 @@ function getWeather(){
 	<div class="mod-hd">
 		<span class="mod-hd-title">天气</span>
 		<div class="city">
-			<img src="${oa}/dwz_local/images/manage-menu.png" width="24px" height="24px" />
+			<img src="${oa}/images/index/manage-menu.png" width="24px" height="24px" />
 		</div>
 	</div>
 	<div class="mod-bd" id="weather">
