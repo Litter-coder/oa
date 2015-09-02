@@ -225,7 +225,9 @@ function initUI(_box){
 			options.drawable = eval($this.attr("drawable") || "true");
 			options.close = eval($this.attr("close") || "");
 			options.param = $this.attr("param") || "";
-
+			// 是否合并
+			options.combinable = $this.attr("combinable") || "false";
+			
 			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
 			DWZ.debug(url);
 			if (!url.isFinishedTm()) {

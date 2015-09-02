@@ -516,6 +516,10 @@
 	overflow-x: hidden;
 }
 
+.message-im-list a {
+	text-decoration: none;
+}
+
 .message-im-item {
 	display: block;
 	text-decoration: none;
@@ -561,9 +565,78 @@
 	line-height: 30px;
 }
 
-.message-im-item:HOVER{
-/* 	background-image: linear-gradient(to bottom, #faefc3, #faefc3); */
+.message-im-item:HOVER {
+	/* 	background-image: linear-gradient(to bottom, #faefc3, #faefc3); */
+	
 }
+
 .message-im-item:FOCUS {
 	background-image: linear-gradient(to bottom, #fdeba8, #fdeba8);
+}
+
+.dialogCombinableTitle {
+	float: left;
+	width: 200px;
+	height: 100%;
+	background-color: #E4E6F5;
+	overflow: hidden;
+	border-radius: 5px 0px 0px 5px;
+}
+
+.dialogCombinableList {
+	margin: 0px;
+	padding: 5px;
+	overflow-x: hidden;
+}
+
+.dialogCombinableItem {
+	display: block;
+	text-decoration: none;
+	position: relative;
+	padding: 5px;
+	color: #333;
+	cursor: pointer;
+	overflow: hidden;
+	background-color: #FFF;
+	border-radius: 5px;
+}
+
+.dialogCombinableItem>img {
+	height: 25px;
+	width: 25px;
+	border-radius: 20px;
+	margin-top: 3px;
+	float: left;
+}
+
+.dialogCombinableItem>p {
+	line-height: 30px;
+	font-size: 16px;
+	padding: 0px 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.dialogCombinableItem>a {
+	width: 11px;
+	height: 11px;
+	background: transparent
+		url("../../dwz/themes/default/images/tabs/tabspage_icon.png")
+		no-repeat scroll 0% 0%;
+	display: block;
+	position: absolute;
+	top: 14px;
+	right: 5px;
+}
+
+.dialogCombinableItem>a:HOVER {
+	background-position: 0px -50px;
+}
+
+.dialog {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #CCC;
+	border-radius: 5px;
 }

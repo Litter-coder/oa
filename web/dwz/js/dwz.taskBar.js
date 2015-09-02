@@ -96,12 +96,14 @@
 			if (iW > this._getTaskBarW()) {
 				var $this = this;
 				var lTask = $(">li:last-child", this._taskList);
-				var left = this._getTaskBarW() - lTask.position().left - lTask.outerWidth(true);
-				this._taskList.animate({
-					left: left + 'px'
-				}, 200, function(){
-					$this._ctrlScrollBut();
-				});
+				if(lTask.length > 0){
+					var left = this._getTaskBarW() - lTask.position().left - lTask.outerWidth(true);
+					this._taskList.animate({
+						left : left + 'px'
+					}, 200, function() {
+						$this._ctrlScrollBut();
+					});
+				}
 			} else {
 				this._ctrlScrollBut();
 			}

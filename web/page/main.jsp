@@ -35,12 +35,13 @@
 
 <script src="${oa}/dwz/bin/dwz.min.js" type="text/javascript"></script>
 <script src="${oa}/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
+
 <script src="${oa}/dwz_local/js/dwz.core.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.navtab.local.js" type="text/javascript"></script>
-
 <script src="${oa}/dwz_local/js/dwz.barDrag.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.switchEnv.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.ui.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.dialog.local.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){

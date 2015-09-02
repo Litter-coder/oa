@@ -132,14 +132,28 @@ $(function(){
 						<div class="message-im-info">
 							<ul class="message-im-list">
 								<li>
-									<div class="message-im-item">
-										<img src="${oa}//images/index/man-menu.png">
-										<div class="im-info">
-											<span class="im-title">张三</span>
-											<span class="im-time">3分钟前</span>
-											<p class="im-content">aaaaaaaa</p>
+									<a height="400" width="600" title="张三" target="dialog" combinable="true" rel="im_msg_01" href="${oa}/page/index/common_im_msg.jsp">
+										<div class="message-im-item">
+											<img src="${oa}//images/index/man-menu.png">
+											<div class="im-info">
+												<span class="im-title">张三</span>
+												<span class="im-time">3分钟前</span>
+												<p class="im-content">aaaaaaaa</p>
+											</div>
 										</div>
-									</div>
+									</a>
+								</li>
+								<li>
+									<a height="500" width="650" title="李四" target="dialog" combinable="true" rel="im_msg_02" href="${oa}/page/index/common_im_msg.jsp">
+										<div class="message-im-item">
+											<img src="${oa}//images/index/man-menu.png">
+											<div class="im-info">
+												<span class="im-title">李四</span>
+												<span class="im-time">3分钟前</span>
+												<p class="im-content">aaaaaaaa</p>
+											</div>
+										</div>
+									</a>
 								</li>
 							</ul>
 						</div>
