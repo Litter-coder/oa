@@ -574,19 +574,41 @@
 	background-image: linear-gradient(to bottom, #fdeba8, #fdeba8);
 }
 
+.dialogCombinable {
+	position: absolute;
+	top: 120.5px;
+	left: 383px;
+	display: block;
+	text-align: left;
+}
+
 .dialogCombinableTitle {
 	float: left;
-	width: 200px;
-	height: 100%;
-	background-color: #E4E6F5;
 	overflow: hidden;
 	border-radius: 5px 0px 0px 5px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #CCC;
+}
+
+.dialogCombinableTitle:HOVER {
+	overflow-y: auto;
 }
 
 .dialogCombinableList {
 	margin: 0px;
 	padding: 5px;
 	overflow-x: hidden;
+}
+
+.dialogCombinableList li {
+	margin: 2px;
+}
+
+.dialogCombinableContent {
+	background: #fff;
+	float: left;
+	position: relative;
 }
 
 .dialogCombinableItem {
@@ -597,8 +619,19 @@
 	color: #333;
 	cursor: pointer;
 	overflow: hidden;
-	background-color: #FFF;
 	border-radius: 5px;
+}
+
+.hover>.dialogCombinableItem {
+	background-color: rgba(168, 176, 183, 0.2);
+}
+
+.hover>.dialogCombinableItem>a {
+	display: block;
+}
+
+.selected>.dialogCombinableItem {
+	background-color: #FFF;
 }
 
 .dialogCombinableItem>img {
@@ -624,7 +657,7 @@
 	background: transparent
 		url("../../dwz/themes/default/images/tabs/tabspage_icon.png")
 		no-repeat scroll 0% 0%;
-	display: block;
+	display: none;
 	position: absolute;
 	top: 14px;
 	right: 5px;
@@ -632,11 +665,4 @@
 
 .dialogCombinableItem>a:HOVER {
 	background-position: 0px -50px;
-}
-
-.dialog {
-	border-width: 1px;
-	border-style: solid;
-	border-color: #CCC;
-	border-radius: 5px;
 }

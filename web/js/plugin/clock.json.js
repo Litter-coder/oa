@@ -3,7 +3,6 @@ clockJson = {
 	clock : function(options) {
 		var pageID = Math.random();// 页面id
 		pageID_timeID[pageID] = -1;// 让初始timeID为-1，用于判断
-		console.log("start "+pageID)
 		var o = $.extend({}, clockJson.defaults, options, {
 			running : false,
 			pageID : pageID
@@ -31,7 +30,6 @@ clockJson = {
 		options.running = true;
 		if (!pageID_timeID[options.pageID]) {
 			// 表示刷新了页面，或者
-			console.log("remove "+options.pageID)
 			return;
 		}
 

@@ -85,7 +85,9 @@ function initNavitem(option) {
 		var target = e.target;
 
 		if ($(target).closest($nav_item).length <= 0 && $(target).closest($nav_content).length <= 0) {
-			hideNavContent();
+			if(!$(target).data("events")){
+				hideNavContent();
+			}
 		}
 
 		if ($(target).closest("div.avtar-info-online").length <= 0) {

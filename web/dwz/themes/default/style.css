@@ -203,5 +203,6 @@ body, #splitBar { background:#e5edef;}
 .combox, .combox div, .combox div a { background:url(../default/images/search-bg.gif) no-repeat; }
 
 
-
+/* dialog */
+.dialogCombinableTitle{background: #E4E6F5 none repeat scroll 0% 0%;}
 

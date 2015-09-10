@@ -9,6 +9,6 @@
 
 <script type="text/javascript">
 	var oa = "${oa}";
-	var loginUserName = "${loginUsername}";
+	var loginUsername = "${loginUsername}";
 </script>
 

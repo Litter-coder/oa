@@ -201,3 +201,6 @@ body, #splitBar { background:#dfe8f6;}
 .combox .select a  { color:#15428B; }
 .comboxop { border-color:#99bbe8; }
 .combox, .combox div, .combox div a { background:url(../default/images/search-bg.gif) no-repeat; }
+
+/* dialog */
+.dialogCombinableTitle{background: #D4E6F6 none repeat scroll 0% 0%;}

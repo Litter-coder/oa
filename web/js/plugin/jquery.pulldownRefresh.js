@@ -23,7 +23,6 @@
 				}
 
 				$(this).bind("mousedown", function(e) {
-					console.log(JSON.stringify($(this)))
 					mouseDown(e, this)
 				}).bind("contextmenu", function() {
 					return false;

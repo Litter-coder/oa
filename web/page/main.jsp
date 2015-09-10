@@ -42,6 +42,8 @@
 <script src="${oa}/dwz_local/js/dwz.switchEnv.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.ui.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.dialog.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.taskBar.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.theme.local.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){

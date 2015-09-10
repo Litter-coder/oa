@@ -4,9 +4,9 @@
  */
 (function($) {
 	$.pdialog = $.extend(true, $.pdialog, {
+		_currentItem : null,
 		_op : {
-			combinable : false,
-			navtabId : null
+			combinable : false
 		},
 		reload : function(url, options) {
 			var op = $.extend({
@@ -37,17 +37,31 @@
 		// 打开一个层
 		open : function(url, dlgid, title, options) {
 			var op = $.extend({}, $.pdialog._op, options);
+			$.pdialog._reinitOptions(op);
+
 			var dialog = $("body").data(dlgid);
 			var dialogCombinable = $("body").data("dialogCombinable");
+			var item;
 
 			if (!dialog && dialogCombinable) {// 如果不存在
-				dialog = dialogCombinable.data(dlgid);
+				item = dialogCombinable.data(dlgid);
+				if (item) {
+					dialog = item.data(dlgid);
+				}
 			}
 
 			// 重复打开一个层
 			if (dialog) {
-				if (dialog.is(":hidden")) {
-					dialog.show();
+				if (eval(dialog.data("combinable"))) {
+					if (dialogCombinable.is(":hidden")) {
+						dialogCombinable.show();
+					}
+					$.pdialog._reLocationItem(item);
+					item.trigger("click");
+				} else {
+					if (dialog.is(":hidden")) {
+						dialog.show();
+					}
 				}
 				if (op.fresh || url != $(dialog).data("url")) {
 					dialog.data("url", url);
@@ -68,30 +82,68 @@
 				// 合并
 				if (options.combinable) {
 					if (!dialogCombinable) {
-						$("body").append(DWZ.frag["dialogCombinable"]);
+						$("body").append(DWZ.frag["dialogCombinableFrag"]);
 						dialogCombinable = $(">.dialogCombinable", "body");
+
+						$.pdialog._initDialogComb(dialogCombinable, options);
 					}
 					$("body").data("dialogCombinable", dialogCombinable);
 
-					var item = $('<li><div class="dialogCombinableItem"></div></li>');
+					dialogCombinable.find("ul li").removeClass("selected");
 
-					var itemImg = $('<img src="../images/index/woman-menu.png" />');
-					var itemP = $('<p>title22222222222222222222222222222</p>');
-					var itemA = $('<a class="closeItem" href="javascript:;" />');
+					var itemStr = '<li class="selected" id="' + dlgid
+							+ '"><div class="dialogCombinableItem"><img src="../images/index/woman-menu.png" /><p>#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
+					dialogCombinable.find("ul").append(itemStr.replace("#title#", title));
 
-					dialogCombinable.find("ul:eq(0)").append(item.append(itemImg).append(itemP).append(itemA));
+					item = $("#" + dlgid, dialogCombinable);
 
-					dialogCombinable.append(DWZ.frag["dialogFrag"]);
-					dialog = $(">.dialog:last-child", dialogCombinable);
-					dialogCombinable.data(dlgid, dialog);
+					$(">.dialogCombinableContent", dialogCombinable).append(DWZ.frag["dialogFrag"]);
+					dialog = $(">.dialog:last-child", $(">.dialogCombinableContent", dialogCombinable));
+					item.data(dlgid, dialog);
+					dialogCombinable.data(dlgid, item);
+
+					$.pdialog._reLocationItem(item);
+
+					item.hoverClass().click(function(event) {
+						if ($(event.target).is("a")) {
+							return false;
+						}
+						if ($(this).hasClass("selected")) {
+							return false;
+						}
+						$.pdialog._currentItem.removeClass("selected");
+
+						$(this).addClass("selected")
+						var id = $(this).attr("id");
+						$.pdialog.switchDialog($(this).data(id));
+						$.pdialog._currentItem = $(this);
+					});
+					$("a", item).click(function(event) {
+						var targetItem = $(this).parents("li:eq(0)");
+						var id = targetItem.attr("id");
+
+						$.pdialog.close(targetItem.data(id));
+
+						if (targetItem == $.pdialog._currentItem) {
+							var nextItem = $.pdialog._currentItem.next();
+							if (!nextItem) {
+								nextItem = $.pdialog._currentItem.prev();
+							}
+						}
+					});
+
+					$.pdialog._currentItem = item;
 				} else {
 					$("body").append(DWZ.frag["dialogFrag"]);
 					dialog = $(">.dialog:last-child", "body");
-					
+
 					$("body").data(dlgid, dialog);
 				}
 				dialog.data("id", dlgid);
 				dialog.data("url", url);
+
+				dialog.data("combinable", options.combinable);
+
 				if (options.close)
 					dialog.data("close", options.close);
 				if (options.param)
@@ -100,18 +152,49 @@
 
 				dialog.find(".dialogHeader").find("h1").html(title);
 				$(dialog).css("zIndex", ($.pdialog._zIndex += 2));
-				$("div.shadow").css("zIndex", $.pdialog._zIndex - 3).show();
+
 				$.pdialog._init(dialog, options);
+				if (!options.combinable) {
+					$("div.shadow").css("zIndex", $.pdialog._zIndex - 3).show();
+				} else {
+					dialog.jresize("destroy")
+				}
 				$(dialog).click(function() {
 					$.pdialog.switchDialog(dialog);
 				});
 
 				if (op.resizable)
 					dialog.jresize();
-				if (op.drawable)
-					dialog.dialogDrag();
+
+				if (op.drawable) {
+					if (options.combinable) {
+						dialogCombinable.dialogDrag();
+					} else {
+						dialog.dialogDrag();
+					}
+				}
 				$("a.close", dialog).click(function(event) {
-					$.pdialog.close(dialog);
+					if (eval(dialog.data("combinable"))) {
+						if ($(".dialog", $(".dialogCombinableContent", dialogCombinable)).length == 1) {
+							$.pdialog.close(dialog);
+							return false;
+						}
+						alertMsg.confirm("关闭此窗口所有会话还是仅关闭当前会话", {
+							okName : "关闭所有",
+							okCall : function() {
+								var dialogCombinable = $("body").data("dialogCombinable");
+								$(".dialog", $(".dialogCombinableContent", dialogCombinable)).each(function() {
+									$.pdialog.close($(this));
+								});
+							},
+							cancelName : "关闭当前",
+							cancelCall : function() {
+								$.pdialog.close(dialog);
+							}
+						})
+					} else {
+						$.pdialog.close(dialog);
+					}
 					return false;
 				});
 				if (op.maxable) {
@@ -151,9 +234,12 @@
 					$.pdialog.maxsize(dialog);
 					dialog.jresize("destroy").dialogDrag("destroy");
 				}
-//				$("body").data(dlgid, dialog);
+				// $("body").data(dlgid, dialog);
 				$.pdialog._current = dialog;
-				$.pdialog.attachShadow(dialog);
+
+				if (!options.combinable) {
+					$.pdialog.attachShadow(dialog);
+				}
 				// load data
 				var jDContent = $(".dialogContent", dialog);
 				jDContent.loadUrl(url, {}, function() {
@@ -172,8 +258,42 @@
 				$("#dialogBackground").show();
 			} else {
 				// add a task to task bar
-				if (op.minable)
-					$.taskBar.addDialog(dlgid, title);
+				if (op.minable) {
+					if (op.combinable) {
+						$.taskBar.addDialog("combinable_task", title);
+					} else {
+						$.taskBar.addDialog(dlgid, title);
+					}
+				}
+			}
+		},
+		_reinitOptions : function(op) {
+			if (op.combinable) {
+				op = $.extend(true, op, {
+					minH : 50,
+					minW : 250,
+					resizable : false,
+					mask : false
+				})
+			}
+		},
+		_reLocationItem : function(item) {
+			var dialogCombinable = $("body").data("dialogCombinable");
+			var titlesVH = $(".dialogCombinableTitle", dialogCombinable).height();// 可见高
+			var itemB; // item底部距父级元素的距离
+			var top = item.positionBy($(".dialogCombinableTitle", dialogCombinable)).top;
+			console.log(top)
+			if (top < 0) {
+				itemB = top;
+			} else {
+				itemB = top + item.outerHeight();
+			}
+
+			var scrollTop = $(".dialogCombinableTitle", dialogCombinable).scrollTop();
+			if (itemB < 0) {
+				$(".dialogCombinableTitle", dialogCombinable).scrollTop(itemB);
+			} else if (itemB >= titlesVH) {
+				$(".dialogCombinableTitle", dialogCombinable).scrollTop(scrollTop + itemB - titlesVH);
 			}
 		},
 		/**
@@ -184,15 +304,23 @@
 		 */
 		switchDialog : function(dialog) {
 			var index = $(dialog).css("zIndex");
-			$.pdialog.attachShadow(dialog);
+			if (!eval(dialog.data("combinable"))) {
+				$.pdialog.attachShadow(dialog);
+			}
 			if ($.pdialog._current) {
 				var cindex = $($.pdialog._current).css("zIndex");
 				$($.pdialog._current).css("zIndex", index);
 				$(dialog).css("zIndex", cindex);
-				$("div.shadow").css("zIndex", cindex - 1);
+				if (!eval(dialog.data("combinable"))) {
+					$("div.shadow").css("zIndex", cindex - 1);
+				}
 				$.pdialog._current = dialog;
 			}
-			$.taskBar.switchTask(dialog.data("id"));
+			if (!eval(dialog.data("combinable"))) {
+				$.taskBar.switchTask(dialog.data("id"));
+			} else {
+				$.taskBar.switchTask("combinable_task", $("div.dialogHeader h1", dialog).text());
+			}
 		},
 		/**
 		 * 给当前层附上阴隐层
@@ -217,20 +345,57 @@
 		},
 		_init : function(dialog, options) {
 			var op = $.extend({}, this._op, options);
-			var height = op.height > op.minH ? op.height : op.minH;
-			var width = op.width > op.minW ? op.width : op.minW;
-			if (isNaN(dialog.height()) || dialog.height() < height) {
+
+			if (!op.combinable) {
+				var height = op.height > op.minH ? op.height : op.minH;
+				var width = op.width > op.minW ? op.width : op.minW;
+				if (isNaN(dialog.height()) || dialog.height() < height) {
+					$(dialog).height(height + "px");
+					$(".dialogContent", dialog).height(height - $(".dialogHeader", dialog).outerHeight() - $(".dialogFooter", dialog).outerHeight() - 6);
+				}
+				if (isNaN(dialog.css("width")) || dialog.width() < width) {
+					$(dialog).width(width + "px");
+				}
+
+				var iTop = ($(window).height() - dialog.height()) / 2;
+				dialog.css({
+					left : ($(window).width() - dialog.width()) / 2,
+					top : iTop > 0 ? iTop : 0
+				});
+			} else {
+				var dialogCombinable = $("body").data("dialogCombinable");
+				var height = parseInt(dialogCombinable.height());
+				var width = parseInt(dialogCombinable.width());
+				var combTitleWidth = parseInt($("div.dialogCombinableTitle", dialogCombinable).width());
 				$(dialog).height(height + "px");
 				$(".dialogContent", dialog).height(height - $(".dialogHeader", dialog).outerHeight() - $(".dialogFooter", dialog).outerHeight() - 6);
+				$(dialog).width(width - combTitleWidth - 2 + "px");
+				dialog.css({
+					left : 0,
+					top : 0
+				});
 			}
-			if (isNaN(dialog.css("width")) || dialog.width() < width) {
-				$(dialog).width(width + "px");
-			}
+		},
+		/**
+		 * 初始化合并窗口
+		 */
+		_initDialogComb : function(dialogComb, options) {
+			var op = $.extend({}, this._op, options);
 
-			var iTop = ($(window).height() - dialog.height()) / 2;
-			dialog.css({
-				left : ($(window).width() - dialog.width()) / 2,
-				top : iTop > 0 ? iTop : 0
+			var height = op.height > op.minH ? op.height : op.minH;
+			var width = op.width > op.minW ? op.width : op.minW;
+			dialogComb.height(height + "px");
+			dialogComb.width(width + "px");
+			$(">.dialogCombinableTitle", dialogComb).width("198px");
+			$(">.dialogCombinableTitle", dialogComb).height(dialogComb.height() - 2 + "px");
+			$(">.dialogCombinableContent", dialogComb).width(dialogComb.width() - 200 + "px");
+			$(">.dialogCombinableContent", dialogComb).height(dialogComb.height() + "px");
+			var iTop = ($(window).height() - dialogComb.height()) / 2;
+			var iLeft = ($(window).width() - dialogComb.width()) / 2;
+			dialogComb.css({
+				left : iLeft,
+				top : iTop,
+				zIndex : $.pdialog._zIndex
 			});
 		},
 		/**
@@ -341,9 +506,20 @@
 
 			$(window).trigger(DWZ.eventType.resizeGrid);
 		},
-		close : function(dialog) {
-			if (typeof dialog == 'string')
+		close : function(dialog, closeAll) {
+			closeAll = closeAll || false;
+			var dialogCombinable = $("body").data("dialogCombinable");
+			if (typeof dialog == 'string') {
 				dialog = $("body").data(dialog);
+				if (!dialog) {
+					if (!dialog && dialogCombinable) {// 如果不存在
+						var item = dialogCombinable.data(dlgid);
+						if (item) {
+							dialog = item.data(dlgid);
+						}
+					}
+				}
+			}
 			var close = dialog.data("close");
 			var go = true;
 			if (close && $.isFunction(close)) {
@@ -363,11 +539,32 @@
 			if ($(dialog).data("mask")) {
 				$("#dialogBackground").hide();
 			} else {
-				if ($(dialog).data("id"))
-					$.taskBar.closeDialog($(dialog).data("id"));
+				if ($(dialog).data("id")) {
+					if (!eval($(dialog).data("combinable"))) {
+						$.taskBar.closeDialog($(dialog).data("id"));
+
+					}
+				}
 			}
-			$("body").removeData($(dialog).data("id"));
-			$(dialog).trigger(DWZ.eventType.pageClear).remove();
+			if (eval($(dialog).data("combinable"))) {
+				var item = dialogCombinable.data($(dialog).data("id"));
+				var showItem = item.next()[0] || item.prev()[0];
+
+				dialogCombinable.removeData($(dialog).data("id"))
+				item.trigger(DWZ.eventType.pageClear).remove();
+				$(dialog).trigger(DWZ.eventType.pageClear).remove();
+				if (showItem) {
+					($.pdialog._current == dialog) && $(showItem).trigger("click");
+				} else {
+					dialogCombinable.trigger(DWZ.eventType.pageClear).remove();
+					$("body").removeData("dialogCombinable");
+					$.taskBar.closeDialog("combinable_task")
+				}
+			} else {
+				$("body").removeData($(dialog).data("id"));
+				$(dialog).trigger(DWZ.eventType.pageClear).remove();
+			}
+
 		},
 		closeCurrent : function() {
 			this.close($.pdialog._current);

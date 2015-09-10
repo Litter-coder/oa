@@ -30,8 +30,8 @@ $(function(){
 	});
 	
 	var weatherCity = ConvertWeatherCity("广东_广州_广州");
-	if($.isFunction($.cookie) && $.cookie("weatherCity")) {
-		weatherCity = $.cookie("weatherCity");
+	if(DWZ.cookie(loginUsername) && DWZ.cookie(loginUsername)["weatherCity"]) {
+		weatherCity = DWZ.cookie(loginUsername)["weatherCity"];
 	}
 	InitProvince(weatherCity);
 	getWeather();
@@ -40,8 +40,8 @@ $(function(){
 		if ($(this).parent().next().find("div.weather-areas").is(":hidden")) {
 			$(this).parent().next().find("span:eq(0)").hide();
 			$(this).parent().next().find("div.weather-info").hide();
-			if($.isFunction($.cookie) && $.cookie("weatherCity")) {
-				weatherCity = $.cookie("weatherCity");
+			if(DWZ.cookie(loginUsername) && DWZ.cookie(loginUsername)["weatherCity"]) {
+				weatherCity = DWZ.cookie(loginUsername)["weatherCity"];
 			}
 			InitProvince(weatherCity);
 			$(this).parent().next().find("div.weather-areas").show();
@@ -60,9 +60,14 @@ $(function(){
 });
 function getWeather(){
 	var country = $("#w_county").val();
-	if($.isFunction($.cookie)) {
-		$.cookie("weatherCity", country);
+	var userCookie = DWZ.cookie(loginUsername);
+	if(!userCookie){
+		userCookie = {"weatherCity" : country}
+	}else{
+		userCookie["weatherCity"] = country;
 	}
+	DWZ.cookie(loginUsername, userCookie);
+	
 	$("#weather #city").text($("#w_county").find("option:selected").text());
 	$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
 		var databody = data.showapi_res_body;

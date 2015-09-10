@@ -4,6 +4,25 @@ DWZ = $.extend(DWZ, {
 									// 关闭dialog时，去除xheditor等需要特殊处理的资源
 		resizeGrid : "resizeGrid", // 用于窗口或dialog大小调整
 		ajaxLoadingMask : "loadingmask" // 用于navTab遮罩
+	},
+	cookie : function(name, data) {// 用于cookie中存储和获取json
+		if ($.isFunction($.cookie)) {
+			if (!data) {
+				var result = $.cookie(name);
+
+				if (result && JSON.parse(result)) {
+					return JSON.parse(result);
+				}
+				return result;
+			} else {
+				if ($.type(data) == "object") {
+					$.cookie(name, JSON.stringify(data));
+				} else {
+					$.cookie(name, data);
+				}
+			}
+		}
+		return null;
 	}
 });
 
@@ -59,6 +78,23 @@ DWZ = $.extend(DWZ, {
 					}
 				}
 			});
+		},
+		positionBy : function(obj) {
+			if ($.type(obj) == 'string') {
+				obj = $(obj);
+			}
+
+			var thisLeft = this.offset().left;
+			var thisTop = this.offset().top;
+			var thisParent = this.parent();
+
+			var objLeft = obj.offset().left;
+			var objTop = obj.offset().top;
+
+			return {
+				left : thisLeft - objLeft,
+				top : thisTop - objTop
+			};
 		}
 	});
 })(jQuery)
