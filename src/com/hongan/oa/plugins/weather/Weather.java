@@ -28,7 +28,7 @@ public class Weather {
 			reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 			String strRead = null;
 			while ((strRead = reader.readLine()) != null) {
-				strRead = strRead.replaceAll("http://appimg.showapi.com/images/weather/icon/", "");
+				strRead = strRead.replaceAll("(http:\\/\\/)[^,]*(\\/icon\\/)", "");
 				sbf.append(strRead);
 				sbf.append("\r\n");
 			}
@@ -53,6 +53,13 @@ public class Weather {
 	}
 
 	public static void main(String[] args) {
+		
+		String str = getWeather(new DefaultsConst());
+		str.replaceAll("(http:\\/\\/)[^,]*(\\/icon\\/)", "");
+		System.out.println(str);
+		System.out.println(getWeather(new DefaultsConst()));
+		
+		
 	}
 
 }

@@ -10,20 +10,38 @@
 				var $task = $(this);
 				var id = $task.attr("id");
 				$task.click(function(e) {
-					var dialog = $("body").data(id);
-					if ($task.hasClass("selected")) {
-						$("a.minimize", dialog).trigger("click");
-					} else {
-						if (dialog.is(":hidden")) {
-							$.taskBar.restoreDialog(dialog);
-						} else
-							$(dialog).trigger("click");
+					if(id == "combinable_task"){
+						var dialogCombinable = $("body").data("dialogCombinable");
+						if ($task.hasClass("selected")) {
+							$("a.minimize", $.pdialog._current).trigger("click");
+						} else {
+							if (dialogCombinable.is(":hidden")) {
+								$.taskBar.restoreDialog(dialogCombinable);
+							} else
+								$(dialogCombinable).trigger("click");
+						}
+					}else{
+						var dialog = $("body").data(id);
+						if ($task.hasClass("selected")) {
+							$("a.minimize", dialog).trigger("click");
+						} else {
+							if (dialog.is(":hidden")) {
+								$.taskBar.restoreDialog(dialog);
+							} else
+								$(dialog).trigger("click");
+						}
 					}
 					$.taskBar.scrollCurrent($(this));
 					return false;
 				});
 				$("div.close", $task).click(function(e) {
-					$.pdialog.close(id)
+					if (id == "combinable_task") {
+						$task.trigger("click");
+						$("a.close", $.pdialog._current).trigger("click");
+
+					} else {
+						$.pdialog.close(id)
+					}
 					return false;
 				}).hoverClass("closeHover");
 
@@ -98,24 +116,43 @@
 		 *            id or dialog
 		 */
 		restoreDialog : function(obj) {
-			var dialog = (typeof obj == 'string') ? $("body").data(obj) : obj;
-			var id = (typeof obj == 'string') ? obj : dialog.data("id");
-			var task = $.taskBar.getTask(id);
-			$(".resizable").css({
-				top : $(window).height() - 60,
-				left : $(task).position().left,
-				height : $(task).outerHeight(),
-				width : $(task).outerWidth()
-			}).show().animate({
-				top : $(dialog).css("top"),
-				left : $(dialog).css("left"),
-				width : $(dialog).css("width"),
-				height : $(dialog).css("height")
-			}, 250, function() {
-				$(this).hide();
-				$(dialog).show();
-				$.pdialog.attachShadow(dialog);
-			});
+			var id;
+			if(typeof obj != 'string' && obj.is(".dialogCombinable")){
+				id = "combinable_task";
+				var task = $.taskBar.getTask(id);
+				$(".resizable").css({
+					top : $(window).height() - 60,
+					left : $(task).position().left,
+					height : $(task).outerHeight(),
+					width : $(task).outerWidth()
+				}).show().animate({
+					top : $(obj).css("top"),
+					left : $(obj).css("left"),
+					width : $(obj).css("width"),
+					height : $(obj).css("height")
+				}, 250, function() {
+					$(this).hide();
+					$(obj).show();
+				});
+			}else{
+				var dialog = (typeof obj == 'string') ? $("body").data(obj) : obj;
+				var id = (typeof obj == 'string') ? obj : dialog.data("id");
+				var task = $.taskBar.getTask(id);
+				$(".resizable").css({
+					top : $(window).height() - 60,
+					left : $(task).position().left,
+					height : $(task).outerHeight(),
+					width : $(task).outerWidth()
+				}).show().animate({
+					top : $(dialog).css("top"),
+					left : $(dialog).css("left"),
+					width : $(dialog).css("width"),
+					height : $(dialog).css("height")
+				}, 250, function() {
+					$(this).hide();
+					$(dialog).show();
+				});
+			}
 			$.taskBar.switchTask(id);
 		},
 		/**

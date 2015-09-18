@@ -4,8 +4,8 @@
 <!-- dwz.dialog -->
 <_PAGE_ id="dialogCombinableFrag"><![CDATA[
 <div class="dialogCombinable" style="top:150px; left:220px;">
-	<div class="dialogCombinableTitle">
-		<ul class="dialogCombinableList">
+	<div class="dialogCombinableItems">
+		<ul>
 		</ul>
 	</div>
 	<div class="dialogCombinableContent"></div>
@@ -78,6 +78,7 @@
 <!--拖动效果-->
 <div class="resizable"></div>
 <!--阴影-->
+<!--
 <div class="shadow" style="width:508px; top:148px; left:296px;">
 	<div class="shadow_h">
 		<div class="shadow_h_l"></div>
@@ -94,7 +95,8 @@
 		<div class="shadow_f_r"></div>
 		<div class="shadow_f_c"></div>
 	</div>
-</div>
+</div> 
+-->
 <!--遮盖屏幕-->
 <div id="alertBackground" class="alertBackground"></div>
 <div id="dialogBackground" class="dialogBackground"></div>

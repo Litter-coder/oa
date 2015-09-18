@@ -110,4 +110,10 @@ public class IndexController {
 	public Object commonTodayWeather(HttpServletRequest request, HttpServletResponse response, DefaultsConst options) throws Exception {
 		return Weather.getWeather(options);
 	}
+	
+	@RequestMapping("/common_msg.do")
+	public ModelAndView common_msg(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ModelAndView modelAndView = new ModelAndView(prexPage + "common_msg");
+		return modelAndView;
+	}
 }

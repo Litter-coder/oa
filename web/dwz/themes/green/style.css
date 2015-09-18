@@ -197,4 +197,4 @@ body, #splitBar { background:#cdef7d;}
 .combox, .combox div, .combox div a { background:url(../default/images/search-bg.gif) no-repeat; }
 
 /* dialog */
-.dialogCombinableTitle{background: #AEE91B none repeat scroll 0% 0%;}
+.dialogCombinableItems{background: #AEE91B none repeat scroll 0% 0%;}
