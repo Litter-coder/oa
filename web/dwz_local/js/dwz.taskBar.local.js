@@ -10,7 +10,7 @@
 				var $task = $(this);
 				var id = $task.attr("id");
 				$task.click(function(e) {
-					if(id == "combinable_task"){
+					if (id == "combinable_task") {
 						var dialogCombinable = $("body").data("dialogCombinable");
 						if ($task.hasClass("selected")) {
 							$("a.minimize", $.pdialog._current).trigger("click");
@@ -20,7 +20,7 @@
 							} else
 								$(dialogCombinable).trigger("click");
 						}
-					}else{
+					} else {
 						var dialog = $("body").data(id);
 						if ($task.hasClass("selected")) {
 							$("a.minimize", dialog).trigger("click");
@@ -117,7 +117,7 @@
 		 */
 		restoreDialog : function(obj) {
 			var id;
-			if(typeof obj != 'string' && obj.is(".dialogCombinable")){
+			if (typeof obj != 'string' && obj.is(".dialogCombinable")) {
 				id = "combinable_task";
 				var task = $.taskBar.getTask(id);
 				$(".resizable").css({
@@ -134,7 +134,7 @@
 					$(this).hide();
 					$(obj).show();
 				});
-			}else{
+			} else {
 				var dialog = (typeof obj == 'string') ? $("body").data(obj) : obj;
 				var id = (typeof obj == 'string') ? obj : dialog.data("id");
 				var task = $.taskBar.getTask(id);
@@ -189,5 +189,28 @@
 		getTask : function(id) {
 			return $("#" + id, this._taskList);
 		},
+		/**
+		 * 显示任务栏
+		 */
+		show:function(){
+			if (this._taskBar.is(":hidden")) {
+				this._taskBar.css("top", $(window).height() - 34 + this._taskBar.outerHeight()).show();
+				this._taskBar.animate({
+					top: $(window).height() - this._taskBar.outerHeight() - $("#footer").height() - 2
+				}, 500);
+				$(window).resize();
+			}
+		},
+		/**
+		 * 隐藏任务栏
+		 */
+		hide:function(){
+			this._taskBar.animate({
+				top: $(window).height() - 29 + this._taskBar.outerHeight(true)
+			}, 500,function(){
+				$.taskBar._taskBar.hide();
+				$(window).resize();
+			});
+		}
 	});
 })(jQuery);

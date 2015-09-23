@@ -172,21 +172,24 @@
 				}
 
 				$.pdialog._init(dialog, op);
-				if (!op.combinable) {
-					$(dialog).click(function() {
-						$.pdialog.switchDialog(dialog);
-					});
+
+				$(dialog).click(function() {
+					$.pdialog.switchDialog(dialog);
+				});
+
+				if (op.resizable) {
+					if (op.combinable) {
+						$("div[class^='resizable']", dialog).each(function() {
+							$(this).remove();
+						});
+					}
+					dialog.jresize();
+				} else {
+					dialog.jresize("destroy");
 				}
 
-				if (op.resizable)
-					dialog.jresize();
-
 				if (op.drawable) {
-					if (op.combinable) {
-						dialogCombinable.dialogDrag();
-					} else {
-						dialog.dialogDrag();
-					}
+					dialog.dialogDrag();
 				}
 				$("a.close", dialog).click(function(event) {
 					if (eval(dialog.data("combinable"))) {
@@ -224,9 +227,8 @@
 				}
 				$("a.restore", dialog).click(function(event) {
 					$.pdialog.restore(dialog);
-					if (!eval(dialog.data("combinable"))) {
-						dialog.jresize().dialogDrag();
-					}
+					dialog.jresize().dialogDrag();
+
 					return false;
 				});
 				if (op.minable) {
@@ -237,9 +239,6 @@
 				} else {
 					$("a.minimize", dialog).hide();
 				}
-				$("div.dialogHeader a", dialog).mousedown(function() {
-					return false;
-				});
 				$("div.dialogHeader", dialog).dblclick(function() {
 					if ($("a.restore", dialog).is(":hidden"))
 						$("a.maximize", dialog).trigger("click");
@@ -290,14 +289,25 @@
 		_reinitOptions : function(op) {
 			if (op.combinable) {
 				op = $.extend(true, op, {
-					height:500, 
-					width:650, 
-					minH : 250,
-					minW : 450,
+					height : 500,
+					width : 650,
 					itemsW : 198,
-					resizable : false,
+					minH : 398, // 合并的dialog限制
+					minW : 598, // 合并的dialog限制
+					minItemsW : 68, // 合并的dialog限制
+					maxItemsW : 228,
 					mask : false
 				})
+			} else {
+				var iContentW = $(window).width();
+				var iTaskbarH = 0;
+				if ($("#taskbar").is(":visible")) {
+					iTaskbarH = $("#taskbar").outerHeight();
+				}
+				if (op.height > ($(window).height() - $("#footer").height() - iTaskbarH - 5))
+					op.height = $(window).height() - $("#footer").height() - iTaskbarH - 5;
+				if (op.width > iContentW)
+					op.width = iContentW;
 			}
 			return op;
 		},
@@ -330,6 +340,7 @@
 				return;
 			}
 			var index = $(dialog).css("zIndex");
+			var cindex = $($.pdialog._current).css("zIndex");
 			if ($.pdialog._current) {
 				/**
 				 * 合并窗口内的切换时，zIndex值可相互切换，但合并窗口和外部层切换时，只切换合并窗口的zIndex,而不改变里面的dialog的zIndex
@@ -337,14 +348,14 @@
 				if ((eval($($.pdialog._current).data("combinable")) && !eval(dialog.data("combinable"))) //
 						|| (eval($(dialog).data("combinable")) && !eval($.pdialog._current.data("combinable")))) {
 					var comIndex = $("body").data("dialogCombinable").css("zIndex");
-					$("body").data("dialogCombinable").css("zIndex", index);
 					if (eval($(dialog).data("combinable"))) {
+						$("body").data("dialogCombinable").css("zIndex", cindex);
 						$($.pdialog._current).css("zIndex", comIndex);
 					} else {
+						$("body").data("dialogCombinable").css("zIndex", index);
 						$(dialog).css("zIndex", comIndex);
 					}
 				} else {
-					var cindex = $($.pdialog._current).css("zIndex");
 					$($.pdialog._current).css("zIndex", index);
 					$(dialog).css("zIndex", cindex);
 				}
@@ -401,13 +412,7 @@
 				var height = parseInt(dialogCombinable.height());
 				var width = parseInt(dialogCombinable.width());
 				var combTitleWidth = parseInt($("div.dialogCombinableItems", dialogCombinable).outerWidth());
-				$(dialog).height(height + "px");
-				$(".dialogContent", dialog).height(height - $(".dialogHeader", dialog).outerHeight() - $(".dialogFooter", dialog).outerHeight() - 6);
-				$(dialog).width(width - combTitleWidth + "px");
-				dialog.css({
-					left : 0,
-					top : 0
-				});
+				this._resizeDialog(dialog, width - combTitleWidth, height, 0, 0);
 			}
 		},
 		/**
@@ -421,7 +426,7 @@
 			dialogComb.height(height + "px");
 			dialogComb.width(width + "px");
 			var itemsW = op.itemsW;
-			
+
 			$(">.dialogCombinableItems", dialogComb).width(itemsW + "px");
 			$(">.dialogCombinableItems", dialogComb).height(dialogComb.height() - 2 + "px");
 			itemsW = $(">.dialogCombinableItems", dialogComb).outerWidth();
@@ -447,13 +452,18 @@
 		 */
 		initResize : function(resizable, dialog, target) {
 			$("body").css("cursor", target + "-resize");
+			var obj = dialog;
+			if (eval(dialog.data("combinable")))
+				obj = $("body").data("dialogCombinable")
 			resizable.css({
-				top : $(dialog).css("top"),
-				left : $(dialog).css("left"),
-				height : $(dialog).css("height"),
-				width : $(dialog).css("width")
+				top : $(obj).css("top"),
+				left : $(obj).css("left"),
+				height : $(obj).css("height"),
+				width : $(obj).css("width")
 			});
-			resizable.show();
+			if(target != 'c'){
+				resizable.show();
+			}
 		},
 		/**
 		 * 改变阴隐层
@@ -491,11 +501,14 @@
 		 * @param {Object}
 		 *            dialog
 		 */
-		resizeTool : function(target, tmove, dialog) {
+		resizeTool : function(target, tmove, lmove, dialog) {
 			$("div[class^='resizable']", dialog).filter(function() {
-				return $(this).attr("tar") == 'w' || $(this).attr("tar") == 'e';
+				return $(this).attr("tar") == 'w' || $(this).attr("tar") == 'e' || $(this).attr("tar") == 'c';
 			}).each(function() {
 				$(this).css("height", $(this).outerHeight() + tmove);
+				if ($(this).attr("tar") == 'c') {
+					$(this).css("left", parseInt($(this).css("left")) + lmove);
+				}
 			});
 		},
 		/**
@@ -513,26 +526,28 @@
 			var otop = parseInt(obj.style.top);
 			var height = parseInt(obj.style.height);
 			var width = parseInt(obj.style.width);
-			if (target == "n" || target == "nw") {
-				tmove = parseInt($(dialog).css("top")) - otop;
-			} else {
-				tmove = height - parseInt($(dialog).css("height"));
+			var tmove = 0, lmove = 0, itemsW = 0;
+			var reObj = dialog;
+			if (eval(dialog.data("combinable"))) {
+				reObj = $("body").data("dialogCombinable");
+				itemsW = $(obj).attr("itemsW") || $(".dialogCombinableItems", reObj).width();
+				$(obj).removeAttr("itemsW");
 			}
-			$(dialog).css({
-				left : oleft,
-				width : width,
-				top : otop,
-				height : height
-			});
-			$(".dialogContent", dialog).css("width", (width - 12) + "px");
-			$(".pageContent", dialog).css("width", (width - 14) + "px");
+
+			if (target == "n" || target == "nw") {
+				tmove = parseInt($(reObj).css("top")) - otop;
+			} else if (target == "c") {
+				lmove = itemsW - $(".dialogCombinableItems", reObj).width();
+			} else {
+				tmove = height - parseInt($(reObj).css("height"));
+			}
+			if (eval(dialog.data("combinable"))) {
+				$.pdialog._resizeDialogCombinable(reObj, width, itemsW, height, oleft, otop);
+			} else {
+				$.pdialog._resizeDialog(reObj, width, height, oleft, otop);
+			}
 			if (target != "w" && target != "e") {
-				var content = $(".dialogContent", dialog);
-				content.css({
-					height : height - $(".dialogHeader", dialog).outerHeight() - $(".dialogFooter", dialog).outerHeight() - 6
-				});
-				content.find("[layoutH]").layoutH(content);
-				$.pdialog.resizeTool(target, tmove, dialog);
+				$.pdialog.resizeTool(target, tmove, lmove, reObj);
 			}
 			// $.pdialog.repaint(target, {
 			// oleft : oleft,
@@ -541,10 +556,8 @@
 			// owidth : width
 			// });
 
-			$(window).trigger(DWZ.eventType.resizeGrid);
 		},
-		close : function(dialog, closeAll) {
-			closeAll = closeAll || false;
+		close : function(dialog) {
 			var dialogCombinable = $("body").data("dialogCombinable");
 			if (typeof dialog == 'string') {
 				dialog = $("body").data(dialog);
@@ -613,7 +626,11 @@
 		},
 		maxsize : function(dialog) {
 			var iContentW = $(window).width();
-			var iContentH = $(window).height() - 34;
+			var iTaskbarH = 0;
+			if ($("#taskbar").is(":visible")) {
+				iTaskbarH = $("#taskbar").outerHeight();
+			}
+			var iContentH = $(window).height() - $("#footer").height() - iTaskbarH - 5;
 			if (eval(dialog.data("combinable"))) {
 				var dialogCombinable = $("body").data("dialogCombinable");
 				dialogCombinable.data("original", {
@@ -622,29 +639,13 @@
 					width : $(dialogCombinable).css("width"),
 					height : $(dialogCombinable).css("height")
 				});
+				var itemsW = $(">.dialogCombinableItems", dialogCombinable).width();
 
-				$(dialogCombinable).css({
-					top : "0px",
-					left : "0px",
-					width : iContentW + "px",
-					height : iContentH + "px"
-				});
-				var itemsW = $(">.dialogCombinableItems", dialogCombinable).outerWidth();
-				$(">.dialogCombinableItems", dialogCombinable).height(dialogCombinable.height() - 2 + "px");
-				$(">.dialogCombinableContent", dialogCombinable).width(iContentW - itemsW + "px");
-				$(">.dialogCombinableContent", dialogCombinable).height(iContentH + "px");
-
+				$.pdialog._resizeDialogCombinable(dialogCombinable, iContentW, itemsW, iContentH, 0, 0);
 				$.pdialog.getAllCombDialog().each(function() {
 					var _dialog = $(this);
 					$("a.maximize", _dialog).hide();
 					$("a.restore", _dialog).show();
-					$(_dialog).css({
-						top : "0px",
-						left : "0px",
-						width : iContentW - itemsW + "px",
-						height : iContentH + "px"
-					});
-					$.pdialog._resizeContent(_dialog, iContentW - itemsW, iContentH);
 				});
 			} else {
 				$(dialog).data("original", {
@@ -671,31 +672,15 @@
 				var original = $(dialogCombinable).data("original");
 				var dwidth = parseInt(original.width);
 				var dheight = parseInt(original.height);
-				$(dialogCombinable).css({
-					top : original.top,
-					left : original.left,
-					width : dwidth,
-					height : dheight
-				});
-				dialogCombinable.removeData("original");
+				var itemsW = $(">.dialogCombinableItems", dialogCombinable).width();
 
-				$(">.dialogCombinableItems", dialogCombinable).height(dheight - 2 + "px");
-				$(">.dialogCombinableContent", dialogCombinable).width(dwidth - 200 + "px");
-				$(">.dialogCombinableContent", dialogCombinable).height(dheight + "px");
-
+				$.pdialog._resizeDialogCombinable(dialogCombinable, dwidth, itemsW, dheight, original.left, original.top);
 				$.pdialog.getAllCombDialog().each(function() {
 					var _dialog = $(this);
 					$("a.maximize", _dialog).show();
 					$("a.restore", _dialog).hide();
-					$(_dialog).css({
-						top : "0px",
-						left : "0px",
-						width : dwidth - 200 + "px",
-						height : dheight + "px"
-					});
-					$.pdialog._resizeContent(_dialog, dwidth - 200, dheight);
 				});
-
+				dialogCombinable.removeData("original");
 			} else {
 				var original = $(dialog).data("original");
 				var dwidth = parseInt(original.width);
@@ -750,6 +735,35 @@
 					$.taskBar.inactive($(dialog).data("id"));
 				});
 			}
+		},
+		_resizeDialogCombinable : function(dialogComb, width, itemsW, height, left, top) {
+			$(dialogComb).css({
+				width : width,
+				height : height,
+				left : left,
+				top : top
+			});
+			$(">.dialogCombinableItems", dialogComb).height(height - 2 + "px");
+			$(">.dialogCombinableItems", dialogComb).width(itemsW + "px");
+			itemsW = $(">.dialogCombinableItems", dialogComb).outerWidth();
+			$(">.dialogCombinableContent", dialogComb).width(width - itemsW + "px");
+			$(">.dialogCombinableContent", dialogComb).height(height + "px");
+
+			$.pdialog.getAllCombDialog().each(function() {
+				var _dialog = $(this);
+				$.pdialog._resizeDialog(_dialog, width - itemsW, height, 0, 0);
+			});
+
+		},
+		// 用于组合窗口的重置dialog功能
+		_resizeDialog : function(dialog, width, height, left, top) {
+			dialog.css({
+				width : width,
+				height : height,
+				left : left,
+				top : top
+			});
+			this._resizeContent(dialog, width, height);
 		},
 		_resizeContent : function(dialog, width, height) {
 			var content = $(".dialogContent", dialog);

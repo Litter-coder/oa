@@ -70,22 +70,27 @@ function getWeather(){
 	
 	$("#weather #city").text($("#w_county").find("option:selected").text());
 	$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {
-		var databody = data.showapi_res_body;
-		var imgUrl = "${oa}/images/index/weather/icon/";
-		var $temping = $('<div class="temping"></div>');
-		var $day_pic = $('<img src="' + imgUrl + databody.f1.day_weather_pic + '"/>');
-		var $night_pic = $('<img src="' + imgUrl + databody.f1.night_weather_pic + '"/>');
-		var $temperature = $('<div class="temperature">' + databody.f1.day_air_temperature + "℃~" + databody.f1.night_air_temperature  + '℃</div>');
-		$temping.append($day_pic).append($night_pic).append($temperature);
-		var $temp = $('<div class="temp"></div>');
-		var weather_info = databody.f1.day_weather; 
-		if(databody.f1.day_weather != databody.f1.night_weather){
-			weather_info += "转" + databody.f1.night_weather;
+		if (!data) {
+			$("#weather .weather-info").html('<div class="notip">天气获取异常</div>');
+		}else{
+			var databody = data.showapi_res_body;
+			var imgUrl = "${oa}/images/index/weather/icon/";
+			var $temping = $('<div class="temping"></div>');
+			var $day_pic = $('<img src="' + imgUrl + databody.f1.day_weather_pic + '"/>');
+			var $night_pic = $('<img src="' + imgUrl + databody.f1.night_weather_pic + '"/>');
+			var $temperature = $('<div class="temperature">' + databody.f1.day_air_temperature + "℃~" + databody.f1.night_air_temperature  + '℃</div>');
+			$temping.append($day_pic).append($night_pic).append($temperature);
+			var $temp = $('<div class="temp"></div>');
+			var weather_info = databody.f1.day_weather; 
+			if(databody.f1.day_weather != databody.f1.night_weather){
+				weather_info += "转" + databody.f1.night_weather;
+			}
+			var $temp_info = $('<span>' + weather_info + '</span><span>' + databody.f1.day_wind_power + '</span>');
+			$temp.append($temp_info);
+			$("#weather .weather-info").html("");
+			$("#weather .weather-info").append($temping).append($temp);
 		}
-		var $temp_info = $('<span>' + weather_info + '</span><span>' + databody.f1.day_wind_power + '</span>');
-		$temp.append($temp_info);
-		$("#weather .weather-info").html("");
-		$("#weather .weather-info").append($temping).append($temp);
+		
 	})
 	
 }

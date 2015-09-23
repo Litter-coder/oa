@@ -10,11 +10,11 @@
 	<div class="message-im-info">
 		<ul class="message-im-list">
 			<li>
-				<a title="张三" target="dialog" rel="im_msg_01" href="${oa}/page/index/common_im_msg.jsp">
+				<a title="张三1" target="dialog" rel="zs1" href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}//images/index/man-menu.png">
 						<div class="im-info">
-							<span class="im-title">张三</span>
+							<span class="im-title">张三1</span>
 							<span class="im-time">3分钟前</span>
 							<p class="im-content">aaaaaaaa</p>
 						</div>
