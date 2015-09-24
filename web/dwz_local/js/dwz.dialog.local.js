@@ -6,7 +6,8 @@
 	$.pdialog = $.extend(true, $.pdialog, {
 		_currentItem : null,
 		_op : {
-			combinable : false
+			combinable : false,
+			resizeCallback : null
 		},
 		getAllCombDialog : function() {
 			var dialogCombinable = $("body").data("dialogCombinable");
@@ -78,7 +79,7 @@
 					jDContent.loadUrl(url, {}, function() {
 						jDContent.find("[layoutH]").layoutH(jDContent);
 						$(".pageContent", dialog).width($(dialog).width() - 14);
-						$("button.close").click(function() {
+						$("button.close", dialog).click(function() {
 							$.pdialog.close(dialog);
 							return false;
 						});
@@ -263,7 +264,15 @@
 				jDContent.loadUrl(url, {}, function() {
 					jDContent.find("[layoutH]").layoutH(jDContent);
 					$(".pageContent", dialog).width($(dialog).width() - 14);
-					$("button.close").click(function() {
+
+					var textarea = $("textarea.fixed_textarea", dialog)[0]
+					
+					if (textarea) {
+						var plus = $(textarea).outerWidth(true) - $(textarea).width();
+						$(textarea).width($(dialog).width() - 14 - plus);
+					}
+
+					$("button.close", dialog).click(function() {
 						$.pdialog.close(dialog);
 						return false;
 					});
@@ -461,7 +470,7 @@
 				height : $(obj).css("height"),
 				width : $(obj).css("width")
 			});
-			if(target != 'c'){
+			if (target != 'c') {
 				resizable.show();
 			}
 		},
@@ -774,6 +783,13 @@
 			content.find("[layoutH]").layoutH(content);
 			$(".pageContent", dialog).css("width", (width - 14) + "px");
 
+			var textarea = $(".fixed_textarea", dialog)[0]
+			
+			if (textarea) {
+				var plus = $(textarea).outerWidth(true) - $(textarea).width();
+				$(textarea).width($(dialog).width() - 14 - plus);
+			}
+			
 			$(window).trigger(DWZ.eventType.resizeGrid);
 		}
 	});
