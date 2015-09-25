@@ -1,9 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
+<link href="${oa}/css/index/chart.css" rel="stylesheet" type="text/css" media="screen"/>
+<script type="text/javascript" src="${oa}/js/index/chart/chart.font.js"></script>
 <script type="text/javascript">
-	$(".fixed_textarea").focus(function(){
-		$(this).css("font-size","16px");
+	chartFont.init({
+		target : $("textarea.fixed_textarea")
 	});
+	
+	$(".fixed_textarea").focus();
 	
 	$(".im_msg_icon a").click(function(){
 		if ($(this).hasClass("focus")) {
@@ -33,17 +37,20 @@
 	<div class="im_msg_content_area">
 		<div class="im_msg_view" layouth="130"></div>
 		<div class="im_msg_footer">
-			<div class="fontTools">
+			<div class="fontTools chartFont" style="display: none;">
 				<div>
 					<span>字体</span>
-					<select name="fontFamily">
-						<option>默认字体</option>
+					<select id="fontFamily">
 					</select>
 				</div>
 				<div>
 					<span>大小</span>
-					<select name="fontSize">
-						<option>14px</option>
+					<select id="fontSize">
+					</select>
+				</div>
+				<div>
+					<span>颜色</span>
+					<select id="fontColor">
 					</select>
 				</div>
 			</div>
