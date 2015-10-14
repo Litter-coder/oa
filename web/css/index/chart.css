@@ -1,10 +1,15 @@
 .imContent {
 	border: none;
+	overflow: hidden;
+	position: static;
 }
 
 .im_msg_view {
 	overflow-y: auto;
 	background: white;
+	border-style: solid;
+	border-width: 1px 0px 0px;
+	border-color: #B8D0D6;
 }
 
 .im_msg_footer {
@@ -60,12 +65,42 @@
 	vertical-align: middle
 }
 
-textarea.fixed_textarea {
+.im_msg_editarea {
+	position: relative;
+	height: 67px;
+}
+
+div.msgarea {
+	position: absolute;
+	z-index: 1;
+}
+
+div.msgarea textarea {
 	height: 60px;
 	resize: none;
 	font-size: 14px;
 	border: none;
 	padding: 7px 4px 0 4px;
+}
+
+div.editarea {
+	position: absolute;
+	z-index: 2;
+	background-color: white;
+	height: 60px;
+	resize: none;
+	font-size: 14px;
+	border: none;
+	padding: 7px 4px 0 4px;
+	overflow-y: auto;
+	word-wrap: break-word; /*遇到空格整个单词显示不完就自动换行到下一行*/
+	word-break: break-all; /*如果一行没有空格就到头截断单词换行*/
+	height: 60px;
+	word-break: break-all;
+}
+
+div.editarea:FOCUS {
+	background-color: white;
 }
 
 .im_msg_close_send {
@@ -82,19 +117,41 @@ textarea.fixed_textarea {
 }
 
 .fontTools {
-	height: 20px;
+	height: 23px;
 	padding: 5px;
 	display: none;
 }
 
-.fontTools div {
+.fontTools>div {
 	float: left;
 	padding-right: 10px;
+	background: transparent;
 }
 
 .fontTools select {
+	margin: 0 0 0 5px;
 	height: 23px;
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
+}
+
+.qqFace {
+	background: #fff;
+	padding: 2px;
+	border: 1px #dfe6f6 solid;
+	border-radius: 5px;
+}
+
+.qqFace table td {
+	padding: 0px;
+}
+
+.qqFace table td img {
+	cursor: pointer;
+	border: 1px #fff solid;
+}
+
+.qqFace table td img:hover {
+	border: 1px #0066cc solid;
 }

@@ -7,7 +7,7 @@
 		_currentItem : null,
 		_op : {
 			combinable : false,
-			resizeCallback : null
+			callback : null
 		},
 		getAllCombDialog : function() {
 			var dialogCombinable = $("body").data("dialogCombinable");
@@ -79,6 +79,9 @@
 					jDContent.loadUrl(url, {}, function() {
 						jDContent.find("[layoutH]").layoutH(jDContent);
 						$(".pageContent", dialog).width($(dialog).width() - 14);
+						if ($.isFunction(op.callback)) {
+							op.callback(dialog);
+						}
 						$("button.close", dialog).click(function() {
 							$.pdialog.close(dialog);
 							return false;
@@ -112,7 +115,7 @@
 
 					var itemStr = '<li class="selected" id="' + dlgid
 							+ '"><div class="dialogCombinableItem"><p><img src="../images/index/woman-menu.png" />#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
-					dialogCombinable.find("ul").append(itemStr.replace("#title#", title));
+					dialogCombinable.find(".dialogCombinableItems ul").append(itemStr.replace("#title#", title));
 
 					item = $("#" + dlgid, dialogCombinable);
 					var dialogComContent = $(">.dialogCombinableContent", dialogCombinable);
@@ -198,18 +201,19 @@
 							$.pdialog.close(dialog);
 							return false;
 						}
-						alertMsg.confirm("关闭此窗口所有会话还是仅关闭当前会话", {
-							okName : "关闭所有",
-							okCall : function() {
+						alertMsg.chooseOne("关闭此窗口所有会话还是仅关闭当前会话", {
+							one : "关闭所有",
+							oneCall : function() {
 								var dialogCombinable = $("body").data("dialogCombinable");
 								$.pdialog.getAllCombDialog().each(function() {
 									$.pdialog.close($(this));
 								});
 							},
-							cancelName : "关闭当前",
-							cancelCall : function() {
+							two : "关闭当前",
+							twoCall : function() {
 								$.pdialog.close(dialog);
-							}
+							},
+							close : true
 						})
 					} else {
 						$.pdialog.close(dialog);
@@ -221,7 +225,6 @@
 						$.pdialog.switchDialog(dialog);
 						$.pdialog.maxsize(dialog);
 						dialog.jresize("destroy").dialogDrag("destroy");
-						return false;
 					});
 				} else {
 					$("a.maximize", dialog).hide();
@@ -264,14 +267,9 @@
 				jDContent.loadUrl(url, {}, function() {
 					jDContent.find("[layoutH]").layoutH(jDContent);
 					$(".pageContent", dialog).width($(dialog).width() - 14);
-
-					var textarea = $("textarea.fixed_textarea", dialog)[0]
-					
-					if (textarea) {
-						var plus = $(textarea).outerWidth(true) - $(textarea).width();
-						$(textarea).width($(dialog).width() - 14 - plus);
+					if ($.isFunction(op.callback)) {
+						op.callback(dialog);
 					}
-
 					$("button.close", dialog).click(function() {
 						$.pdialog.close(dialog);
 						return false;
@@ -345,7 +343,7 @@
 		 *            dialog
 		 */
 		switchDialog : function(dialog) {
-			if ($.pdialog._current == dialog) {
+			if ($.pdialog._current.data("id") == dialog.data("id")) {
 				return;
 			}
 			var index = $(dialog).css("zIndex");
@@ -374,6 +372,10 @@
 				$.taskBar.switchTask(dialog.data("id"));
 			} else {
 				$.taskBar.switchTask("combinable_task", $("div.dialogHeader h1", dialog).text());
+			}
+
+			if ($(".pageContent", dialog).hasClass("imContent")) {
+				$(".editarea", dialog).focus();
 			}
 		},
 		/**
@@ -607,12 +609,11 @@
 			if (eval($(dialog).data("combinable"))) {
 				var item = dialogCombinable.data($(dialog).data("id"));
 				var showItem = item.next()[0] || item.prev()[0];
-
 				dialogCombinable.removeData($(dialog).data("id"));
 				item.trigger(DWZ.eventType.pageClear).remove();
 				$(dialog).trigger(DWZ.eventType.pageClear).remove();
 				if (showItem) {
-					($.pdialog._current == dialog) && $(showItem).trigger("click");
+					($.pdialog._current.data("id") == dialog.data("id")) && $(showItem).click();
 				} else {
 					$("body").removeData("dialogCombinable");
 					$.taskBar.closeDialog("combinable_task");
@@ -783,13 +784,13 @@
 			content.find("[layoutH]").layoutH(content);
 			$(".pageContent", dialog).css("width", (width - 14) + "px");
 
-			var textarea = $(".fixed_textarea", dialog)[0]
-			
+			var textarea = $(".editarea", dialog)[0]
+
 			if (textarea) {
 				var plus = $(textarea).outerWidth(true) - $(textarea).width();
 				$(textarea).width($(dialog).width() - 14 - plus);
 			}
-			
+
 			$(window).trigger(DWZ.eventType.resizeGrid);
 		}
 	});

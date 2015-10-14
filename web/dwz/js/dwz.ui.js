@@ -227,6 +227,7 @@ function initUI(_box){
 			options.param = $this.attr("param") || "";
 			// 是否合并
 			options.combinable = $this.attr("combinable") || "false";
+			options.callback = eval($this.attr("callback")) || null;
 			
 			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
 			DWZ.debug(url);

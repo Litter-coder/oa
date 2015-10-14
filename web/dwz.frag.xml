@@ -177,6 +177,10 @@
 <li><a class="button" rel="#callback#" onclick="alertMsg.close()" href="javascript:"><span>#butMsg#</span></a></li>
 ]]></_PAGE_>
 
+<_PAGE_ id="alertCloseFrag"><![CDATA[
+<div class="alertTool"><a class="close" href="javascript:;" onclick="alertMsg.close()"/></div>
+]]></_PAGE_>
+
 <_PAGE_ id="calendarFrag"><![CDATA[
 <div id="calendar">
 	<div class="main">

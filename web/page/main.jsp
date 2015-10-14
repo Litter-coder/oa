@@ -11,6 +11,7 @@
 <link href="${oa}/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <link href="${oa}/dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${oa}/dwz_local/css/dialog.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${oa}/dwz_local/css/alertMsg.css" rel="stylesheet" type="text/css" media="screen"/>
 
 <%-- <link href="${oa}/dwz_local/css/core.css" rel="stylesheet" type="text/css" media="screen"/> --%>
 <!--[if IE]>
@@ -48,11 +49,11 @@
 <script src="${oa}/dwz_local/js/dwz.resize.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.taskBar.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.theme.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz_local/js/dwz.alertMsg.local.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){
 	DWZ.init("${oa}/dwz.frag.xml", {
-// 		loginUrl:"login_dialog.html", loginTitle:"登录",	// 弹出登录对话框
 		loginUrl:"${oa}/login.jsp",	// 跳到登录页面
 		statusCode:{ok:200, error:300, timeout:301}, //【可选】
 		keys: {statusCode:"statusCode", message:"message"}, //【可选】

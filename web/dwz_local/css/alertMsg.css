@@ -1,0 +1,28 @@
+/* alert */
+.alert .chooseOne .alertInner {
+	border-color: #b8d0d6;
+	background: #fefacf;
+}
+
+.alert .chooseOne h1 {
+	background-position: 2px 8px;
+}
+
+.alert .chooseOne .alertTool {
+	height: 13px;
+	margin-bottom: 2px;
+}
+
+.alert .chooseOne .alertTool a {
+	width: 11px;
+	background: transparent
+		url("../../dwz/themes/default/images/tabs/tabspage_icon.png")
+		no-repeat scroll 0% 0%;
+	height: 11px;
+	display: block;
+	float: right;
+}
+
+.alert .chooseOne .alertTool a:HOVER {
+	background-position: 0px -50px;
+}
