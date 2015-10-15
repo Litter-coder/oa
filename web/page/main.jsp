@@ -50,6 +50,7 @@
 <script src="${oa}/dwz_local/js/dwz.taskBar.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.theme.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.alertMsg.local.js" type="text/javascript"></script>
+<script type="text/javascript" src="${oa}/js/index/chart/jquery.emoji2.js"></script>
 
 <script type="text/javascript">
 $(function(){

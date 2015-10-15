@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file="/page/public/common.jsp"%>
 <link href="${oa}/css/index/chart.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${oa}/css/index/emoji.css" rel="stylesheet" type="text/css" media="screen"/>
 <script type="text/javascript" src="${oa}/js/index/chart/chart.tools.js"></script>
-<script type="text/javascript" src="${oa}/js/index/chart/jquery.qqFace.js"></script>
 <script type="text/javascript">
 	var initChatDialog = function(obj) {
 		var dialog = (typeof obj == 'string') ? $("#" + obj) : obj;

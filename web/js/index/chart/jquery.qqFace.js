@@ -39,10 +39,10 @@
 			return false;
 		}
 
-		$(this).click(function(e) {
-			var strFace, labFace;
-			if ($('#' + id).length <= 0) {
-				strFace = '<div id="' + id + '" style="position:absolute;display:none;z-index:1000;" class="qqFace">' + '<table border="0" cellspacing="0" cellpadding="0"><tr>';
+		var init = function() {
+			if (!$("#qqFaceDiv")[0]) {
+				var strFace, labFace;
+				strFace = '<div id="qqFaceDiv" style="display:none;" class="qqFace"><table border="0" cellspacing="0" cellpadding="0"><tr>';
 				for (var i = 1; i <= 75; i++) {
 					labFace = '[' + tip + i + ']';
 					strFace += '<td><img class="emo" src="' + path + i + '.gif" labFace="' + labFace + '" /></td>';
@@ -50,12 +50,25 @@
 						strFace += '</tr><tr>';
 				}
 				strFace += '</tr></table></div>';
+				$("body").append(strFace);
+			}
+		}
+		init();
+		$(this).click(function(e) {
+			var strFace, labFace;
+			if ($('#' + id).length <= 0) {
+				strFace = $("#qqFaceDiv").clone();
+				strFace.attr("id", id);
+				strFace.css({
+					position : "absolute",
+					zIndex : 1000
+				});
 			} else {
 				$('#' + id).hide();
 				$('#' + id).remove();
 			}
 			$(this).parent().append(strFace);
-			$("img.emo", $(this).parent()).click(function() {
+			$("img.emo", $("#" + id)).click(function() {
 				var labFace = $(this).attr("labFace");
 				assign.setCaret();
 				assign.insertAtCaret(labFace);

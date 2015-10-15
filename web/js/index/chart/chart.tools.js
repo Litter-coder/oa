@@ -9,7 +9,29 @@
 	});
 
 })(jQuery);
-
+function set_focus(el) {
+	el = el[0]; // jquery 对象转dom对象
+	el.focus();
+	if ($.browser.msie) {
+		var rng;
+		el.focus();
+		rng = document.selection.createRange();
+		rng.moveStart('character', -el.innerText.length);
+		var text = rng.text;
+		for (var i = 0; i < el.innerText.length; i++) {
+			if (el.innerText.substring(0, i + 1) == text.substring(text.length - i - 1, text.length)) {
+				result = i + 1;
+			}
+		}
+	} else {
+		var range = document.createRange();
+		range.selectNodeContents(el);
+		range.collapse(false);
+		var sel = window.getSelection();
+		sel.removeAllRanges();
+		sel.addRange(range);
+	}
+}
 var chartTools = {
 	options : {
 		editArea : null,// 编辑区域，显示区域
@@ -37,23 +59,12 @@ var chartTools = {
 			ul.append('<li><a href="javascript:void(0)" class="im_msg_tools" id="emojiChoose" title="选择表情"><img src="' + op.path + 'face.png"></a></li>');
 
 			var options = {
-				assign : op.msgArea, // 给那个控件赋值
-				path : op.path + 'face/' // 表情存放的路径
+				faceId : "faceId",
+				baseUrl : op.path + 'face/',
+				editArea : op.editArea
 			}
 
-			var callback = function(obj) {
-				var _this = obj || $(this);
-				var str = $.replace_em(options);
-				op.editArea.focus();
-				op.editArea.html(str);
-			}
-
-			options = $.extend(options, {
-				id : 'facebox', // 表情盒子的ID
-				callback : callback
-			});
-
-			$("#emojiChoose", $p).qqFace(options);
+			$("#emojiChoose", $p).emoji(options);
 
 			$(document).click(function() {
 				if ($("#emojiChoose", $p).hasClass("focus")) {
