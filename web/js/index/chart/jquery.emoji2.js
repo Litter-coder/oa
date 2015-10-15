@@ -59,12 +59,13 @@ var emoji = {
 		var templeUl = $('<ul class="rl_exp_tab clearfix"></ul>')
 		templeUl.append('<li><a href="javascript:void(0);" class="selected">默认</a></li>').append('<li><a href="javascript:void(0);">拜年</a></li>').append(
 				'<li><a href="javascript:void(0);">浪小花</a></li>').append('<li><a href="javascript:void(0);">暴走漫画</a></li>').appendTo(templeDiv);
-		for (var i = 0; i < 3; i++) {
+		var emjDiv = $('<div class="rl_exp_emjarea"></div>');
+		for (var i = 0; i < 4; i++) {
 			var ulStr = $('<ul class="rl_exp_main clearfix" style="display:none;"></ul>');
 			i == 0 && ulStr.addClass("rl_selected");
-			templeDiv.append(ulStr);
+			emjDiv.append(ulStr);
 		}
-		templeDiv.append('<a href="javascript:void(0);" class="close">×</a>').appendTo("body");
+		templeDiv.append(emjDiv).append('<a href="javascript:void(0);" class="close">×</a>').appendTo("body");
 
 	},
 	init : function(options) {
@@ -86,16 +87,18 @@ var emoji = {
 		thisFace.attr("id", id).appendTo(op.target.parent());
 
 		// 给元素下的标签添加事件
-		$("#" + id + " > ul.rl_exp_tab > li > a").each(function(i) {
+		$("#" + id + " > ul.rl_exp_tab > li").each(function(i) {
 			$(this).bind('click', function(e) {
-				if ($(this).hasClass('selected') && $(this).hasClass("loaded"))
+				var _this = $("a", $(this));
+
+				if (_this.hasClass('selected') && _this.hasClass("loaded"))
 					return;
-				if (!$(this).hasClass("loaded")) {
+				if (!_this.hasClass("loaded")) {
 					emoji.loadImg(i, op);
-					$(this).addClass("loaded");
+					_this.addClass("loaded");
 				}
 				$("#" + id + " > ul.rl_exp_tab > li > a.selected").removeClass('selected');
-				$(this).addClass('selected');
+				_this.addClass('selected');
 				$('#' + id + ' .rl_selected').removeClass('rl_selected').hide();
 				$('#' + id + ' .rl_exp_main').eq(i).addClass('rl_selected').show();
 
@@ -109,7 +112,12 @@ var emoji = {
 		});
 		/* 绑定document点击事件，对target不在rl_bq弹出框上时执行rl_bq淡出，并阻止target在弹出按钮的响应。 */
 		$(document).bind('click', function(e) {
-			$('.rl_exp').fadeOut(op.pace);
+			var target = $(e.target);
+			if (target.closest("#" + id).length == 1)
+				return;
+			if (target.closest("#" + id).length == 0) {
+				$('.rl_exp').fadeOut(op.pace);
+			}
 		});
 	}
 };
@@ -130,13 +138,17 @@ var emoji = {
 		emoji.init(op);
 		var id = op.faceId;
 		$(this).click(function() {
-			if (!$("#" + id + "  > ul.rl_exp_tab > li > a.selected").hasClass("loaded")) {
-				$("#" + id + "  > ul.rl_exp_tab > li > a.selected").click();
+			if ($("#" + id).is(":visible")) {
+				$('#' + id).fadeOut(op.pace);
+			} else {
+				if (!$("#" + id + "  > ul.rl_exp_tab > li > a.selected").hasClass("loaded")) {
+					$("#" + id + "  > ul.rl_exp_tab > li > a.selected").parent("li:eq(0)").click();
+				}
+				var offset = $(this).position();
+				var top = offset.top - $('#' + id).outerHeight() - 2;
+				$('#' + id).css('top', top).fadeIn(op.pace);
+				// $('#'+id).css('left',offset.left - $('#'+id).width()/3);
 			}
-			var offset = $(this).position();
-			var top = offset.top - $('#' + id).outerHeight() - 2;
-			$('#' + id).css('top', top).fadeIn(op.pace);
-			// $('#'+id).css('left',offset.left - $('#'+id).width()/3);
 		});
 	};
 })(jQuery);

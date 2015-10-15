@@ -98,7 +98,7 @@ var chartTools = {
 			ul.append('<li><a href="javascript:void(0)" class="im_msg_tools" id="msgHistory" title="显示消息记录"><img src="' + op.path + 'history.png"><span>消息记录</span></a></li>');
 		}
 
-		$("ul a", $p).click(function(e) {
+		$(">ul>li>a", $p).click(function(e) {
 			if ($(this).hasClass("focus")) {
 				$(this).removeClass("focus");
 			} else {

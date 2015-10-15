@@ -1,8 +1,8 @@
 .rl_exp {
 	margin: 0 auto;
-	position: fixed;
-	width: 482px;
-	padding: 20px;
+	position: absolute;
+	width: 465px;
+	/* 	padding: 20px; */
 	border: 1px solid #D0D0D0;
 	box-shadow: 0 0 2px 2px #fff inset, 1px 1px 0 rgba(127, 127, 127, 0.1);
 	overflow: hidden;
@@ -27,7 +27,7 @@
 }
 
 .rl_exp ul.rl_exp_tab {
-	margin: -20px -20px 20px;
+	/* 	margin: -20px -20px 20px; */
 	padding: 12px 13px 0;
 	list-style: none;
 	border-bottom: 1px solid #d0d0d0;
@@ -65,12 +65,20 @@
 	border-bottom: 1px solid #fff;
 	box-shadow: none;
 	text-shadow: none;
+	color: #2f80d1;
 }
 
 /*表情内容样式*/
 .rl_exp_main {
 	margin: 0;
 	padding: 0;
+}
+
+.rl_exp_emjarea {
+	height: 200px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	padding: 2px;
 }
 
 .rl_exp_item {

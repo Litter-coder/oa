@@ -23,17 +23,17 @@
 	height: 26px;
 }
 
-.im_msg_icon ul {
+.im_msg_icon>ul {
 	height: 100%;
 }
 
-.im_msg_icon ul li {
+.im_msg_icon>ul>li {
 	float: left;
 	padding-right: 3px;
 	padding-top: 1px;
 }
 
-.im_msg_icon ul li:last-child, .im_msg_icon ul li:last-child span {
+.im_msg_icon>ul>li:last-child, .im_msg_icon>ul>li:last-child span {
 	float: right;
 }
 

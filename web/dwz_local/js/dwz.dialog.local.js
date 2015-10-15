@@ -232,8 +232,6 @@
 				$("a.restore", dialog).click(function(event) {
 					$.pdialog.restore(dialog);
 					dialog.jresize().dialogDrag();
-
-					return false;
 				});
 				if (op.minable) {
 					$("a.minimize", dialog).show().click(function(event) {
