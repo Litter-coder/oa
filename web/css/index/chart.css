@@ -25,6 +25,7 @@
 
 .im_msg_icon>ul {
 	height: 100%;
+	padding: 0 0 0 2px;
 }
 
 .im_msg_icon>ul>li {
@@ -33,7 +34,8 @@
 	padding-top: 1px;
 }
 
-.im_msg_icon>ul>li:last-child, .im_msg_icon>ul>li:last-child span {
+.im_msg_icon>ul>li:last-child, .im_msg_icon>ul>li:last-child a,
+	.im_msg_icon>ul>li:last-child span {
 	float: right;
 }
 
@@ -70,22 +72,7 @@
 	height: 67px;
 }
 
-div.msgarea {
-	position: absolute;
-	z-index: 1;
-}
-
-div.msgarea textarea {
-	height: 60px;
-	resize: none;
-	font-size: 14px;
-	border: none;
-	padding: 7px 4px 0 4px;
-}
-
 div.editarea {
-	position: absolute;
-	z-index: 2;
 	background-color: white;
 	height: 60px;
 	resize: none;

@@ -6,11 +6,10 @@
 <script type="text/javascript">
 	var initChatDialog = function(obj) {
 		var dialog = (typeof obj == 'string') ? $("#" + obj) : obj;
-		
+		var path = "${oa}/images/index/im/";
 		$(".chartTools", dialog).initChartTools({
 			editArea : $(".editarea", dialog),
-			msgArea : $(".msgarea textarea", dialog),
-			path : "${oa}/images/index/im/"
+			path : path
 		})
 	
 		$(".editarea", dialog).focus(function() {
@@ -26,13 +25,31 @@
 		$(".editarea", dialog).focus();
 	
 		$("button.send", dialog).click(function() {
-			console.log("send")
+			var str = "";
+			$(".editarea", dialog).contents().each(function() {
+				if ($(this)[0].nodeType == 1) {
+					if ($(this).is("br")) {
+						str += (str == "" ? "" : "\n");
+					}
+					if ($(this).is("img")) {
+						var src = $(this).attr("src");
+						src = src.replace(path + 'face/', "");
+						src = src.replace('.gif', "");
+						str += "[:" + src + "]";
+					}
+				} else if ($(this)[0].nodeType == 3) {
+					var msg = $(this).text();
+					str += msg;
+				}
+			});
+			str = str.replace(/\</g, '&lt;');
+			str = str.replace(/\>/g, '&gt;');
 		});
 	
 		
 	
 		$("#fontTools", dialog).click(function() {
-			$(".im_msg_view", dialog).attr("layouth", $(".im_msg_footer", dialog).outerHeight());
+			$(".im_msg_view", dialog).attr("layoutH", $(".im_msg_footer", dialog).outerHeight());
 			var content = $(this).parents(".dialogContent:eq(0)");
 			content.find("[layoutH]").layoutH(content);
 		});

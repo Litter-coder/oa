@@ -9,38 +9,18 @@
 	});
 
 })(jQuery);
-function set_focus(el) {
-	el = el[0]; // jquery 对象转dom对象
-	el.focus();
-	if ($.browser.msie) {
-		var rng;
-		el.focus();
-		rng = document.selection.createRange();
-		rng.moveStart('character', -el.innerText.length);
-		var text = rng.text;
-		for (var i = 0; i < el.innerText.length; i++) {
-			if (el.innerText.substring(0, i + 1) == text.substring(text.length - i - 1, text.length)) {
-				result = i + 1;
-			}
-		}
-	} else {
-		var range = document.createRange();
-		range.selectNodeContents(el);
-		range.collapse(false);
-		var sel = window.getSelection();
-		sel.removeAllRanges();
-		sel.addRange(range);
-	}
-}
+/**
+ * 聊天工具栏
+ */
 var chartTools = {
 	options : {
 		editArea : null,// 编辑区域，显示区域
-		msgArea : null,// 发送消息区域
+		path : "",
 		font : true,
 		emoji : true,
-		history : true,
-		path : ""
+		history : true
 	},
+	// 初始化工具栏事件标签
 	_initUI : function(op, obj) {
 		var $p = $(obj);
 		$p.append('<ul></ul>');
@@ -61,6 +41,7 @@ var chartTools = {
 			var options = {
 				faceId : "faceId",
 				baseUrl : op.path + 'face/',
+				isTextOut : false,
 				editArea : op.editArea
 			}
 
@@ -91,7 +72,6 @@ var chartTools = {
 				});
 				str = str.replace(/\</g, '&lt;');
 				str = str.replace(/\>/g, '&gt;');
-				op.msgArea.val(str);
 			});
 		}
 		if (op.history) {

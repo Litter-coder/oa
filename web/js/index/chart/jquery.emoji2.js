@@ -4,43 +4,48 @@
  * 【数组】保存表情是否加载过,对于加载过的表情包不重复请求。
  */
 var emoji = {
-	defaults : {
-		templateId : 'rl_bq',
-		baseUrl : '',
-		pace : 200,
-		dir : [ 'mr', 'gnl', 'lxh', 'bzmh' ],
-		editArea : null,
-		textOut : true
-	},
+	dir : [ 'mr', 'gnl', 'lxh', 'bzmh' ],
 	text : [ /* 表情包title文字，自己补充 */
 	[], [], [], [] ],
 	num : [ 131, 46, 83, 70 ],
 	isExist : [ 0, 0, 0, 0 ],
-	bind : function(i, op) {
+	bind : function(index, op) {
 		var id = op.faceId;
-		$("#" + id + " .rl_exp_main").eq(i).find('.rl_exp_item').each(function() {
+		$("#" + id + " .rl_exp_main").eq(index).find('.rl_exp_item').each(function() {
 			$(this).bind('click', function() {
-				emoji.insertText(op.editArea, '[' + $(this).find('img').attr('title') + ']');
+				var str = $(this).find('img').attr('title') || $(this).find('img').attr("src").replace(op.baseUrl + emoji.dir[index] + '/', '').replace(".gif", '');
+				str = op.tip.replace("#tip#", emoji.dir[index] + "/" + str);
+				if (op.editArea.is("textarea")) {
+					emoji.insertTextarea(op.editArea, str);
+				} else {
+					str = op.isTextOut ? $(str)[0] : $(this).find('img').clone()[0];
+					emoji.insertDivtextarea(op.editArea[0], str);
+					$("img", op.editArea).bind("click", function() {
+						return false;
+					})
+				}
 				$('#' + id).fadeOut(op.pace);
 			});
 		});
 	},
 	/* 加载表情包函数 */
-	loadImg : function(i, op) {
+	loadImg : function(index, op) {
 		var id = op.faceId;
-		if (!emoji.isExist[i]) {// 如果模版没有加载表情时
-			var node = $("#" + emoji.defaults.templateId + " .rl_exp_main").eq(i);
-			for (var j = 0; j < emoji.num[i]; j++) {
-				var domStr = '<li class="rl_exp_item">' + '<img src="' + op.baseUrl + op.dir[i] + '/' + j + '.gif" alt="' + emoji.text[i][j] + '" title="' + emoji.text[i][j] + '" />' + '</li>';
+		if (!emoji.isExist[index]) {// 如果模版没有加载表情时
+			var node = $("#" + op.templateId + " .rl_exp_main").eq(index);
+			for (var j = 0; j < emoji.num[index]; j++) {
+				var title = emoji.text[index][j] || "";
+				var domStr = '<li class="rl_exp_item">' + '<img src="' + op.baseUrl + emoji.dir[index] + '/' + j + '.gif" alt="' + title + '" title="' + title + '" />' + '</li>';
 				$(domStr).appendTo(node);
 			}
-			emoji.isExist[i] = 1;
+			emoji.isExist[index] = 1;
 		}
-		node.children().clone().appendTo($("#" + id + " .rl_exp_main").eq(i));
-		emoji.bind(i, op);
+		node.children().clone().appendTo($("#" + id + " .rl_exp_main").eq(index));
+		emoji.bind(index, op);
 	},
 	/* 在textarea里光标后面插入文字 */
-	insertText : function(obj, str) {
+	insertTextarea : function(obj, str) {
+		obj = obj[0];
 		obj.focus();
 		if (document.selection) {
 			var sel = document.selection.createRange();
@@ -54,13 +59,60 @@ var emoji = {
 			obj.value += str;
 		}
 	},
-	initTemplate : function() {
-		var templeDiv = $('<div class="rl_exp" id="' + emoji.defaults.templateId + '" style="display:none;"></div>');
+	/* 在div contenteditable里光标后面插入文字或者图片 */
+	insertDivtextarea : function(inputTarget, domNode) {
+		if (domNode == null || inputTarget == null) {
+			return;
+		}
+		inputTarget.focus();
+		var sel = null;
+		var rang = null;
+		if (window.getSelection()) {
+			sel = window.getSelection();
+			rang = sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
+			if (rang === null) {
+				var tipMessage = "无法插入内容";
+				alert(tipMessage)
+				return;
+			}
+			rang.deleteContents();
+			// 如果选择的对象是输入框时执行操作
+			if (sel.focusNode === inputTarget.innerHTML || sel.focusNode.parentElement === inputTarget || sel.focusNode === inputTarget) {
+				rang.insertNode(domNode);
+			} else {
+				var tipMessage = "无法插入内容，请检查焦点是否在输入框中";
+				alert(tipMessage)
+				return;
+			}
+			// 光标移动至末尾
+			var tempRange = document.createRange();
+			var chatmessage = inputTarget;
+			var position = rang.endOffset;
+			tempRange.selectNodeContents(chatmessage);
+			tempRange.setStart(rang.endContainer, rang.endOffset);
+			tempRange.setEnd(rang.endContainer, rang.endOffset);
+			sel.removeAllRanges();
+			sel.addRange(tempRange);
+		} else {// ie9 以下版本
+			textRange = document.selection.createRange();
+			if (textRange === null) {
+				var tipMessage = "无法插入内容";
+				alert(tipMessage)
+				return;
+			}
+			// 插入 dom节点
+			textRange.collapse(false)
+			textRange.pasteHTML(domNode.outerHTML);
+			textRange.select();
+		}
+	},
+	initTemplate : function(op) {
+		var templeDiv = $('<div class="rl_exp" id="' + op.templateId + '" style="display:none;"></div>');
 		var templeUl = $('<ul class="rl_exp_tab clearfix"></ul>')
 		templeUl.append('<li><a href="javascript:void(0);" class="selected">默认</a></li>').append('<li><a href="javascript:void(0);">拜年</a></li>').append(
 				'<li><a href="javascript:void(0);">浪小花</a></li>').append('<li><a href="javascript:void(0);">暴走漫画</a></li>').appendTo(templeDiv);
 		var emjDiv = $('<div class="rl_exp_emjarea"></div>');
-		for (var i = 0; i < 4; i++) {
+		for (var i = 0; i < emoji.dir.length; i++) {
 			var ulStr = $('<ul class="rl_exp_main clearfix" style="display:none;"></ul>');
 			i == 0 && ulStr.addClass("rl_selected");
 			emjDiv.append(ulStr);
@@ -68,14 +120,12 @@ var emoji = {
 		templeDiv.append(emjDiv).append('<a href="javascript:void(0);" class="close">×</a>').appendTo("body");
 
 	},
-	init : function(options) {
-		if (!$("#" + emoji.defaults.templateId)[0]) {
-			emoji.initTemplate();
+	init : function(op) {
+		if (!$("#" + op.templateId)[0]) {
+			emoji.initTemplate(op);
 		}
-
-		var op = $.extend(emoji.defaults, options);
 		var id = op.faceId;
-		if (id == emoji.defaults.templateId) {
+		if (id == op.templateId) {
 			alert("该元素的id与模版id重复");
 			return;
 		} else if ($("#" + id)[0]) {
@@ -83,24 +133,24 @@ var emoji = {
 			return;
 		}
 		// 元素克隆复制
-		var thisFace = $("#" + emoji.defaults.templateId).clone();
+		var thisFace = $("#" + op.templateId).clone();
 		thisFace.attr("id", id).appendTo(op.target.parent());
 
 		// 给元素下的标签添加事件
-		$("#" + id + " > ul.rl_exp_tab > li").each(function(i) {
+		$("#" + id + " > ul.rl_exp_tab > li").each(function(index) {
 			$(this).bind('click', function(e) {
 				var _this = $("a", $(this));
 
 				if (_this.hasClass('selected') && _this.hasClass("loaded"))
 					return;
 				if (!_this.hasClass("loaded")) {
-					emoji.loadImg(i, op);
+					emoji.loadImg(index, op);
 					_this.addClass("loaded");
 				}
 				$("#" + id + " > ul.rl_exp_tab > li > a.selected").removeClass('selected');
 				_this.addClass('selected');
 				$('#' + id + ' .rl_selected').removeClass('rl_selected').hide();
-				$('#' + id + ' .rl_exp_main').eq(i).addClass('rl_selected').show();
+				$('#' + id + ' .rl_exp_main').eq(index).addClass('rl_selected').show();
 
 				e.stopPropagation();
 			});
@@ -119,6 +169,13 @@ var emoji = {
 				$('.rl_exp').fadeOut(op.pace);
 			}
 		});
+
+		if (op.editArea.is("div[contenteditable]")) {
+			op.editArea.bind("blur", function(e) {
+				return false;
+
+			})
+		}
 	}
 };
 
@@ -127,11 +184,12 @@ var emoji = {
 	$.fn.emoji = function(options) {
 		var defaults = {
 			faceId : "faceId",
+			templateId : 'rl_bq',
 			baseUrl : '',
 			pace : 200,
-			dir : [ 'mr', 'gnl', 'lxh', 'bzmh' ],
 			editArea : null,
-			textOut : true,
+			isTextOut : true,
+			tip : "[:#tip#:]",
 			target : $(this)
 		}
 		var op = $.extend(defaults, options);
@@ -151,4 +209,25 @@ var emoji = {
 			}
 		});
 	};
+	/**
+	 * 用于部分浏览器在可编辑div使用focus时光标不在最后的方法
+	 */
+	$.fn.focusEnd = function() {
+		var editor = $(this)[0];
+		editor.focus();
+		var sel, range;
+		if (window.getSelection && document.createRange) {
+			range = document.createRange();
+			range.selectNodeContents(editor);
+			range.collapse(false);
+			sel = window.getSelection();
+			sel.removeAllRanges();
+			sel.addRange(range);
+		} else if (document.body.createTextRange) {
+			range = document.body.createTextRange();
+			range.moveToElementText(editor);
+			range.collapse(true);
+			range.select();
+		}
+	}
 })(jQuery);
