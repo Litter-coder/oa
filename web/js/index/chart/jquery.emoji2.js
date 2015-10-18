@@ -35,7 +35,7 @@ var emoji = {
 			var node = $("#" + op.templateId + " .rl_exp_main").eq(index);
 			for (var j = 0; j < emoji.num[index]; j++) {
 				var title = emoji.text[index][j] || "";
-				var domStr = '<li class="rl_exp_item">' + '<img src="' + op.baseUrl + emoji.dir[index] + '/' + j + '.gif" alt="' + title + '" title="' + title + '" />' + '</li>';
+				var domStr = '<li class="rl_exp_item">' + '<img src="' + op.baseUrl + emoji.dir[index] + '/' + j + '.gif" unselectable="on" alt="' + title + '" title="' + title + '" />' + '</li>';
 				$(domStr).appendTo(node);
 			}
 			emoji.isExist[index] = 1;

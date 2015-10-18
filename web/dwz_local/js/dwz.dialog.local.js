@@ -114,8 +114,8 @@
 					}
 
 					var itemStr = '<li class="selected" id="' + dlgid
-							+ '"><div class="dialogCombinableItem"><p><img src="../images/index/woman-menu.png" />#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
-					dialogCombinable.find(".dialogCombinableItems ul").append(itemStr.replace("#title#", title));
+							+ '"><div class="dialogCombinableItem" title="#title#"><p><img src="../images/index/woman-menu.png" />#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
+					dialogCombinable.find(".dialogCombinableItems ul").append(itemStr.replace("#title#", title).replace("#title#", title));
 
 					item = $("#" + dlgid, dialogCombinable);
 					var dialogComContent = $(">.dialogCombinableContent", dialogCombinable);
@@ -299,7 +299,7 @@
 					itemsW : 198,
 					minH : 398, // 合并的dialog限制
 					minW : 598, // 合并的dialog限制
-					minItemsW : 68, // 合并的dialog限制
+					minItemsW : 94, // 合并的dialog限制
 					maxItemsW : 228,
 					mask : false
 				})

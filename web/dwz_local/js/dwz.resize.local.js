@@ -14,7 +14,9 @@
 							obj = $("body").data("dialogCombinable");
 						}
 						$("div[class^='resizable']", obj).each(function() {
-							$(this).hide();
+							if (!$(this).hasClass("resizable_c_c")) {
+								$(this).hide();
+							}
 						});
 					});
 			}

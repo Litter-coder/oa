@@ -524,7 +524,7 @@ fieldset legend:hover {background-color: #dddddd;}
 
 /* Pages dialog */
 .dialog .pageHeader { border-style:solid; border-width:1px;margin:0}
-.dialog .pageContent { border-style:solid; border-width:0 1px; background-color:#fff}
+.dialog .pageContent { /*border-style:solid; border-width:0 1px;*/ background-color:#fff}
 .dialog .pageFormContent, .dialog .viewInfo { border-style:solid; border-width:1px 0 0 0;}
 .dialog .formBar { border-style:solid; border-width:1px 0;}
 

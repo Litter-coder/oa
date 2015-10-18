@@ -52,27 +52,6 @@ var chartTools = {
 					$("#emojiChoose", $p).removeClass("focus");
 				}
 			});
-			op.editArea.bind('input propertychange', function() {
-				var str = "";
-				$(this).contents().each(function() {
-					if ($(this)[0].nodeType == 1) {
-						if ($(this).is("br")) {
-							str += (str == "" ? "" : "\n");
-						}
-						if ($(this).is("img")) {
-							var src = $(this).attr("src");
-							src = src.replace(op.path + 'face/', "");
-							src = src.replace('.gif', "");
-							str += "[emoji_" + src + "]";
-						}
-					} else if ($(this)[0].nodeType == 3) {
-						var msg = $(this).text();
-						str += msg;
-					}
-				});
-				str = str.replace(/\</g, '&lt;');
-				str = str.replace(/\>/g, '&gt;');
-			});
 		}
 		if (op.history) {
 			ul.append('<li><a href="javascript:void(0)" class="im_msg_tools" id="msgHistory" title="显示消息记录"><img src="' + op.path + 'history.png"><span>消息记录</span></a></li>');

@@ -47,7 +47,7 @@
 		});
 	
 		
-	
+		// 自适应
 		$("#fontTools", dialog).click(function() {
 			$(".im_msg_view", dialog).attr("layoutH", $(".im_msg_footer", dialog).outerHeight());
 			var content = $(this).parents(".dialogContent:eq(0)");
@@ -57,6 +57,9 @@
 		var plus = $(area).outerWidth(true) - $(area).width();
 		$(area).width($(dialog).width() - 14 - plus);
 		$(".msgarea textarea", dialog).width($(dialog).width() - 14 - plus);
+		
+		
+		 $('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 	}
 
 </script>
