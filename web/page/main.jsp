@@ -22,6 +22,10 @@
 	#leftside, #container, #splitBar, #splitBarProxy{top:51px}
 	
 	#header #headMenu{position: absolute;top: 0px;right: 10px;height: 50px;}
+	#navMenu li:not(.selected) a:hover{background-color:rgba(234, 239, 240,0.6)}
+	#navMenu li{margin-left: 5px;}
+	#navMenu li:FIRST-CHILD{margin-left: 0px;}
+	#navMenu li span{padding: 0px 8px;}
 </style>
 
 <!--[if lte IE 9]>
@@ -50,7 +54,6 @@
 <script src="${oa}/dwz_local/js/dwz.taskBar.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.theme.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz_local/js/dwz.alertMsg.local.js" type="text/javascript"></script>
-<script type="text/javascript" src="${oa}/js/index/chart/jquery.emoji2.js"></script>
 
 <script type="text/javascript">
 $(function(){

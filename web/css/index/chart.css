@@ -19,6 +19,14 @@
 	border-color: #B8D0D6;
 }
 
+.im_msg_footer .tip {
+	position: absolute;
+	width: auto;
+	left: 5px;
+	bottom: 1px;
+	color: #9C9C9C;
+}
+
 .im_msg_icon {
 	height: 26px;
 }
@@ -161,10 +169,9 @@ div.editarea:FOCUS {
 
 .from .im_msg_popbox_content {
 	display: inline-block;
-	padding: 10px;
-	margin-left: 45px;
+	padding: 1px 10px;
+	margin-left: 35px;
 	position: relative;
-	border: 1px solid #D6D6D6;
 	background: #FFF none repeat scroll 0% 0%;
 	color: #505050;
 	border-radius: 4px;
@@ -194,12 +201,69 @@ div.editarea:FOCUS {
 
 .to .im_msg_popbox_content {
 	display: inline-block;
-	padding: 10px;
-	margin-right: 45px;
+	padding: 1px 10px;
+	margin-right: 35px;
 	position: relative;
-	border: 1px solid #D6D6D6;
-	background: #D7EBFE none repeat scroll 0% 0%;
 	color: #505050;
 	border-radius: 4px;
 	word-break: break-all;
+}
+
+.im_msg_popbox_content .bubble {
+	position: relative;
+	line-height: 30px;
+	padding-left: 10px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+	border-radius: 7px;
+	padding-right: 10px;
+	display: inline-block;
+	text-align: left;
+}
+
+.from .bubble {
+	position: relative;
+	border: 1px solid #aaa;
+	background: #f8fdfc none repeat scroll 0% 0%;
+}
+
+.from .bottomLevel {
+	position: absolute;
+	top: 10px;
+	left: 1px;
+	border-top: 10px solid #aaa;
+	border-left: 10px solid transparent;
+}
+
+.from .topLevel {
+	position: absolute;
+	top: 11px;
+	left: 3px;
+	border-top: 10px solid #f8fdfc;
+	border-left: 10px solid transparent;
+	z-index: 100;
+}
+
+.to .bubble {
+	position: relative;
+	float: right;
+	border: 1px solid #00b6b6;
+	background: #D7EBFE none repeat scroll 0% 0%;
+}
+
+.to .bottomLevel {
+	position: absolute;
+	top: 11px;
+	right: 1px;
+	border-bottom: 10px solid #00b6b6;
+	border-right: 10px solid transparent;
+}
+
+.to .topLevel {
+	position: absolute;
+	top: 10px;
+	right: 3px;
+	border-bottom: 10px solid #D7EBFE;
+	border-right: 10px solid transparent;
+	z-index: 100;
 }

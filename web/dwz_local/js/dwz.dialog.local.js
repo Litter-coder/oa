@@ -7,7 +7,8 @@
 		_currentItem : null,
 		_op : {
 			combinable : false,
-			callback : null
+			callback : null,
+			dialogResize : null
 		},
 		getAllCombDialog : function() {
 			var dialogCombinable = $("body").data("dialogCombinable");
@@ -37,7 +38,7 @@
 							return false;
 						});
 						if ($.isFunction(op.callback))
-							op.callback(response);
+							op.callback(dialog, response);
 					}
 				});
 			}
@@ -161,7 +162,7 @@
 				dialog.data("url", url);
 
 				dialog.data("combinable", op.combinable);
-
+				
 				if (op.close)
 					dialog.data("close", op.close);
 				if (op.param)
@@ -247,6 +248,10 @@
 					else
 						$("a.restore", dialog).trigger("click");
 				});
+				
+				if(op.dialogResize)
+					dialog.data("dialogResize",op.dialogResize);
+				
 				if (op.max) {
 					// $.pdialog.switchDialog(dialog);
 					$.pdialog.maxsize(dialog);
@@ -782,11 +787,9 @@
 			content.find("[layoutH]").layoutH(content);
 			$(".pageContent", dialog).css("width", (width - 14) + "px");
 
-			var textarea = $(".editarea", dialog)[0]
-
-			if (textarea) {
-				var plus = $(textarea).outerWidth(true) - $(textarea).width();
-				$(textarea).width($(dialog).width() - 14 - plus);
+			var dialogResize = dialog.data("dialogResize");
+			if($.isFunction(eval(dialogResize))){
+				dialogResize(dialog);
 			}
 
 			$(window).trigger(DWZ.eventType.resizeGrid);

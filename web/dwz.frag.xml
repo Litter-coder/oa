@@ -25,10 +25,10 @@
 	<div class="dialogHeader" onselectstart="return false;" oncopy="return false;" onpaste="return false;" oncut="return false;">
 		<div class="dialogHeader_r">
 			<div class="dialogHeader_c">
-				<a class="close" href="#close">close</a>
-				<a class="maximize" href="#maximize">maximize</a>
-				<a class="restore" href="#restore">restore</a>
-				<a class="minimize" href="#minimize">minimize</a>
+				<a class="close" href="javascript:;">close</a>
+				<a class="maximize" href="javascript:;">maximize</a>
+				<a class="restore" href="javascript:;">restore</a>
+				<a class="minimize" href="javascript:;">minimize</a>
 				<h1>弹出窗口</h1>
 			</div>
 		</div>
@@ -58,9 +58,9 @@
 			<div class="dialogHeader">
 				<div class="dialogHeader_r">
 					<div class="dialogHeader_c">
-						<a class="close" href="#close">close</a>
-						<a class="maximize" href="#maximize">maximize</a>
-						<a class="minimize" href="#minimize">minimize</a>
+						<a class="close" href="javascript:;">close</a>
+						<a class="maximize" href="javascript:;">maximize</a>
+						<a class="minimize" href="javascript:;">minimize</a>
 						<h1></h1>
 					</div>
 				</div>
@@ -82,8 +82,8 @@
 		<div class="dialogHeader_r">
 			<div class="dialogHeader_c">
 				<a class="close" href="#close">close</a>
-				<a class="maximize" href="#maximize">maximize</a>
-				<a class="minimize" href="#minimize">minimize</a>
+				<a class="maximize" href="javascript:;">maximize</a>
+				<a class="minimize" href="javascript:;">minimize</a>
 				<h1></h1>
 			</div>
 		</div>

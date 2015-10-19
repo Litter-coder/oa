@@ -3,7 +3,17 @@
 <link href="${oa}/css/index/chart.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${oa}/css/index/emoji.css" rel="stylesheet" type="text/css" media="screen"/>
 <script type="text/javascript" src="${oa}/js/index/chart/chart.tools.js"></script>
+<script type="text/javascript" src="${oa}/js/index/chart/jquery.emoji.js"></script>
 <script type="text/javascript">
+	var dialogResize = function(dialog){
+		var area = $(".editarea", dialog);
+		var plus = $(area).outerWidth(true) - $(area).width();
+		$(area).width($(dialog).width() - 14 - plus);
+		$(".msgarea textarea", dialog).width($(dialog).width() - 14 - plus);
+		
+		$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
+	}
+
 	var initChatDialog = function(obj) {
 		var dialog = (typeof obj == 'string') ? $("#" + obj) : obj;
 		var path = "${oa}/images/index/im/";
@@ -52,14 +62,10 @@
 			$(".im_msg_view", dialog).attr("layoutH", $(".im_msg_footer", dialog).outerHeight());
 			var content = $(this).parents(".dialogContent:eq(0)");
 			content.find("[layoutH]").layoutH(content);
+			dialogResize(dialog);
 		});
-		var area = $(".editarea", dialog);
-		var plus = $(area).outerWidth(true) - $(area).width();
-		$(area).width($(dialog).width() - 14 - plus);
-		$(".msgarea textarea", dialog).width($(dialog).width() - 14 - plus);
 		
-		
-		 $('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
+		dialogResize(dialog);
 	}
 
 </script>
@@ -71,7 +77,7 @@
 	<div class="message-im-info">
 		<ul class="message-im-list">
 			<li>
-				<a title="张三1" target="dialog" rel="zs1" callback="initChatDialog" href="${oa}/page/index/common_im_msg.jsp">
+				<a title="张三1" target="dialog" rel="zs1" callback="initChatDialog" dialogResize="dialogResize" href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -83,7 +89,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四1" target="dialog" combinable="true" rel="im_msg_02" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四1" target="dialog" combinable="true" rel="im_msg_02" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -95,7 +101,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四2" target="dialog" combinable="true" rel="im_msg_03" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四2" target="dialog" combinable="true" rel="im_msg_03" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -107,7 +113,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四3" target="dialog" combinable="true" rel="im_msg_04" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四3" target="dialog" combinable="true" rel="im_msg_04" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -119,7 +125,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四4" target="dialog" combinable="true" rel="im_msg_05" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四4" target="dialog" combinable="true" rel="im_msg_05" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -131,7 +137,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四5" target="dialog" combinable="true" rel="im_msg_06" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四5" target="dialog" combinable="true" rel="im_msg_06" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -143,7 +149,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四6" target="dialog" combinable="true" rel="im_msg_07" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四6" target="dialog" combinable="true" rel="im_msg_07" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -155,7 +161,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四7" target="dialog" combinable="true" rel="im_msg_08" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四7" target="dialog" combinable="true" rel="im_msg_08" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -179,7 +185,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四9" target="dialog" combinable="true" rel="im_msg_10" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四9" target="dialog" combinable="true" rel="im_msg_10" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -191,7 +197,7 @@
 				</a>
 			</li>
 			<li>
-				<a title="李四10" target="dialog" combinable="true" rel="im_msg_11" callback="initChatDialog"  href="${oa}/page/index/common_im_msg.jsp">
+				<a title="李四10" target="dialog" combinable="true" rel="im_msg_11" callback="initChatDialog" dialogResize="dialogResize"  href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
