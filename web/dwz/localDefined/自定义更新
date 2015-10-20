@@ -1,0 +1,26 @@
+1.dwz.barDrag.local.js 
+	加入触发事件显示左列（当菜单隐藏时，点击横向菜单触发此功能）
+2.dwz.core.local.js
+	a。扩展DWZ参数：时间类型eventType加入ajaxLoadingMask，用于定义遮罩方法
+	b。重写ajaxUrl方法，加入是否对调用对象加上遮罩功能
+	c.扩展DWZ参数：加入cookie的方法，用于cookie传入json对象的封住处理
+	d.增加positionBy方法，用于获取$对象相对于指定$对象的位置
+3.dwz.navtab.local.js
+	a。扩展navTab对象：加入DEFAULT值，用于默认参数设置，其中加入loadingmask是否遮罩，默认为true
+	b。重写_reload、reload、openTab方法，加入遮罩参数传递
+4.dwz.switchEnv.local.js
+	a。重写navMenu方法：加入参数传递，参数在页面标签中指定;加入遮罩左列菜单区域;去除切换菜单时，清空navTab
+	b。重写switchEnv方法：去除切换菜单时，清空navTab
+5.dwz.ui.local.js
+	a。重写initEnv方法：加入DWZ.eventType.ajaxLoadingMask事件的方法定义
+	b。新增init_ajaxstatus_mask方法：设置调用对象中遮罩div的参数并返回div
+6.dwz.sortDrag.local.js
+	a。重写sortDrag方法：加入拖曳时点击对象是否支持拖曳的判断
+7.dwz.dialog.local.js
+	a.加入默认参数combinable = false 默认不合并
+	b.重写open方法：加入合并窗口的时的逻辑，合并时暂不会显示阴影层、拖曳功能
+	c.新增_initDialogComb方法：第一次打开合并窗口的初始化合并窗口
+	d.重写_init方法：dialog在合并窗口时调整dialog的css位置
+	e.重写close方法：加入合并窗口的dialog关闭时显示其他dialog
+8.dwz.taskBar.local.js
+	a.重写switchTask方法：加入title参数，用于合并窗口新增或者移除时，动态更新合并窗口的任务栏

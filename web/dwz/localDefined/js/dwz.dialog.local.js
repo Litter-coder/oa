@@ -162,7 +162,7 @@
 				dialog.data("url", url);
 
 				dialog.data("combinable", op.combinable);
-				
+
 				if (op.close)
 					dialog.data("close", op.close);
 				if (op.param)
@@ -248,10 +248,10 @@
 					else
 						$("a.restore", dialog).trigger("click");
 				});
-				
-				if(op.dialogResize)
-					dialog.data("dialogResize",op.dialogResize);
-				
+
+				if (op.dialogResize)
+					dialog.data("dialogResize", op.dialogResize);
+
 				if (op.max) {
 					// $.pdialog.switchDialog(dialog);
 					$.pdialog.maxsize(dialog);
@@ -426,7 +426,13 @@
 				var height = parseInt(dialogCombinable.height());
 				var width = parseInt(dialogCombinable.width());
 				var combTitleWidth = parseInt($("div.dialogCombinableItems", dialogCombinable).outerWidth());
-				this._resizeDialog(dialog, width - combTitleWidth, height, 0, 0);
+				var params = {
+					width : width - combTitleWidth,
+					height : height,
+					top : 0,
+					left : 0
+				}
+				this._resizeDialog(dialog, params);
 			}
 		},
 		/**
@@ -555,10 +561,19 @@
 			} else {
 				tmove = height - parseInt($(reObj).css("height"));
 			}
+
+			var params = {
+				width : width,
+				itemsW : itemsW,
+				height : height,
+				top : otop,
+				left : oleft
+			}
+
 			if (eval(dialog.data("combinable"))) {
-				$.pdialog._resizeDialogCombinable(reObj, width, itemsW, height, oleft, otop);
+				$.pdialog._resizeDialogCombinable(reObj, params);
 			} else {
-				$.pdialog._resizeDialog(reObj, width, height, oleft, otop);
+				$.pdialog._resizeDialog(reObj, params);
 			}
 			if (target != "w" && target != "e") {
 				$.pdialog.resizeTool(target, tmove, lmove, reObj);
@@ -653,8 +668,14 @@
 					height : $(dialogCombinable).css("height")
 				});
 				var itemsW = $(">.dialogCombinableItems", dialogCombinable).width();
-
-				$.pdialog._resizeDialogCombinable(dialogCombinable, iContentW, itemsW, iContentH, 0, 0);
+				var params = {
+					width : iContentW,
+					itemsW : itemsW,
+					height : iContentH,
+					top : 0,
+					left : 0
+				}
+				$.pdialog._resizeDialogCombinable(dialogCombinable, params);
 				$.pdialog.getAllCombDialog().each(function() {
 					var _dialog = $(this);
 					$("a.maximize", _dialog).hide();
@@ -687,7 +708,14 @@
 				var dheight = parseInt(original.height);
 				var itemsW = $(">.dialogCombinableItems", dialogCombinable).width();
 
-				$.pdialog._resizeDialogCombinable(dialogCombinable, dwidth, itemsW, dheight, original.left, original.top);
+				var params = {
+					width : dwidth,
+					itemsW : itemsW,
+					height : dheight,
+					top : original.top,
+					left : original.left
+				}
+				$.pdialog._resizeDialogCombinable(dialogCombinable, params);
 				$.pdialog.getAllCombDialog().each(function() {
 					var _dialog = $(this);
 					$("a.maximize", _dialog).show();
@@ -749,34 +777,40 @@
 				});
 			}
 		},
-		_resizeDialogCombinable : function(dialogComb, width, itemsW, height, left, top) {
+		_resizeDialogCombinable : function(dialogComb, params) {
 			$(dialogComb).css({
-				width : width,
-				height : height,
-				left : left,
-				top : top
+				width : params.width,
+				height : params.height,
+				left : params.left,
+				top : params.top
 			});
-			$(">.dialogCombinableItems", dialogComb).height(height - 2 + "px");
-			$(">.dialogCombinableItems", dialogComb).width(itemsW + "px");
+			$(">.dialogCombinableItems", dialogComb).height(params.height - 2 + "px");
+			$(">.dialogCombinableItems", dialogComb).width(params.itemsW + "px");
 			itemsW = $(">.dialogCombinableItems", dialogComb).outerWidth();
-			$(">.dialogCombinableContent", dialogComb).width(width - itemsW + "px");
-			$(">.dialogCombinableContent", dialogComb).height(height + "px");
+			$(">.dialogCombinableContent", dialogComb).width(params.width - itemsW + "px");
+			$(">.dialogCombinableContent", dialogComb).height(params.height + "px");
 
 			$.pdialog.getAllCombDialog().each(function() {
 				var _dialog = $(this);
-				$.pdialog._resizeDialog(_dialog, width - itemsW, height, 0, 0);
+				params = {
+					width : params.width - itemsW,
+					height : params.height,
+					left : 0,
+					top : 0
+				}
+				$.pdialog._resizeDialog(_dialog, params);
 			});
 
 		},
 		// 用于组合窗口的重置dialog功能
-		_resizeDialog : function(dialog, width, height, left, top) {
+		_resizeDialog : function(dialog, params) {
 			dialog.css({
-				width : width,
-				height : height,
-				left : left,
-				top : top
+				width : params.width,
+				height : params.height,
+				left : params.left,
+				top : params.top
 			});
-			this._resizeContent(dialog, width, height);
+			this._resizeContent(dialog, params.width, params.height);
 		},
 		_resizeContent : function(dialog, width, height) {
 			var content = $(".dialogContent", dialog);
@@ -788,7 +822,7 @@
 			$(".pageContent", dialog).css("width", (width - 14) + "px");
 
 			var dialogResize = dialog.data("dialogResize");
-			if($.isFunction(eval(dialogResize))){
+			if ($.isFunction(eval(dialogResize))) {
 				dialogResize(dialog);
 			}
 

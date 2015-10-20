@@ -10,10 +10,10 @@
 <link href="${oa}/dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
 <link href="${oa}/dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
 <link href="${oa}/dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${oa}/dwz_local/css/dialog.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${oa}/dwz_local/css/alertMsg.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${oa}/dwz/localDefined/css/dialog.css" rel="stylesheet" type="text/css" media="screen"/>
+<link href="${oa}/dwz/localDefined/css/alertMsg.css" rel="stylesheet" type="text/css" media="screen"/>
 
-<%-- <link href="${oa}/dwz_local/css/core.css" rel="stylesheet" type="text/css" media="screen"/> --%>
+<%-- <link href="${oa}/dwz/localDefined/css/core.css" rel="stylesheet" type="text/css" media="screen"/> --%>
 <!--[if IE]>
 <link href="dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
 <![endif]-->
@@ -42,18 +42,18 @@
 <script src="${oa}/dwz/bin/dwz.min.js" type="text/javascript"></script>
 <script src="${oa}/dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
 
-<script src="${oa}/dwz_local/js/dwz.core.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.navtab.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.barDrag.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.switchEnv.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.ui.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.dialog.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.dialogDrag.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.drag.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.resize.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.taskBar.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.theme.local.js" type="text/javascript"></script>
-<script src="${oa}/dwz_local/js/dwz.alertMsg.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.core.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.navtab.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.barDrag.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.switchEnv.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.ui.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.dialog.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.dialogDrag.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.drag.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.resize.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.taskBar.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.theme.local.js" type="text/javascript"></script>
+<script src="${oa}/dwz/localDefined/js/dwz.alertMsg.local.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 $(function(){
