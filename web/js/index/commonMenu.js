@@ -1,11 +1,7 @@
 var def_option = {
 	webName : "",
 	avtar : {
-<<<<<<< HEAD
-		def_image : "/dwz_local/images/man-img.png",
-=======
 		def_image : "/images/index/man-img.png",
->>>>>>> branch 'master' of https://github.com/Litter-coder/oa.git
 		user_sex : 1,// 男
 		user_img : ""
 	},
