@@ -199,7 +199,7 @@ var emoji = {
 (function($) {
 	$.fn.emoji = function(options) {
 		var op = $.extend(emoji.defaults, options);
-		op.target = $(this).parent();
+		op.target = op.target || $(this).parent();
 		emoji.init(op);
 		var id = op.faceId;
 		$(this).click(function() {

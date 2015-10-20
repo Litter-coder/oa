@@ -1,7 +1,7 @@
 var def_option = {
 	webName : "",
 	avtar : {
-		def_image : "/dwz_local/images/man-img.png",
+		def_image : "/images/index/man-img.png",
 		user_sex : 1,// 男
 		user_img : ""
 	},

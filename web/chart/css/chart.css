@@ -23,7 +23,7 @@
 	position: absolute;
 	width: auto;
 	left: 5px;
-	bottom: 1px;
+	bottom: 5px;
 	color: #9C9C9C;
 }
 
@@ -77,7 +77,7 @@
 
 .im_msg_editarea {
 	position: relative;
-	height: 67px;
+	height: 68px;
 }
 
 div.editarea {
@@ -131,11 +131,11 @@ div.editarea:FOCUS {
 	appearance: none;
 }
 /*聊天记录显示*/
-.im_msg_box {
+.im_msg_view .im_msg_box {
 	margin: 10px 5px;
 }
 
-.im_msg_box_time {
+.im_msg_view .im_msg_box_time {
 	color: #B2B2B2;
 	font-size: 12px;
 	width: 100%;
@@ -145,29 +145,29 @@ div.editarea:FOCUS {
 	text-shadow: 1px 1px 0px #FFF;
 }
 
-.from .im_msg_box_time {
+.im_msg_view .from .im_msg_box_time {
 	text-align: left;
 }
 
-.from .im_msg_popbox {
+.im_msg_view .from .im_msg_popbox {
 	position: relative;
 	display: inline-block;
 	padding-right: 50px;
 }
 
-.from .im_msg_popbox_avatar {
+.im_msg_view .from .im_msg_popbox_avatar {
 	top: 0px;
 	position: absolute;
 	width: 40px;
 	height: 40px;
 }
 
-.im_msg_popbox_avatar img {
+.im_msg_view .im_msg_popbox_avatar img {
 	width: 40px;
 	height: 40px;
 }
 
-.from .im_msg_popbox_content {
+.im_msg_view .from .im_msg_popbox_content {
 	display: inline-block;
 	padding: 1px 10px;
 	margin-left: 35px;
@@ -178,20 +178,20 @@ div.editarea:FOCUS {
 	word-break: break-all;
 }
 
-.to {
+.im_msg_view .to {
 	text-align: right;
 }
 
-.to .im_msg_box_time {
+.im_msg_view .to .im_msg_box_time {
 	text-align: right;
 }
 
-.to .im_msg_popbox {
+.im_msg_view .to .im_msg_popbox {
 	position: relative;
 	margin-left: 50px;
 }
 
-.to .im_msg_popbox_avatar {
+.im_msg_view .to .im_msg_popbox_avatar {
 	width: 40px;
 	height: 40px;
 	top: 0px;
@@ -199,7 +199,7 @@ div.editarea:FOCUS {
 	position: absolute;
 }
 
-.to .im_msg_popbox_content {
+.im_msg_view .to .im_msg_popbox_content {
 	display: inline-block;
 	padding: 1px 10px;
 	margin-right: 35px;
@@ -209,7 +209,7 @@ div.editarea:FOCUS {
 	word-break: break-all;
 }
 
-.im_msg_popbox_content .bubble {
+.im_msg_view .im_msg_popbox_content .bubble {
 	position: relative;
 	line-height: 30px;
 	padding-left: 10px;
@@ -221,13 +221,13 @@ div.editarea:FOCUS {
 	text-align: left;
 }
 
-.from .bubble {
+.im_msg_view .from .bubble {
 	position: relative;
 	border: 1px solid #aaa;
 	background: #f8fdfc none repeat scroll 0% 0%;
 }
 
-.from .bottomLevel {
+.im_msg_view .from .bottomLevel {
 	position: absolute;
 	top: 10px;
 	left: 1px;
@@ -235,7 +235,7 @@ div.editarea:FOCUS {
 	border-left: 10px solid transparent;
 }
 
-.from .topLevel {
+.im_msg_view .from .topLevel {
 	position: absolute;
 	top: 11px;
 	left: 3px;
@@ -244,14 +244,14 @@ div.editarea:FOCUS {
 	z-index: 100;
 }
 
-.to .bubble {
+.im_msg_view .to .bubble {
 	position: relative;
 	float: right;
 	border: 1px solid #00b6b6;
 	background: #D7EBFE none repeat scroll 0% 0%;
 }
 
-.to .bottomLevel {
+.im_msg_view .to .bottomLevel {
 	position: absolute;
 	top: 11px;
 	right: 1px;
@@ -259,11 +259,23 @@ div.editarea:FOCUS {
 	border-right: 10px solid transparent;
 }
 
-.to .topLevel {
+.im_msg_view .to .topLevel {
 	position: absolute;
 	top: 10px;
 	right: 3px;
 	border-bottom: 10px solid #D7EBFE;
 	border-right: 10px solid transparent;
 	z-index: 100;
+}
+
+.im_msg_history {
+	width: 398px;
+	float: right;
+	overflow: hidden;
+	border: 1px solid #B8D0D6;
+}
+
+.im_msg_history .im_history_box {
+	padding: 10px;
+	overflow: auto;
 }
