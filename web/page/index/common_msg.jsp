@@ -2,6 +2,7 @@
 <%@ include file="/page/public/common.jsp"%>
 <link href="${oa}/chart/css/chart.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="${oa}/chart/css/emoji.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript" src="${oa}/chart/js/chart.core.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/chart.tools.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/jquery.emoji.js"></script>
 <script type="text/javascript">
@@ -12,13 +13,50 @@
 		$(".msgarea textarea", dialog).width($(dialog).width() - 14 - plus);
 
 		$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
-		if ($(".historyRecord", dialog)[0]) {
-		}
+	}
+
+	var imgPath = "${oa}/chart/images/";
+
+	/*
+	var msgJson = {
+		type : "from", // to,表示发送接收
+		icon : "",// 用户头像
+		time : "",// 消息时间
+		content : [ // 消息内容
+		{
+			nodeType : 1, // 3 ,表示节点类型 1是元素节点，3是文本节点
+			nodeName : "", // 元素节点的元素名称
+			attribute : { // 元素节点属性
+				src : ""
+			},
+			text : "" // 元素节点的文本内容，或者是文本节点的文本
+		}, {}, {} ]
+	}*/
+	var encodeMsg = function(contents) {
+		var msg;
+		contents.each(function() {
+			if ($(this)[0].nodeType == 1) {
+				if ($(this).is("br")) {
+					msg += (msg == "" ? "" : "\n");
+				}
+				if ($(this).is("img")) {
+					var src = $(this).attr("src");
+					src = src.replace(imgPath + 'face/', "");
+					src = src.replace('.gif', "");
+					msg += "[:" + src + "]";
+				}
+			} else if ($(this)[0].nodeType == 3) {
+				var text = $(this).text();
+				msg += text;
+			}
+		});
+		msg = msg.replace(/\</g, '&lt;');
+		msg = msg.replace(/\>/g, '&gt;');
 	}
 
 	var initChatDialog = function(obj) {
 		var dialog = (typeof obj == 'string') ? $("#" + obj) : obj;
-		var imgPath = "${oa}/chart/images/";
+
 		$(".chartTools", dialog).initChartTools({
 			editArea : $(".editarea", dialog),
 			imgPath : imgPath
@@ -37,25 +75,9 @@
 		$(".editarea", dialog).focus();
 
 		$("button.send", dialog).click(function() {
-			var str = "";
-			$(".editarea", dialog).contents().each(function() {
-				if ($(this)[0].nodeType == 1) {
-					if ($(this).is("br")) {
-						str += (str == "" ? "" : "\n");
-					}
-					if ($(this).is("img")) {
-						var src = $(this).attr("src");
-						src = src.replace(imgPath + 'face/', "");
-						src = src.replace('.gif', "");
-						str += "[:" + src + "]";
-					}
-				} else if ($(this)[0].nodeType == 3) {
-					var msg = $(this).text();
-					str += msg;
-				}
-			});
-			str = str.replace(/\</g, '&lt;');
-			str = str.replace(/\>/g, '&gt;');
+			var msg = encodeMsg($(".editarea", dialog).contents());
+
+			$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 		});
 
 		// 自适应

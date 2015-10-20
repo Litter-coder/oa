@@ -79,8 +79,13 @@ var chartHistory = {
 		$("#msgHistory", $(obj)).click(function() {
 			var dialog = $(obj).parents(".dialog:eq(0)");
 			var historyDiv = $(".historyRecord", dialog);
-			historyDiv = historyDiv[0] || '<div class="im_msg_history historyRecord"><div class="im_history_box" layoutH=22></div></div>';
-			historyDiv = $(historyDiv);
+			var isShow = false;
+			if (!historyDiv[0]) {
+				historyDiv = $('<div class="im_msg_history historyRecord"><div class="im_history_box" layoutH=22></div></div>');
+				$(".imContent", dialog).prepend(historyDiv);
+				isShow = true;
+			}
+
 			var hisWidth = parseInt(historyDiv.css("width")) + 2;
 			var iContentW = $(window).width();
 
@@ -119,7 +124,7 @@ var chartHistory = {
 				return params;
 			}
 
-			if ($(".historyRecord", dialog)[0]) {// 移除
+			if (!isShow) {// 移除
 				if (eval(dialog.data("combinable"))) {
 					var dialogComb = $("body").data("dialogCombinable");
 					var params = getParams(dialogComb, 0);
@@ -130,8 +135,7 @@ var chartHistory = {
 				}
 				historyDiv.remove();
 			} else {// 显示历史记录
-				var box = $(".imContent", dialog);
-				$(box).prepend(historyDiv);
+
 				if (isMax) {// 当显示历史时处于最大化状态时，还原的时候可能会出现问题，则应该先最小化显示历史后再最大化
 					$("a.restore", dialog).click();
 				}
@@ -147,9 +151,7 @@ var chartHistory = {
 					$("a.maximize", dialog).click();
 				}
 			}
-
 		});
-
 	}
 };
 
