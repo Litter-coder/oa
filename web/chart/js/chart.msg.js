@@ -40,12 +40,8 @@ var chartMsg = {
 			_content.text = escape(text);
 			content.push(_content);
 		});
-		if (content.length > 0) {
-			var first = content[0];
-			if (first.nodeType = 1 && first.tagName.toLowerCase() == "br") {
-				delete content[0];
-			}
-		}
+		// 去除前后换行
+		
 		return content;
 	},
 	encrypt : function(str, pwd) {

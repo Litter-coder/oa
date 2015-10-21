@@ -24,7 +24,7 @@
 						<img src="${oa}/images/index/man-menu.png">
 					</div>
 					<div class="im_msg_popbox_content">
-						<span class="bubble">${param.toUID}-----${param.toICON}</span> <span class="bottomLevel"></span> <span class="topLevel"></span>
+						<span class="bubble">aaa</span> <span class="bottomLevel"></span> <span class="topLevel"></span>
 					</div>
 				</div>
 			</div>

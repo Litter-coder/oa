@@ -4,12 +4,13 @@
 <link href="${oa}/chart/css/emoji.css" rel="stylesheet" type="text/css" media="screen" />
 <script type="text/javascript" src="${oa}/chart/js/chart.core.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/chart.tools.js"></script>
-<script type="text/javascript" src="${oa}/chart/js/chart.decode.js"></script>
+<script type="text/javascript" src="${oa}/chart/js/chart.msg.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/jquery.emoji.js"></script>
 <script type="text/javascript">
 	var fromUid = userInfo.loginUsername + "@dinghuan-s";
 	var fromImg = userInfo.image;
-	var msg_alt = "1234567890abcdef";
+	var msg_password = "1234567890abcdef";
+	var imgPath = "${oa}/chart/images/";
 	var dialogResize = function(dialog) {
 		var area = $(".editarea", dialog);
 		var plus = $(area).outerWidth(true) - $(area).width();
@@ -17,8 +18,30 @@
 
 		$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 	}
+	
+	var displayMsg = function(msg, isSend, isPsd){
+		if(isPsd){
+			var content = msg.content;
+			chartMsg.encrypt(content, msg_password);
+			msg.content = eval(content);
+		}
+		// 使用JsRender
+		/*
+		<div class="im_msg_box from">
+				<div class="im_msg_box_time">10-18 18:20</div>
+				<div class="im_msg_popbox">
+					<div class="im_msg_popbox_avatar">
+						<img src="${oa}/images/index/man-menu.png">
+					</div>
+					<div class="im_msg_popbox_content">
+						<span class="bubble">aaa</span> <span class="bottomLevel"></span> <span class="topLevel"></span>
+					</div>
+				</div>
+			</div>
+		*/
+		
+	}
 
-	var imgPath = "${oa}/chart/images/";
 	var initChatDialog = function(obj) {
 		var dialog = (typeof obj == 'string') ? $("#" + obj) : obj;
 
@@ -49,7 +72,10 @@
 			msg.sendTime = currentTime.datetime.month + "-" + currentTime.datetime.date + " " + currentTime.time.hours + ":" + currentTime.time.minutes;
 			var content = chartMsg.getEditareaMsgArray($(".editarea", dialog));
 			msg.content = content;
-			alert(JSON.stringify(msg))
+			displayMsg(msg, true)
+			content = chartMsg.encrypt(JSON.stringify(content), msg_password);
+			msg.content = content;
+			
 			
 			$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 		});

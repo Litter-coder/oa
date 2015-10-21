@@ -99,7 +99,7 @@ var emoji = {
 			}
 			rang.deleteContents();
 			// 如果选择的对象是输入框时执行操作
-			if (sel.focusNode === inputTarget.innerHTML || sel.focusNode.parentElement === inputTarget || sel.focusNode === inputTarget) {
+			if (sel.focusNode === inputTarget.innerHTML || sel.focusNode.parentElement === inputTarget || sel.focusNode.parentNode === inputTarget || sel.focusNode === inputTarget) {
 				rang.insertNode(domNode);
 			} else {
 				var tipMessage = "无法插入内容，请检查焦点是否在输入框中";
