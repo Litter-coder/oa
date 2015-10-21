@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
-import com.hongan.oa.bean.system.User;
+import com.hongan.oa.bean.system.UserInfo;
 
 public interface SysUserMapper {
 
@@ -22,6 +22,6 @@ public interface SysUserMapper {
 
 	void updateFailAttempts(@Param(value = "userAttempts") SysUserAttempts userAttempts);
 
-	User getUserById(@Param(value = "id") Long id);
+	UserInfo getUserInfoById(@Param(value = "id") Long id);
 
 }

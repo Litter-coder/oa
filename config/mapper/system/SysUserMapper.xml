@@ -20,7 +20,7 @@
 		<result column="LAST_ERROR_TIME" property="lastErrorTime" />
 	</resultMap>
 	
-	<resultMap type="user" id="userResultMap">
+	<resultMap type="userInfo" id="userInfoResultMap">
 		<id column="ID" property="id"/>
 		<result column="NAME" property="name"/>
 		<result column="SEX" property="sex"/>
@@ -35,7 +35,7 @@
 
 	<sql id="selectSysUserAttemptsSql">USERNAME,ATTEMPTS,LAST_ERROR_TIME</sql>
 	
-	<sql id="selectUserSql">ID,NAME,SEX,EMAIL,TELPHONE,MOBILEPHONE,BIRTHDAY,IMAGE</sql>
+	<sql id="selectUserInfoSql">ID,NAME,SEX,EMAIL,TELPHONE,MOBILEPHONE,BIRTHDAY,IMAGE</sql>
 	
 	<select id="getSysUserByUsername" resultMap="SysUserResultMap">
 		select <include refid="selectSysUserSql"/> from t_sys_user where USERNAME = #{username}
@@ -78,8 +78,8 @@
 		delete from t_sys_user_attempts where USERNAME = #{username}
 	</delete>
 
-	<select id="getUserById" resultMap="userResultMap">
-		select <include refid="selectUserSql"/> from t_user where ID = #{id}
+	<select id="getUserInfoById" resultMap="userInfoResultMap">
+		select <include refid="selectUserInfoSql"/> from t_user_info where ID = #{id}
 	</select>
 
 </mapper>

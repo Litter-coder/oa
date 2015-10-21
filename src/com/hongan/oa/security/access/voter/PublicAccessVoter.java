@@ -43,6 +43,7 @@ public class PublicAccessVoter implements AccessDecisionVoter {
 	@Override
 	public int vote(Authentication authentication, Object object, Collection<ConfigAttribute> attributes) {
 		String reqUrl = ((FilterInvocation) object).getRequestUrl();
+		reqUrl = reqUrl.split("\\?")[0];
 		if (publicAccessUrls != null) {
 			for (String url : publicAccessUrls) {
 				if (urlMatcher.pathMatchesUrl(url, reqUrl)) {

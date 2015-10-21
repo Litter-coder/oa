@@ -5,7 +5,7 @@ import java.util.List;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
 import com.hongan.oa.bean.system.SysUserRole;
-import com.hongan.oa.bean.system.User;
+import com.hongan.oa.bean.system.UserInfo;
 
 public interface ISysUserService {
 
@@ -25,6 +25,6 @@ public interface ISysUserService {
 
 	void updateSysUserLoginStatus(int loginStatusWebOnline, Long userId);
 
-	User getUserById(Long id);
+	UserInfo getUserInfoById(Long id);
 
 }

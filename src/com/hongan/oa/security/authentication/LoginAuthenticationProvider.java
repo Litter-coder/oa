@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.hongan.oa.bean.ConstBean;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
+import com.hongan.oa.bean.system.UserInfo;
 import com.hongan.oa.service.inf.ISysUserService;
 import com.hongan.oa.utils.ReadProperties;
 
@@ -112,6 +113,11 @@ public class LoginAuthenticationProvider extends DaoAuthenticationProvider {
 		UserDetailsServiceImpl service = (UserDetailsServiceImpl) this.getUserDetailsService();
 		List<GrantedAuthority> authorities = service.getAuthorities(((SysUser) user).getUserId());
 		((SysUser) user).setAuthorities(authorities);
+		if (!this.isForcePrincipalAsString()) {
+			UserInfo userInfo = service.getUserInfo(((SysUser) user).getUserId());
+			((SysUser) principal).setUserInfo(userInfo);
+			((SysUser) principal).setPassword(null);
+		}
 		RandomTokenValidateCodeUsernamePasswordAuthenticationToken result = new RandomTokenValidateCodeUsernamePasswordAuthenticationToken(principal, authentication, user.getAuthorities());
 		return result;
 	}

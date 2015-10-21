@@ -16,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
 import org.springframework.security.web.util.TextEscapeUtils;
 
+import com.hongan.oa.bean.system.SysUser;
+
 /**
  * 验证码与用户名密码验证
  * 
@@ -105,13 +107,13 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationFilter extends
 	 * 重写父类的方法，在验证用户完成调用的方法
 	 */
 	@Override
-	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication arg2) throws IOException, ServletException {
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-		String username = obtainUsername(request);
-
-		request.getSession(false).setAttribute("userName", username);
-
-		super.successfulAuthentication(request, response, arg2);
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof SysUser) {
+			request.getSession(false).setAttribute("loginUser", (SysUser) principal);
+		}
+		super.successfulAuthentication(request, response, authentication);
 
 	}
 }

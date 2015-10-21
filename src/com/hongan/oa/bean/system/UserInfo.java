@@ -8,7 +8,7 @@ import java.util.Date;
  * @author dinghuan
  *
  */
-public class User {
+public class UserInfo {
 	private Long id; // 和SysUser中的userId一致
 	private String name;
 	private int sex;// 性别 0-女 1-男

@@ -83,6 +83,7 @@ public class MyInvocationSecurityMetadataSource implements FilterInvocationSecur
 		// guess object is a URL.
 		String url = ((FilterInvocation) object).getRequestUrl();
 		System.out.println("url:" + url);
+		url = url.split("\\?")[0];
 		Iterator<String> ite = resourceMap.keySet().iterator();
 		while (ite.hasNext()) {
 			String resURL = ite.next();

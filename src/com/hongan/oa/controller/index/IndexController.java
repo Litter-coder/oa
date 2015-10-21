@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.hongan.oa.bean.system.Menu;
 import com.hongan.oa.bean.system.SysUser;
-import com.hongan.oa.bean.system.User;
 import com.hongan.oa.plugins.weather.DefaultsConst;
 import com.hongan.oa.plugins.weather.Weather;
 import com.hongan.oa.service.inf.IMenuService;
@@ -85,10 +84,6 @@ public class IndexController {
 	@RequestMapping("/commonMenu.do")
 	public ModelAndView loadCommonMenu(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView modelAndView = new ModelAndView(prexPage + "commonMenu");
-		SysUser sysUser = (SysUser) ((UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
-		User user = sysUserService.getUserById(sysUser.getUserId());
-
-		modelAndView.addObject("user", user);
 		return modelAndView;
 	}
 

@@ -69,8 +69,8 @@ ALTER TABLE t_menu ADD COLUMN `MENU_TYPE` TINYINT NOT NULL COMMENT '菜单类型
 
 ALTER TABLE `t_sys_user` ADD COLUMN `LOGIN_STATUS` TINYINT DEFAULT 0 COMMENT '登录状态:0-web离开；1-web在线；2-web忙碌;3-手机在线';
 
-DROP TABLE IF EXISTS `t_user`;
-CREATE TABLE `t_user` (
+DROP TABLE IF EXISTS `t_user_info`;
+CREATE TABLE `t_user_info` (
   `ID` int(8) NOT NULL,
   `NAME` varchar(16) NOT NULL COMMENT '姓名',
   `SEX` tinyint(1) NOT NULL DEFAULT '1' COMMENT '性别：0-女；1-男',
