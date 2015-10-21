@@ -111,7 +111,9 @@ public class RandomTokenValidateCodeUsernamePasswordAuthenticationFilter extends
 
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof SysUser) {
-			request.getSession(false).setAttribute("loginUser", (SysUser) principal);
+			request.getSession(false).setAttribute("loginUsername", ((SysUser) principal).getUsername());
+		} else {
+			request.getSession(false).setAttribute("loginUsername", principal);
 		}
 		super.successfulAuthentication(request, response, authentication);
 

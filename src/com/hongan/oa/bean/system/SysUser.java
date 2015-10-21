@@ -28,7 +28,6 @@ public class SysUser implements UserDetails {
 
 	private List<GrantedAuthority> authorities;
 	private SysOrganization organization;
-	private UserInfo userInfo;
 
 	public Long getUserId() {
 		return userId;
@@ -123,14 +122,6 @@ public class SysUser implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return this.enabled;
-	}
-
-	public UserInfo getUserInfo() {
-		return userInfo;
-	}
-
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
 	}
 
 	@Override

@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.SysUserAttempts;
 import com.hongan.oa.bean.system.SysUserRole;
-import com.hongan.oa.bean.system.UserInfo;
 import com.hongan.oa.service.inf.ISysUserService;
 import com.hongan.oa.utils.ReadProperties;
 
@@ -84,15 +83,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 		return authorities;
 
-	}
-
-	/**
-	 * 加载用户信息
-	 * 
-	 * @param userId
-	 * @return
-	 */
-	public UserInfo getUserInfo(Long userId) {
-		return sysUserService.getUserInfoById(userId);
 	}
 }
