@@ -228,7 +228,11 @@ function initUI(_box){
 			// 是否合并
 			options.combinable = $this.attr("combinable") || "false";
 			options.callback = eval($this.attr("callback")) || null;
-			
+			options.dialogResize = eval($this.attr("dialogResize")) || null;
+			options.data = {};
+			$this.find("input[hidden]").each(function(){
+				data[$(this).attr("name")] = $(this).val();
+			});
 			var url = unescape($this.attr("href")).replaceTmById($(event.target).parents(".unitBox:first"));
 			DWZ.debug(url);
 			if (!url.isFinishedTm()) {

@@ -13,15 +13,15 @@ var nav_tabs_content = {
 }
 $(function(){
 	initCommonMenu({
-		webName : "${oa}",
+		webName : oa,
 		avtar : {
-			user_sex : '<c:out value="${user.sex}"/>',
-			user_img : '<c:out value="${user.image}"/>'
+			user_sex : userInfo.sex,
+			user_img : userInfo.image
 		},
 		callback : function(){
 			$("#themeList").theme({
 				themeBase : "${oa}/dwz/themes",
-				userCookie : loginUsername
+				userCookie : userInfo.loginUsername
 			});
 			
 			$.each(nav_tabs_content, function(key){
@@ -60,11 +60,11 @@ $(function(){
 		<div class="nav-content avtar-content" style="display: none">
 			<div class="avtar-top">
 				<div class="avtar-img">
-					<img src='<c:out value="${user.image}" escapeXml="true"/>'>
+					<img src='<c:out value="${userInfoImg}" escapeXml="true"/>'>
 				</div>
 				<div class="avtar-info">
 					<h6 class="avtar-info-name">
-						<span><c:out value="${user.name}" escapeXml="true"/></span>
+						<span><c:out value="${userInfoName}" escapeXml="true"/></span>
 						<div class="avtar-info-online">
 							<img src="${oa}/images/index/status-online.png" title="在线">
 							<div class="avtar-info-tip">

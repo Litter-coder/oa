@@ -167,7 +167,6 @@ var chartEmoji = {
 			isTextOut : false,
 			editArea : op.editArea,
 			pace : 200,
-			editArea : null,
 			tip : "[:#tip#:]",
 			target : null
 		};

@@ -67,7 +67,7 @@ $(function(){
 		callback:function(){
 			initEnv();
 			$("#navMenu").find("li.selected>a").trigger("click");
-			$("#headMenu").loadUrl("${oa}/index/commonMenu.do");
+			$("#headMenu").loadUrl("${oa}/page/index/commonMenu.jsp");
 		}
 	});
 	

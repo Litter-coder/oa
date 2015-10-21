@@ -5,6 +5,7 @@
 <script src="${oa}/js/plugin/calendarCN.js" type="text/javascript"></script>
 <!-- 组件菜单中的消息菜单 -->
 <script type="text/javascript">
+var currentTime = {};
 $(function(){
 	clockJson.clock({
 		withDate : true,
@@ -13,6 +14,7 @@ $(function(){
 		utc : true,
 		offset : "${offset}",
 		callback : function(result) {
+			currentTime = result;// 记录
 			var $mod_time_colon = $("span.mod-time-colon");
 			$("#mod-time-hour").text(result.time.hours);
 			$("#mod-time-minute").text(result.time.minutes);
@@ -30,8 +32,8 @@ $(function(){
 	});
 	
 	var weatherCity = ConvertWeatherCity("广东_广州_广州");
-	if(DWZ.cookie(loginUsername) && DWZ.cookie(loginUsername)["weatherCity"]) {
-		weatherCity = DWZ.cookie(loginUsername)["weatherCity"];
+	if(DWZ.cookie(userInfo.loginUsername) && DWZ.cookie(userInfo.loginUsername)["weatherCity"]) {
+		weatherCity = DWZ.cookie(userInfo.loginUsername)["weatherCity"];
 	}
 	InitProvince(weatherCity);
 	getWeather();
@@ -40,8 +42,8 @@ $(function(){
 		if ($(this).parent().next().find("div.weather-areas").is(":hidden")) {
 			$(this).parent().next().find("span:eq(0)").hide();
 			$(this).parent().next().find("div.weather-info").hide();
-			if(DWZ.cookie(loginUsername) && DWZ.cookie(loginUsername)["weatherCity"]) {
-				weatherCity = DWZ.cookie(loginUsername)["weatherCity"];
+			if(DWZ.cookie(userInfo.loginUsername) && DWZ.cookie(userInfo.loginUsername)["weatherCity"]) {
+				weatherCity = DWZ.cookie(userInfo.loginUsername)["weatherCity"];
 			}
 			InitProvince(weatherCity);
 			$(this).parent().next().find("div.weather-areas").show();
@@ -60,13 +62,13 @@ $(function(){
 });
 function getWeather(){
 	var country = $("#w_county").val();
-	var userCookie = DWZ.cookie(loginUsername);
+	var userCookie = DWZ.cookie(userInfo.loginUsername);
 	if(!userCookie){
 		userCookie = {"weatherCity" : country}
 	}else{
 		userCookie["weatherCity"] = country;
 	}
-	DWZ.cookie(loginUsername, userCookie);
+	DWZ.cookie(userInfo.loginUsername, userCookie);
 	
 	$("#weather #city").text($("#w_county").find("option:selected").text());
 	$.getJSON("${oa}/index/weather.do", {areaid : "101" + country}, function(data) {

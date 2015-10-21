@@ -100,7 +100,7 @@
 						$.pdialog._initDialogComb(dialogCombinable, op);
 
 						$(dialogCombinable).click(function() {
-							var id = $.pdialog._currentItem.attr("id");
+							var id = $.pdialog._currentItem.attr("dialogId");
 							$.pdialog.switchDialog($.pdialog._currentItem.data(id));
 						});
 					}
@@ -114,11 +114,11 @@
 						$.pdialog._currentItem.removeClass("selected");
 					}
 
-					var itemStr = '<li class="selected" id="' + dlgid
+					var itemStr = '<li class="selected" dialogId="' + dlgid
 							+ '"><div class="dialogCombinableItem" title="#title#"><p><img src="../images/index/woman-menu.png" />#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
 					dialogCombinable.find(".dialogCombinableItems ul").append(itemStr.replace("#title#", title).replace("#title#", title));
 
-					item = $("#" + dlgid, dialogCombinable);
+					item = $("li[dialogId='" + dlgid + "']", dialogCombinable);
 					var dialogComContent = $(">.dialogCombinableContent", dialogCombinable);
 					dialogComContent.append(DWZ.frag["dialogFrag"]);
 					dialog = $(">.dialog:last-child", dialogComContent);
@@ -137,14 +137,14 @@
 						$.pdialog._currentItem.removeClass("selected");
 
 						$(this).addClass("selected")
-						var id = $(this).attr("id");
+						var id = $(this).attr("dialogId");
 						$.pdialog.switchDialog($(this).data(id));
 						$.pdialog._currentItem = $(this);
 						return false;
 					});
 					$("a", item).click(function(event) {
 						var targetItem = $(this).parents("li:eq(0)");
-						var id = targetItem.attr("id");
+						var id = targetItem.attr("dialogId");
 
 						$.pdialog.close(targetItem.data(id));
 

@@ -24,7 +24,7 @@
 						<img src="${oa}/images/index/man-menu.png">
 					</div>
 					<div class="im_msg_popbox_content">
-						<span class="bubble">测试1111</span> <span class="bottomLevel"></span> <span class="topLevel"></span>
+						<span class="bubble">${param.toUID}-----${param.toICON}</span> <span class="bottomLevel"></span> <span class="topLevel"></span>
 					</div>
 				</div>
 			</div>
@@ -113,6 +113,8 @@
 			</div>
 			<div class="im_msg_close_send">
 				<span class="tip">按ENTER键发送消息</span>
+				<input type="hidden" name="toUid" value="${param.toUid}">
+				<input type="hidden" name="toImg" value="${param.toImg}">
 				<button class="btn close">关闭</button>
 				<button class="btn send" title="ENTER键发送消息">发送</button>
 			</div>

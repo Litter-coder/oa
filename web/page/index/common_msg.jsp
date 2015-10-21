@@ -4,56 +4,21 @@
 <link href="${oa}/chart/css/emoji.css" rel="stylesheet" type="text/css" media="screen" />
 <script type="text/javascript" src="${oa}/chart/js/chart.core.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/chart.tools.js"></script>
+<script type="text/javascript" src="${oa}/chart/js/chart.decode.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/jquery.emoji.js"></script>
 <script type="text/javascript">
+	var fromUid = userInfo.loginUsername + "@dinghuan-s";
+	var fromImg = userInfo.image;
+	var msg_alt = "1234567890abcdef";
 	var dialogResize = function(dialog) {
 		var area = $(".editarea", dialog);
 		var plus = $(area).outerWidth(true) - $(area).width();
 		$(area).width($(dialog).width() - 14 - plus);
-		$(".msgarea textarea", dialog).width($(dialog).width() - 14 - plus);
 
 		$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 	}
 
 	var imgPath = "${oa}/chart/images/";
-
-	/*
-	var msgJson = {
-		type : "from", // to,表示发送接收
-		icon : "",// 用户头像
-		time : "",// 消息时间
-		content : [ // 消息内容
-		{
-			nodeType : 1, // 3 ,表示节点类型 1是元素节点，3是文本节点
-			nodeName : "", // 元素节点的元素名称
-			attribute : { // 元素节点属性
-				src : ""
-			},
-			text : "" // 元素节点的文本内容，或者是文本节点的文本
-		}, {}, {} ]
-	}*/
-	var encodeMsg = function(contents) {
-		var msg;
-		contents.each(function() {
-			if ($(this)[0].nodeType == 1) {
-				if ($(this).is("br")) {
-					msg += (msg == "" ? "" : "\n");
-				}
-				if ($(this).is("img")) {
-					var src = $(this).attr("src");
-					src = src.replace(imgPath + 'face/', "");
-					src = src.replace('.gif', "");
-					msg += "[:" + src + "]";
-				}
-			} else if ($(this)[0].nodeType == 3) {
-				var text = $(this).text();
-				msg += text;
-			}
-		});
-		msg = msg.replace(/\</g, '&lt;');
-		msg = msg.replace(/\>/g, '&gt;');
-	}
-
 	var initChatDialog = function(obj) {
 		var dialog = (typeof obj == 'string') ? $("#" + obj) : obj;
 
@@ -75,8 +40,17 @@
 		$(".editarea", dialog).focus();
 
 		$("button.send", dialog).click(function() {
-			var msg = encodeMsg($(".editarea", dialog).contents());
-
+			var msg = {};
+			msg.fromUid = fromUid;
+			msg.fromImg = fromImg;
+			$(this).siblings("input:hidden").each(function() {
+				msg[$(this).attr("name")] = $(this).val();
+			});
+			msg.sendTime = currentTime.datetime.month + "-" + currentTime.datetime.date + " " + currentTime.time.hours + ":" + currentTime.time.minutes;
+			var content = chartMsg.getEditareaMsgArray($(".editarea", dialog));
+			msg.content = content;
+			alert(JSON.stringify(msg))
+			
 			$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 		});
 
@@ -101,7 +75,7 @@
 </div>
 <div class="message-im">
 	<div class="message-im-info">
-		<ul class="message-im-list">
+		<ul class="message-im-list" id="admin@dinghuan-s">
 			<li><a title="张三1" target="dialog" rel="zs1" callback="initChatDialog" dialogResize="dialogResize" href="${oa}/page/index/common_im_msg.jsp">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
@@ -111,7 +85,8 @@
 						</div>
 					</div>
 			</a></li>
-			<li><a title="李四1" target="dialog" combinable="true" rel="im_msg_02" callback="initChatDialog" dialogResize="dialogResize" href="${oa}/page/index/common_im_msg.jsp">
+			<li><a title="admin" target="dialog" combinable="true" rel="admin@dinghuan-s" callback="initChatDialog" dialogResize="dialogResize"
+				href="${oa}/page/index/common_im_msg.jsp?toUid=admin@dinghuan-s&toImg=${oa}/images/index/man-menu.png">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
