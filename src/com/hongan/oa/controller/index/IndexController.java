@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.hongan.oa.bean.WebConst;
 import com.hongan.oa.bean.system.Menu;
 import com.hongan.oa.bean.system.SysUser;
 import com.hongan.oa.bean.system.UserInfo;
@@ -33,6 +35,7 @@ import com.hongan.oa.service.inf.ISysUserService;
  */
 @Controller
 @RequestMapping("/index")
+@SessionAttributes({ WebConst.LOGIN_USERNAME, WebConst.LOGIN_USERINFO })
 public class IndexController {
 
 	@Autowired
@@ -55,15 +58,15 @@ public class IndexController {
 	 * @throws Exception
 	 */
 	@RequestMapping("/main.do")
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public ModelAndView main(HttpServletRequest request, HttpServletResponse response, ModelMap modelMap) throws Exception {
 		ModelAndView modelAndView = new ModelAndView("main");
 		// 注意后面修改权限后需要重复验证
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		SysUser sysUser = sysUserService.getSysUserByUsername(username);
+		String loginUsername = authentication.getName();
+		SysUser sysUser = sysUserService.getSysUserByUsername(loginUsername);
 		UserInfo userInfo = sysUserService.getUserInfoById(sysUser.getUserId());
-		
-		model.addAttribute("userInfo", userInfo);
+		modelMap.addAttribute(WebConst.LOGIN_USERNAME, loginUsername);
+		modelMap.addAttribute(WebConst.LOGIN_USERINFO, userInfo);
 		List<Menu> menuList = menuService.loadMenu(authentication.getAuthorities(), null);
 		modelAndView.addObject("topMenus", menuList);
 		return modelAndView;
