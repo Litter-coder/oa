@@ -13,15 +13,15 @@ var nav_tabs_content = {
 }
 $(function(){
 	initCommonMenu({
-		webName : oa,
+		webName : webName,
 		avtar : {
-			user_sex : userInfo.sex,
-			user_img : userInfo.image
+			user_sex : loginUserInfo.sex,
+			user_img : loginUserInfo.image
 		},
 		callback : function(){
 			$("#themeList").theme({
 				themeBase : "${oa}/dwz/themes",
-				userCookie : userInfo.loginUsername
+				userCookie : loginUserInfo.loginUsername
 			});
 			
 			$.each(nav_tabs_content, function(key){

@@ -6,9 +6,10 @@
 <script type="text/javascript" src="${oa}/chart/js/chart.tools.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/chart.msg.js"></script>
 <script type="text/javascript" src="${oa}/chart/js/jquery.emoji.js"></script>
+<script type="text/javascript" src="${oa}/chart/js/jsrender.js"></script>
 <script type="text/javascript">
-	var fromUid = userInfo.loginUsername + "@dinghuan-s";
-	var fromImg = userInfo.image;
+	var fromUid = loginUserInfo.loginUsername + "@dinghuan-s";
+	var fromImg = loginUserInfo.image;
 	var msg_password = "1234567890abcdef";
 	var imgPath = "${oa}/chart/images/";
 	var dialogResize = function(dialog) {
@@ -18,28 +19,19 @@
 
 		$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 	}
-	
-	var displayMsg = function(msg, isSend, isPsd){
-		if(isPsd){
+
+	var displayMsg = function(displayArea, msg, isSend, isPsd) {
+		if (isPsd) {
 			var content = msg.content;
 			chartMsg.encrypt(content, msg_password);
 			msg.content = eval(content);
 		}
 		// 使用JsRender
-		/*
-		<div class="im_msg_box from">
-				<div class="im_msg_box_time">10-18 18:20</div>
-				<div class="im_msg_popbox">
-					<div class="im_msg_popbox_avatar">
-						<img src="${oa}/images/index/man-menu.png">
-					</div>
-					<div class="im_msg_popbox_content">
-						<span class="bubble">aaa</span> <span class="bottomLevel"></span> <span class="topLevel"></span>
-					</div>
-				</div>
-			</div>
-		*/
-		
+		var html = $("#msgTemplate").render({
+			type : isSend ? "to" : "from",
+			msg : msg
+		});
+		displayArea.append(html);
 	}
 
 	var initChatDialog = function(obj) {
@@ -63,20 +55,28 @@
 		$(".editarea", dialog).focus();
 
 		$("button.send", dialog).click(function() {
+			if($(this).is(":focus")){
+				return;
+			}
+			$(this).focus();
+			var content = chartMsg.getEditareaMsgArray($(".editarea", dialog));
+			if(!content.length){
+				return;
+			}
 			var msg = {};
 			msg.fromUid = fromUid;
 			msg.fromImg = fromImg;
+			var fontCss = $(".chartTools", dialog).getChartToolsFontCss();
+			msg.fontCss = fontCss;
 			$(this).siblings("input:hidden").each(function() {
 				msg[$(this).attr("name")] = $(this).val();
 			});
 			msg.sendTime = currentTime.datetime.month + "-" + currentTime.datetime.date + " " + currentTime.time.hours + ":" + currentTime.time.minutes;
-			var content = chartMsg.getEditareaMsgArray($(".editarea", dialog));
 			msg.content = content;
-			displayMsg(msg, true)
-			content = chartMsg.encrypt(JSON.stringify(content), msg_password);
+			displayMsg($('.im_msg_view', dialog), msg, true);
+			content = chartMsg.encrypt(escape(JSON.stringify(content)), msg_password);
 			msg.content = content;
-			
-			
+
 			$('.im_msg_view', dialog).scrollTop($('.im_msg_view', dialog)[0].scrollHeight);
 		});
 
@@ -112,7 +112,7 @@
 					</div>
 			</a></li>
 			<li><a title="admin" target="dialog" combinable="true" rel="admin@dinghuan-s" callback="initChatDialog" dialogResize="dialogResize"
-				href="${oa}/page/index/common_im_msg.jsp?toUid=admin@dinghuan-s&toImg=${oa}/images/index/man-menu.png">
+				href="${oa}/page/index/common_im_msg.jsp?toUid=admin@dinghuan-s">
 					<div class="message-im-item">
 						<img src="${oa}/images/index/man-menu.png">
 						<div class="im-info">
@@ -205,3 +205,27 @@
 		</ul>
 	</div>
 </div>
+
+<script id="msgTemplate" type="text/x-jsrender">
+<div class="im_msg_box {{:type}}">
+	<div class="im_msg_box_time">{{:msg.sendTime}}</div>
+	<div class="im_msg_popbox">
+		<div class="im_msg_popbox_avatar">
+			<img src="{{:msg.fromImg}}">
+		</div>
+		<div class="im_msg_popbox_content">
+			<span class="bubble" style="{{props msg.fontCss}}{{:key}}:{{:prop}};{{/props}}">
+				{{for msg.content}}
+					{{if nodeType==1}}
+						<{{:tagName}} {{props attribute}}{{:key}}="{{:prop}}"{{/props}}/>
+					{{else nodeType==3}}
+						{{:text}}
+					{{/if}}
+				{{/for}}
+			</span>
+			<span class="bottomLevel"></span>
+			<span class="topLevel"></span>
+		</div>
+	</div>
+</div>
+</script>

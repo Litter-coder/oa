@@ -12,6 +12,9 @@
 			return this.each(function() {
 				chartTools.init(op, this);
 			});
+		},
+		getChartToolsFontCss : function() {
+			return chartTools.getFontCss(this);
 		}
 	});
 
@@ -68,6 +71,9 @@ var chartTools = {
 			}
 			e.stopPropagation();
 		});
+	},
+	getFontCss : function(obj) {
+		return chartFont.getFontCss(obj);
 	}
 }
 
@@ -204,8 +210,18 @@ var chartFont = {
 		this._initFontColor(op.editArea, target);
 
 	},
+	getFontCss : function(_box) {
+		var target = $(_box).prev();
+		var fontCss = {};
+		if (target[0]) {
+			$("select", target).each(function() {
+				fontCss[$(this).attr("name")] = $(this).val();
+			});
+		}
+		return fontCss;
+	},
 	_initFontFamily : function(editArea, target) {
-		var $fontFamily = $('<div><span>字体</span><select></select></div>');
+		var $fontFamily = $('<div><span>字体</span><select name="font-family"></select></div>');
 		var select = $("select", $fontFamily);
 		target.append($fontFamily);
 		if (!editArea[0]) {
@@ -224,7 +240,7 @@ var chartFont = {
 		});
 	},
 	_initFontSize : function(editArea, target) {
-		var $fontSize = $('<div><span>大小</span><select></select></div>');
+		var $fontSize = $('<div><span>大小</span><select name="font-size"></select></div>');
 		var select = $("select", $fontSize);
 		target.append($fontSize);
 
@@ -242,7 +258,7 @@ var chartFont = {
 		});
 	},
 	_initFontColor : function(editArea, target) {
-		var $fontColor = $('<div><span>颜色</span><select></select></div>');
+		var $fontColor = $('<div><span>颜色</span><select name="color"></select></div>');
 		var select = $("select", $fontColor);
 		target.append($fontColor);
 

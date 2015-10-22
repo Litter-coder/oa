@@ -4,19 +4,19 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <c:set var="oa" value="${pageContext.request.contextPath}" />
-<c:set var="loginUsername" value="${loginUser.username}" />
-<c:set var="userInfoName" value="${loginUser.userInfo.name}" />
-<c:set var="userInfoSex" value="${loginUser.userInfo.sex}" />
-<c:set var="userInfoImg" value="${loginUser.userInfo.image}" />
+<c:set var="loginUsername" value="${loginUsername}" scope="page"/>
+<c:set var="userInfoName" value="${loginUserInfo.name}" scope="page"/>
+<c:set var="userInfoSex" value="${loginUserInfo.sex}" scope="page"/>
+<c:set var="userInfoImg" value="${loginUserInfo.image}" scope="page"/>
 
 <script type="text/javascript">
-	var oa = "${oa}";
-
-	var userInfo = {
+	var webName = "${oa}";
+	
+	var loginUserInfo = {
 		loginUsername : "${loginUsername}",
 		name : "${userInfoName}",
 		sex : parseInt("${userInfoSex}"),
-		image : "${userInfoImg}" || (parseInt("${userInfoSex}") == 0 ? oa + "/images/index/woman-img.png" : oa + "/images/index/man-img.png")
+		image : "${userInfoImg}" || (parseInt("${userInfoSex}") == 0 ? webName + "/images/index/woman-img.png" : webName + "/images/index/man-img.png")
 	}
 </script>
 

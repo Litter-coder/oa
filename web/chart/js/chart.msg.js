@@ -3,7 +3,6 @@
 		fromUid : "", // 表示发送
 		fromImg : "", 
 		toUid : "",
-		toImg : "",
 		sendTime : "",// 消息时间
 		content : [ // 消息内容
 			{
@@ -37,11 +36,12 @@ var chartMsg = {
 			var text = $(this).text();
 			text = text.replace(/\</g, '&lt;');
 			text = text.replace(/\>/g, '&gt;');
-			_content.text = escape(text);
+			_content.text = text;
 			content.push(_content);
 		});
 		// 去除前后换行
-		
+		editArea.html("");
+		editArea.focus();
 		return content;
 	},
 	encrypt : function(str, pwd) {
