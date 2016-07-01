@@ -115,7 +115,7 @@
 					}
 
 					var itemStr = '<li class="selected" dialogId="' + dlgid
-							+ '"><div class="dialogCombinableItem" title="#title#"><p><img src="../images/index/woman-menu.png" />#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
+							+ '"><div class="dialogCombinableItem" title="#title#"><div><img src="../images/index/woman-menu.png" /></div><p>#title#</p><a class="closeItem" href="javascript:;" /></div></li>';
 					dialogCombinable.find(".dialogCombinableItems ul").append(itemStr.replace("#title#", title).replace("#title#", title));
 
 					item = $("li[dialogId='" + dlgid + "']", dialogCombinable);
@@ -792,13 +792,13 @@
 
 			$.pdialog.getAllCombDialog().each(function() {
 				var _dialog = $(this);
-				params = {
+				var dialogParams = {
 					width : params.width - itemsW,
 					height : params.height,
 					left : 0,
 					top : 0
 				}
-				$.pdialog._resizeDialog(_dialog, params);
+				$.pdialog._resizeDialog(_dialog, dialogParams);
 			});
 
 		},

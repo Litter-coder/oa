@@ -87,7 +87,7 @@ var chartHistory = {
 			var historyDiv = $(".historyRecord", dialog);
 			var isShow = false;
 			if (!historyDiv[0]) {
-				historyDiv = $('<div class="im_msg_history historyRecord"><div class="im_history_box" layoutH=22></div></div>');
+				historyDiv = $('<div class="im_msg_history historyRecord" style="display:none"><div class="im_history_box" layoutH=22></div></div>');
 				$(".imContent", dialog).prepend(historyDiv);
 				isShow = true;
 			}
@@ -101,10 +101,15 @@ var chartHistory = {
 			}
 			// 获取调整聊天框的width height top left参数的方法
 			var getParams = function(dlgObj, type) {
+				var alreadyHasHis = false;
+				if($(dlgObj).find("div.historyRecord").length > 1){
+					alreadyHasHis = true;
+				}
+				
 				var params = {};
 				if (type == 0) {// 移除
 					params = {
-						width : isMax ? parseInt($(dlgObj).css("width")) : (parseInt($(dlgObj).css("width")) - hisWidth),
+						width : isMax ? parseInt($(dlgObj).css("width")) : (alreadyHasHis ? parseInt($(dlgObj).css("width")) : parseInt($(dlgObj).css("width")) - hisWidth),
 						itemsW : $(">.dialogCombinableItems", $(dlgObj))[0] && $(">.dialogCombinableItems", $(dlgObj)).width(),
 						height : parseInt($(dlgObj).css("height")),
 						top : parseInt($(dlgObj).css("top")),
@@ -112,7 +117,7 @@ var chartHistory = {
 					}
 				} else {
 					params = {
-						width : parseInt($(dlgObj).css("width")) + hisWidth,
+						width : alreadyHasHis ? parseInt($(dlgObj).css("width")) : parseInt($(dlgObj).css("width")) + hisWidth,
 						itemsW : $(">.dialogCombinableItems", $(dlgObj))[0] && $(">.dialogCombinableItems", $(dlgObj)).width(),
 						height : parseInt($(dlgObj).css("height")),
 						top : parseInt($(dlgObj).css("top")),
@@ -153,6 +158,7 @@ var chartHistory = {
 					var params = getParams(dialog, 1);
 					$.pdialog._resizeDialog(dialog, params);
 				}
+				historyDiv.show();
 				if (isMax) {
 					$("a.maximize", dialog).click();
 				}

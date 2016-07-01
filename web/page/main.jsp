@@ -54,6 +54,7 @@
 <script src="${oa}/dwz/localDefined/js/dwz.taskBar.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz/localDefined/js/dwz.theme.local.js" type="text/javascript"></script>
 <script src="${oa}/dwz/localDefined/js/dwz.alertMsg.local.js" type="text/javascript"></script>
+<script type="text/javascript" src="${oa}/chart/js/jquery.emoji.js"></script>
 
 <script type="text/javascript">
 $(function(){

@@ -30,7 +30,9 @@
 				$("div[class^='resizable']", obj).each(function() {
 					var bar = this;
 					$(bar).mousedown(function(event) {
-						$.pdialog.switchDialog(dialog);
+						if (!eval(dialog.data("combinable"))) {
+							$.pdialog.switchDialog(dialog);
+						}
 						$.resizeTool.start(resizable, dialog, event, $(bar).attr("tar"));
 						return false;
 					}).show();

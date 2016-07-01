@@ -198,3 +198,4 @@ body, #splitBar { background:#cdef7d;}
 
 /* dialog */
 .dialogCombinableItems{background: #AEE91B none repeat scroll 0% 0%;}
+.dialogCombinableItems div{background: #AEE91B;}

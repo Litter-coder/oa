@@ -205,4 +205,5 @@ body, #splitBar { background:#e5edef;}
 
 /* dialog */
 .dialogCombinableItems{background: #115084;}
+.dialogCombinableItems div{background: #115084;}
 

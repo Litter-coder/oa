@@ -531,14 +531,16 @@
 	overflow: hidden;
 }
 
-.message-im-item>img {
-	height: 40px;
-	width: 40px;
-	border-radius: 20px;
+.message-im-item>div.im-img {
+	border-radius: 50%;
 	width: 40px;
 	height: 40px;
 	margin-top: 3px;
 	float: left;
+	background-color: #1d5cf3;
+}
+.message-im-item>div>img {
+	margin-top: 2px;
 }
 
 .im-info {

@@ -33,7 +33,7 @@ var emoji = {
 	isExist : [ 0, 0, 0, 0 ],
 	bind : function(index, op) {
 		var id = op.faceId;
-		$("#" + id + " .rl_exp_main").eq(index).find('.rl_exp_item').each(function() {
+		$("#" + id + " .rl_exp_main", op.target).eq(index).find('.rl_exp_item').each(function() {
 			$(this).bind('click', function() {
 				var str = $(this).find('img').attr('title') || $(this).find('img').attr("src").replace(op.baseUrl + emoji.dir[index] + '/', '').replace(".gif", '');
 				str = op.tip.replace("#tip#", emoji.dir[index] + "/" + str);
@@ -46,15 +46,15 @@ var emoji = {
 						return false;
 					})
 				}
-				$('#' + id).fadeOut(op.pace);
+				$('#' + id, op.target).fadeOut(op.pace);
 			});
 		});
 	},
 	/* 加载表情包函数 */
 	loadImg : function(index, op) {
 		var id = op.faceId;
+		var node = $("#" + op.templateId + " .rl_exp_main").eq(index);
 		if (!emoji.isExist[index]) {// 如果模版没有加载表情时
-			var node = $("#" + op.templateId + " .rl_exp_main").eq(index);
 			for (var j = 0; j < emoji.num[index]; j++) {
 				var title = emoji.text[index][j] || "";
 				var domStr = '<li class="rl_exp_item">' + '<img src="' + op.baseUrl + emoji.dir[index] + '/' + j + '.gif" unselectable="on" alt="' + title + '" title="' + title + '" />' + '</li>';
@@ -62,7 +62,7 @@ var emoji = {
 			}
 			emoji.isExist[index] = 1;
 		}
-		node.children().clone().appendTo($("#" + id + " .rl_exp_main").eq(index));
+		node.children().clone().appendTo($("#" + id + " .rl_exp_main", op.target).eq(index));
 		emoji.bind(index, op);
 	},
 	/* 在textarea里光标后面插入文字 */
@@ -151,7 +151,7 @@ var emoji = {
 		if (id == op.templateId) {
 			alert("该元素的id与模版id重复");
 			return;
-		} else if ($("#" + id)[0]) {
+		} else if ($("#" + id, op.target)[0]) {
 			alert("该元素的id已存在");
 			return;
 		}
@@ -160,7 +160,7 @@ var emoji = {
 		thisFace.attr("id", id).appendTo(op.target);
 
 		// 给元素下的标签添加事件
-		$("#" + id + " > ul.rl_exp_tab > li").each(function(index) {
+		$("#" + id + " > ul.rl_exp_tab > li", op.target).each(function(index) {
 			$(this).bind('click', function(e) {
 				var _this = $("a", $(this));
 
@@ -170,18 +170,18 @@ var emoji = {
 					emoji.loadImg(index, op);
 					_this.addClass("loaded");
 				}
-				$("#" + id + " > ul.rl_exp_tab > li > a.selected").removeClass('selected');
+				$("#" + id + " > ul.rl_exp_tab > li > a.selected", op.target).removeClass('selected');
 				_this.addClass('selected');
-				$('#' + id + ' .rl_selected').removeClass('rl_selected').hide();
-				$('#' + id + ' .rl_exp_main').eq(index).addClass('rl_selected').show();
+				$('#' + id + ' .rl_selected', op.target).removeClass('rl_selected').hide();
+				$('#' + id + ' .rl_exp_main', op.target).eq(index).addClass('rl_selected').show();
 
 				e.stopPropagation();
 			});
 		});
 
 		/* 绑定关闭按钮 */
-		$('#' + id + ' a.close').bind('click', function() {
-			$('#' + id).fadeOut(op.pace);
+		$('#' + id + ' a.close', op.target).bind('click', function() {
+			$('#' + id, op.target).fadeOut(op.pace);
 		});
 		/* 绑定document点击事件，对target不在rl_bq弹出框上时执行rl_bq淡出，并阻止target在弹出按钮的响应。 */
 		$(document).bind('click', function(e) {
@@ -202,16 +202,17 @@ var emoji = {
 		op.target = op.target || $(this).parent();
 		emoji.init(op);
 		var id = op.faceId;
+		var _target = op.target;
 		$(this).click(function() {
-			if ($("#" + id).is(":visible")) {
-				$('#' + id).fadeOut(op.pace);
+			if ($("#" + id, _target).is(":visible")) {
+				$('#' + id, _target).fadeOut(op.pace);
 			} else {
-				if (!$("#" + id + "  > ul.rl_exp_tab > li > a.selected").hasClass("loaded")) {
-					$("#" + id + "  > ul.rl_exp_tab > li > a.selected").parent("li:eq(0)").click();
+				if (!$("#" + id + "  > ul.rl_exp_tab > li > a.selected", _target).hasClass("loaded")) {
+					$("#" + id + "  > ul.rl_exp_tab > li > a.selected", _target).parent("li:eq(0)").click();
 				}
 				var offset = $(this).position();
-				var top = offset.top - $('#' + id).outerHeight() - 2;
-				$('#' + id).css('top', top).fadeIn(op.pace);
+				var top = offset.top - $('#' + id, _target).outerHeight() - 2;
+				$('#' + id, _target).css('top', top).fadeIn(op.pace);
 				// $('#'+id).css('left',offset.left - $('#'+id).width()/3);
 			}
 		});

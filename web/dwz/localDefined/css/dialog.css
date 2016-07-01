@@ -77,32 +77,38 @@
 	background-color: #FFF;
 }
 
-.dialogCombinableItem img {
-	height: 25px;
-	width: 25px;
-	border-radius: 20px;
+.dialogCombinableItem div {
+	height: 35px;
+	width:35px;
+	border-radius: 50%;
 	margin-top: 3px;
 	float: left;
 }
 
+
 .dialogCombinableItem>p {
-	line-height: 30px;
-	font-size: 16px;
+	line-height: 40px;
+	font-size: 14px;
 	padding: 0px 5px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	color: white;
+}
+
+.selected>.dialogCombinableItem>p {
+	color: black;
 }
 
 .dialogCombinableItem>a {
 	width: 11px;
 	height: 11px;
 	background: transparent
-		url("../../themes/default/images/tabs/tabspage_icon.png")
-		no-repeat scroll 0% 0%;
+		url("../../themes/default/images/tabs/tabspage_icon.png") no-repeat
+		scroll 0% 0%;
 	display: none;
 	position: absolute;
-	top: 14px;
+	top: 19px;
 	right: 5px;
 }
 
